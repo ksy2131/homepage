@@ -12,7 +12,7 @@ CONFIG = {
     "domain": "https://www.example.co.kr",   # 구입한 도메인 (끝에 / 없이)
     "biz_no": "139-56-00663",                # 사업자등록번호
     "owner": "대표 김선용",
-    "owner_title": "공학기술자 · 네이버 인물정보 등록",
+    "owner_title": "전기공사기술자(중급) · 전기기능사",
     "hours": "평일 08:00–19:00 · 긴급출동 상시 상담",
     "blog": "https://blog.naver.com/smileelectronic",
     "place": "https://naver.me/xPUHS2Mz",           # 네이버 플레이스(지도)
@@ -258,7 +258,7 @@ def business_schema(area_names=None):
         "areaServed": [{"@type": "City", "name": n} for n in (area_names or ALL_REGION_NAMES)],
         "sameAs": [C["blog"], C["place"]],
         "openingHours": "Mo-Fr 08:00-19:00",
-        "founder": {"@type": "Person", "name": "김선용", "jobTitle": "공학기술자"},
+        "founder": {"@type": "Person", "name": "김선용", "jobTitle": "전기공사기술자", "hasCredential": [{"@type": "EducationalOccupationalCredential", "name": "전기공사기술자 중급"}, {"@type": "EducationalOccupationalCredential", "name": "전기기능사"}]},
     }
 
 def faq_schema(faqs):
@@ -286,7 +286,7 @@ def steps_html():
 
 def features_html():
     f=[("bolt","사전 견적 후 작업","원인과 비용을 먼저 설명드리고, 동의하신 뒤에 작업합니다."),
-       ("building","아파트 전기 전문","관리사무소 공용부 유지보수를 하는 업체라 아파트 전기 구조를 잘 압니다."),
+       ("building","자격 갖춘 아파트 전기 전문","전기공사기술자(중급)·전기기능사 보유. 관리사무소 공용부 유지보수를 하는 업체라 아파트 전기 구조를 잘 압니다."),
        ("pin","경기 북부 빠른 방문","양주에 있어 의정부·포천·동두천·남양주·구리·가평·하남까지 방문합니다.")]
     li="".join(f'<li>{icon(i)}<div><h3>{E(t)}</h3><p>{E(d)}</p></div></li>' for i,t,d in f)
     return f'<section class="feat"><div class="wrap"><ul class="feat-list">{li}</ul></div></section>'
@@ -449,7 +449,8 @@ def build_home():
 <section class="sec"><div class="wrap"><div class="ceo">
   <div class="ceo-ic">{icon('check')}</div>
   <div><span class="ceo-t">믿을 수 있는 업체</span><h2>{E(C['owner'])}</h2><p class="ceo-sub">{E(C['owner_title'])}</p>
-  <p>대표와 경험 있는 기술자가 현장을 확인하고, 원인과 작업 방법을 먼저 설명드립니다. 네이버에서 <b>김선용 공학기술자</b>로 인물정보를 확인하실 수 있습니다.</p></div>
+  <p>대표와 경험 있는 기술자가 현장을 확인하고, 원인과 작업 방법을 먼저 설명드립니다.</p>
+  <ul class="ceo-cred"><li>{icon('check')}<b>전기공사기술자 중급</b><small>한국전기공사협회 경력 인정</small></li><li>{icon('check')}<b>전기기능사</b><small>국가기술자격</small></li><li>{icon('check')}<b>네이버 인물정보 등록</b><small>"김선용 공학기술자" 검색</small></li></ul></div>
 </div></div></section>
 
 <section class="sec alt"><div class="wrap two">
