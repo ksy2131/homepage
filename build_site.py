@@ -571,27 +571,51 @@ def build_cases_list():
 """ + footer()
     write("cases.html", page)
 
+SVC_TAGS = {"home-repair":["전기수리","누전수리","차단기수리"],"panel":["분전반교체","차단기교체","분전반공사"],
+            "apartment-maintenance":["아파트전기","공용부유지보수","관리사무소"],"fire-restoration":["화재복구","화재복구전기공사","전기공사"]}
+def post_tags(pt):
+    n = pt["region"]; svc = pt.get("service")
+    loc = (pt.get("location") or "").replace(n,"").replace("아파트","").strip().split(" ")[0] if pt.get("location") else ""
+    user = pt.get("tags") or []
+    if isinstance(user,str): user=[t for t in re.split(r"[,#\s]+",user) if t]
+    auto = [f"{n}전기수리", f"{n}전기공사"] + ([f"{loc}전기수리"] if loc else []) + [f"{n}{t}" for t in SVC_TAGS.get(svc,[])[:2]] + SVC_TAGS.get(svc,[])
+    out=[]
+    for t in [x.strip().lstrip("#") for x in user] + auto:
+        if t and t not in out: out.append(t)
+    return out[:12]
+
+def full_title(pt):
+    n=pt["region"]; loc=pt.get("location") or n; t=pt["title"]
+    if not loc.startswith(n): loc=n
+    lw=loc.split()[-1]
+    if t.split()[0]==lw: t=" ".join(t.split()[1:])
+    return f"{loc} {t}"
+
 def build_post(pt):
     n = pt["region"]; svc = SVC.get(pt.get("service"))
-    title = f"{n} {pt['title']} | {C['name']}"
-    desc = f"{pt['summary']} {n} {svc['short'] if svc else '전기공사'} 시공사례. {C['phone']}"
-    photos = "".join(f'<img src="{E(f)}" alt="{E(n)} {E(pt["title"])} 사진 {i+1}" loading="lazy">' for i, f in enumerate(pt.get("photos", [])))
+    loc = pt.get("location") or n
+    tags = post_tags(pt)
+    title = f"{full_title(pt)} | {C['name']}"
+    desc = f"{loc} {pt['summary']} {C['name']} {C['phone']}"
+    photos = "".join(f'<img src="{E(f)}" alt="{E(loc)} {E(pt["title"])} 현장 사진 {i+1}" loading="lazy">' for i, f in enumerate(pt.get("photos", [])))
     body = "".join(f"<p>{E(par)}</p>" for par in pt.get("body", []))
     info = [("작업 위치", pt.get("location", n)), ("작업 내용", svc["short"] if svc else "전기공사"), ("작업일", pt["date"])]
     info_html = "".join(f"<li><span>{E(a)}</span><b>{E(b)}</b></li>" for a, b in info)
     blog = f'<p><a class="link" href="{E(pt["blog_url"])}" target="_blank" rel="noopener">네이버 블로그에서 자세히 보기 →</a></p>' if pt.get("blog_url") else ""
     links = f'<a class="chip" href="{REGION_SLUG[n]}.html">{E(n)} 전기수리</a>' if n in REGION_SLUG else ""
     if svc: links += f'<a class="chip" href="{svc["slug"]}.html">{E(svc["short"])}</a>'
+    tag_html = "".join(f'<span class="tag">#{E(t)}</span>' for t in tags)
     others = [x for x in POSTS if x is not pt][:3]
     more = f'<section class="sec alt"><div class="wrap"><h2>다른 시공사례</h2><div class="cases">{"".join(post_card(x) for x in others)}</div></div></section>' if others else ""
     art = {"@context": "https://schema.org", "@type": "Article", "headline": f"{n} {pt['title']}", "datePublished": pt["date"],
            "author": {"@type": "Organization", "name": C["name"]}, "description": pt["summary"]}
     if pt.get("photos"): art["image"] = [f'{C["domain"]}/{x}' for x in pt["photos"]]
-    page = head(title, desc, f"case-{pt['slug']}.html", f"{n} 전기수리, {n} {svc['short'] if svc else '전기공사'}, {pt['title']}",
+    art["keywords"] = ", ".join(tags); art["contentLocation"] = {"@type":"Place","name":loc}
+    page = head(title, desc, f"case-{pt['slug']}.html", ", ".join(tags),
                 [art, crumbs_schema([("홈",""),("시공사례","cases.html"),(pt["title"], f"case-{pt['slug']}.html")])]) + header() + f"""
 <section class="hero sm"><div class="wrap hero-in">
   <nav class="crumb"><a href="index.html">홈</a> › <a href="cases.html">시공사례</a> › {E(n)}</nav>
-  <h1><em>{E(n)}</em> {E(pt['title'])}</h1>
+  <h1>{E(full_title(pt))}</h1>
   <p class="lead">{E(pt['summary'])}</p>
 </div></section>
 <section class="sec"><div class="wrap post">
@@ -600,7 +624,8 @@ def build_post(pt):
     <div class="post-photos">{photos}</div>
     <div class="post-body">{body}</div>
     {blog}
-    <div class="chips" style="margin-top:24px">{links}</div>
+    <div class="tags">{tag_html}</div>
+    <div class="chips" style="margin-top:20px">{links}</div>
   </article>
 </div></section>
 {more}
@@ -615,8 +640,12 @@ def build_extras():
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
     write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {C['domain']}/sitemap.xml\n")
     write("favicon.svg", '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#0f3d91"/><path d="M18 4 7 18h8l-2 10 12-15h-8l1-9z" fill="#ffc83d"/></svg>')
-    feed = "".join(f"<item><title>{E(t)}</title><link>{C['domain']}/{p}</link></item>" for t, p in
-                   [(f"{s['kw']} - {C['name']}", f"{s['slug']}.html") for s in SERVICES] + [(f"{r['name']} 전기수리 - {C['name']}", f"{r['slug']}.html") for r in REGIONS] + [(f"{x['region']} {x['title']}", f"case-{x['slug']}.html") for x in POSTS])
+    from email.utils import format_datetime
+    def pub(d):
+        try: return format_datetime(datetime.datetime.fromisoformat(d+"T09:00:00+09:00"))
+        except Exception: return ""
+    feed = "".join(f"<item><title>{E(full_title(x))}</title><link>{C['domain']}/case-{x['slug']}.html</link><guid>{C['domain']}/case-{x['slug']}.html</guid><pubDate>{pub(x['date'])}</pubDate><description>{E(x['summary'])}</description>{''.join(f'<category>{E(t)}</category>' for t in post_tags(x))}</item>" for x in POSTS)
+    feed += "".join(f"<item><title>{E(g['q'])}</title><link>{C['domain']}/{g['slug']}.html</link><guid>{C['domain']}/{g['slug']}.html</guid><description>{E(g['sum'])}</description></item>" for g in GUIDES)
     write("rss.xml", f'<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>{E(C["name"])}</title><link>{C["domain"]}/</link><description>경기 북부 아파트 전기 유지보수·전기수리</description>{feed}</channel></rss>')
 
 if __name__ == "__main__":

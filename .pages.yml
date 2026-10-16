@@ -52,6 +52,9 @@ content:
       - name: body
         label: 본문 (문단 사이는 한 줄 띄우기)
         type: text
+      - name: tags
+        label: 태그 (쉼표로 구분, 예 - 옥정전기수리, 차단기교체 / 비워두면 지역·작업 종류로 자동 생성)
+        type: string
       - name: blog_url
         label: 같은 현장 네이버 블로그 주소 (있으면)
         type: string
