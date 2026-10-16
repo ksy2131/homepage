@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260"><defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe0ff"/><stop offset="1" stop-color="#eef4ff"/></linearGradient></defs>
+<rect width="400" height="260" fill="url(#s)"/><circle cx="330" cy="55" r="26" fill="#ffd66b"/>
+<rect x="0" y="215" width="400" height="45" fill="#cbd7ea"/>
+<g fill="#1d4fae"><rect x="60" y="60" width="90" height="160" rx="4"/><rect x="165" y="30" width="100" height="190" rx="4"/><rect x="280" y="90" width="80" height="130" rx="4"/></g>
+<g fill="#ffe7a3">
+<rect x="72" y="74" width="16" height="14"/><rect x="97" y="74" width="16" height="14"/><rect x="122" y="74" width="16" height="14"/><rect x="72" y="100" width="16" height="14"/><rect x="122" y="100" width="16" height="14"/><rect x="97" y="126" width="16" height="14"/><rect x="72" y="152" width="16" height="14"/><rect x="122" y="152" width="16" height="14"/><rect x="97" y="178" width="16" height="14"/>
+<rect x="179" y="44" width="18" height="14"/><rect x="206" y="44" width="18" height="14"/><rect x="233" y="44" width="18" height="14"/><rect x="179" y="70" width="18" height="14"/><rect x="233" y="70" width="18" height="14"/><rect x="206" y="96" width="18" height="14"/><rect x="179" y="122" width="18" height="14"/><rect x="233" y="122" width="18" height="14"/><rect x="206" y="148" width="18" height="14"/><rect x="179" y="174" width="18" height="14"/><rect x="233" y="174" width="18" height="14"/>
+<rect x="292" y="104" width="16" height="14"/><rect x="332" y="104" width="16" height="14"/><rect x="312" y="130" width="16" height="14"/><rect x="292" y="156" width="16" height="14"/><rect x="332" y="182" width="16" height="14"/></g>
+<g fill="#7aa2ea"><rect x="97" y="100" width="16" height="14"/><rect x="72" y="126" width="16" height="14"/><rect x="122" y="126" width="16" height="14"/><rect x="206" y="70" width="18" height="14"/><rect x="179" y="96" width="18" height="14"/><rect x="233" y="96" width="18" height="14"/><rect x="206" y="122" width="18" height="14"/></g>
+<circle cx="215" cy="205" r="22" fill="#ffc83d" stroke="#fff" stroke-width="4"/><path d="M219 190 207 207h8l-3 13 12-17h-8l3-13z" fill="#0a2a66"/>
+</svg>

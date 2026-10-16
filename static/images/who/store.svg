@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260"><defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe9d4"/><stop offset="1" stop-color="#fff6ec"/></linearGradient></defs>
+<rect width="400" height="260" fill="url(#s)"/><rect x="0" y="222" width="400" height="38" fill="#e6cdb3"/>
+<rect x="50" y="60" width="300" height="162" fill="#fff" stroke="#e1c9ae" stroke-width="2"/>
+<rect x="50" y="60" width="300" height="34" fill="#1d4fae"/>
+<path d="M50 94h300v18c-12 10-25 10-37 0-12 10-25 10-37 0-13 10-25 10-38 0-12 10-25 10-37 0-12 10-25 10-37 0-13 10-25 10-38 0-12 10-25 10-37 0-12 10-25 10-38 0z" fill="#ff8a1f"/>
+<rect x="70" y="128" width="120" height="76" fill="#bfe3fb" stroke="#1d4fae" stroke-width="3"/>
+<g fill="#ffd66b"><circle cx="95" cy="142" r="7"/><circle cx="130" cy="142" r="7"/><circle cx="165" cy="142" r="7"/></g>
+<rect x="215" y="128" width="50" height="94" fill="#1d4fae"/><rect x="285" y="128" width="50" height="40" fill="#bfe3fb" stroke="#1d4fae" stroke-width="3"/>
+<text x="200" y="83" fill="#fff" font-family="sans-serif" font-size="18" font-weight="700" text-anchor="middle">OPEN</text>
+<circle cx="200" cy="205" r="22" fill="#ffc83d" stroke="#fff" stroke-width="4"/><path d="M204 190 192 207h8l-3 13 12-17h-8l3-13z" fill="#0a2a66"/>
+</svg>
