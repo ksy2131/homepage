@@ -150,6 +150,14 @@ REGIONS = [
      "areas": ["다산신도시", "별내", "진접", "화도읍", "호평동", "평내동", "와부읍", "오남읍"],
      "intro": "남양주는 다산·별내·진접 같은 신도시 대단지와 화도·호평·평내의 기존 단지가 넓게 퍼져 있는 지역입니다. 신규 단지는 세대 내 조명·콘센트·회로 증설 문의가, 입주 15년 이상 단지는 공용부 LED 전환과 분전반 노후 교체 문의가 많습니다.",
      "focus": "신도시 세대 수리, 기존 단지 공용부 LED 전환"},
+    {"slug": "guri", "name": "구리",
+     "areas": ["인창동", "갈매지구", "교문동", "수택동", "토평동"],
+     "intro": "구리는 인창동·교문동·수택동의 오래된 단지와 갈매지구의 신축 단지가 함께 있는 지역입니다. 노후 단지는 공용부 조명과 분전반 개선, 세대 누전 점검 수요가 많고, 상가 밀집 지역에서는 매장 분전반 공사 문의가 꾸준합니다.",
+     "focus": "노후 단지 공용부 개선, 상가 분전반 공사"},
+    {"slug": "hanam", "name": "하남",
+     "areas": ["감일지구", "미사강변도시", "위례", "덕풍동", "신장동", "풍산동"],
+     "intro": "하남은 감일·미사·위례 같은 신도시 대단지와 덕풍·신장동의 기존 주거지가 함께 있는 지역입니다. 신축 단지는 입주 후 콘센트 추가, 조명 교체, 인덕션·에어컨 전용 회로 증설 같은 세대 전기 수리 문의가 많고, 기존 주거지는 노후 분전반과 누전 점검 수요가 꾸준합니다.",
+     "focus": "신도시 세대 전기 수리, 회로 증설"},
     {"slug": "nowon", "name": "노원구", "alias": "노원",
      "areas": ["상계동", "중계동", "하계동", "공릉동", "월계동"],
      "intro": "노원구는 상계·중계·하계동 일대에 오래된 대단지 아파트가 많이 모여 있는 지역입니다. 입주한 지 오래된 단지가 많아 분전반과 차단기 노후, 콘센트·스위치 교체, 형광등을 LED로 바꾸는 문의가 많고, 상가 밀집 지역의 매장 전기 수리 수요도 꾸준합니다.",
@@ -316,7 +324,7 @@ def steps_html():
 def features_html():
     f=[("bolt","사전 견적 후 작업","원인과 비용을 먼저 설명드리고, 동의하신 뒤에 작업합니다."),
        ("building","자격 갖춘 전기 전문","전기공사기술자(중급)·전기기능사 보유. 아파트 공용부 유지보수까지 맡는 업체라 주택·상가 전기도 꼼꼼하게 봅니다."),
-       ("pin","경기북부·서울 동북부 방문","양주에 있어 의정부·동두천·포천·남양주, 서울 노원·도봉·강북·성북까지 방문합니다.")]
+       ("pin","경기북부·서울 동북부 방문","양주에 있어 의정부·동두천·포천·남양주·구리·하남, 서울 노원·도봉·강북·성북까지 방문합니다.")]
     li="".join(f'<li>{icon(i)}<div><h3>{E(t)}</h3><p>{E(d)}</p></div></li>' for i,t,d in f)
     return f'<section class="feat"><div class="wrap"><ul class="feat-list">{li}</ul></div></section>'
 
@@ -447,19 +455,19 @@ def hero_photo():
 
 def build_home():
     title = f"경기북부·서울 노원·도봉 전기수리·전기공사 | 아파트·주택·상가 - {C['name']}"
-    desc = f"의정부·양주·동두천·포천·남양주·서울 노원·도봉·강북·성북 아파트·주택·상가 전기수리와 전기공사. 누전·차단기 수리, 분전반 교체, 상가 인테리어 전기, 아파트 공용부 유지보수, 화재복구. {C['name']} {C['phone']}"
+    desc = f"의정부·양주·동두천·포천·남양주·구리·하남·서울 노원·도봉·강북·성북 아파트·주택·상가 전기수리와 전기공사. 누전·차단기 수리, 분전반 교체, 상가 인테리어 전기, 아파트 공용부 유지보수, 화재복구. {C['name']} {C['phone']}"
     kw = "경기북부 전기수리, 경기북부 전기공사, 노원 전기수리, 도봉 전기수리, 강북 전기수리, 성북 전기수리, 아파트 전기수리, 주택 전기수리, 상가 전기공사, 아파트 전기 유지보수, 누전수리, 차단기 수리, 분전반 교체, 화재복구 전기공사, " + ", ".join(f"{n} 전기수리" for n in ALL_REGION_NAMES)
     cards = "".join(f"""<a class="card" href="{s['slug']}.html">{icon(s['icon'])}<h3>{E(s['short'])}</h3><p>{E(s['summary'])}</p><span class="more">자세히 보기 →</span></a>""" for s in SERVICES)
     regs = "".join(f"""<a class="reg" href="{r['slug']}.html">{icon('pin')}<b>{E(r['name'])}</b><small>{E(' · '.join(r['areas'][:3]))}</small></a>""" for r in REGIONS)
     faqs = [
-        ("어느 지역까지 출동하나요?", "경기도 의정부, 양주, 동두천, 포천, 남양주와 서울 노원구, 도봉구, 강북구, 성북구까지 출동합니다."),
+        ("어느 지역까지 출동하나요?", "경기도 의정부, 양주, 동두천, 포천, 남양주, 구리, 하남과 서울 노원구, 도봉구, 강북구, 성북구까지 출동합니다."),
         ("관리사무소 공용부 유지보수와 세대 수리를 모두 하나요?", "네. 관리사무소 대상 공용부 전기설비 유지보수와 입주민 세대 전기 수리를 모두 진행합니다."),
         ("견적은 어떻게 받을 수 있나요?", "전화나 문자로 증상과 사진을 보내주시면 대략적인 작업 내용을 안내드리고, 필요하면 방문 점검 후 정확한 견적을 드립니다."),
         ("상가나 사무실도 가능한가요?", "가능합니다. 상가·사무실 분전반 공사와 화재복구 전기공사도 진행합니다."),
     ]
     page = head(title, desc, "", kw, [business_schema(), faq_schema(faqs)]) + header() + f"""
 <section class="hero hero-main"><div class="wrap hero-in hero-c">
-  <p class="eyebrow">{icon('pin')} 의정부 · 양주 · 동두천 · 포천 · 남양주 · 서울 노원 · 도봉 · 강북 · 성북</p>
+  <p class="eyebrow">{icon('pin')} 의정부 · 양주 · 동두천 · 포천 · 남양주 · 구리 · 하남 · 서울 노원 · 도봉 · 강북 · 성북</p>
   <h1>경기북부·서울 <em>전기수리·전기공사</em></h1>
   <ul class="space"><li>{icon('building')}아파트</li><li>{icon('home')}주택·빌라</li><li>{icon('store')}상가·사무실</li></ul>
   <p class="lead">누전·차단기 수리부터 매장 전기공사, 아파트 공용부 관리까지 <br class="pc">자격 갖춘 기술자가 직접 방문합니다.</p>
@@ -500,7 +508,7 @@ def build_home():
 
 <section class="sec" id="regions"><div class="wrap">
   <h2>출동 지역</h2>
-  <p class="sub">경기 북부 5개 시와 서울 동북부 4개 구에 출동합니다. 지역을 누르면 해당 지역 안내를 볼 수 있습니다.</p>
+  <p class="sub">경기 7개 시와 서울 동북부 4개 구에 출동합니다. 지역을 누르면 해당 지역 안내를 볼 수 있습니다.</p>
   <div class="regs">{regs}</div>
 </div></section>
 
@@ -512,7 +520,7 @@ def build_home():
 # ───────────────── 서비스 페이지 ─────────────────
 def build_service(s):
     title = f"{s['kw']} | 경기북부 {s['short']} - {C['name']}"
-    desc = f"{s['summary']} 의정부·양주·동두천·포천·남양주·서울 노원·도봉·강북·성북 출동. {C['phone']}"
+    desc = f"{s['summary']} 의정부·양주·동두천·포천·남양주·구리·하남·서울 노원·도봉·강북·성북 출동. {C['phone']}"
     kw = f"{s['kw']}, {s['short']}, " + ", ".join(f"{n} {s['short']}" for n in ALL_REGION_NAMES)
     items = "".join(f"<li>{icon('check')}{E(i)}</li>" for i in s["items"])
     sym = "".join(f"<li>{E(i)}</li>" for i in s["symptoms"])
@@ -585,7 +593,7 @@ SVC = {x["slug"]: x for x in SERVICES}
 
 def build_cases_list():
     title = f"시공사례 | 경기북부 전기공사·전기수리 현장 - {C['name']}"
-    desc = f"의정부·양주·동두천·포천·남양주·서울 노원·도봉·강북·성북 전기수리, 분전반 교체, 화재복구 전기공사 실제 시공사례. {C['name']} {C['phone']}"
+    desc = f"의정부·양주·동두천·포천·남양주·구리·하남·서울 노원·도봉·강북·성북 전기수리, 분전반 교체, 화재복구 전기공사 실제 시공사례. {C['name']} {C['phone']}"
     grid = f'<div class="cases">{"".join(post_card(x) for x in POSTS)}</div>' if POSTS else '<p class="muted">시공사례를 준비 중입니다.</p>'
     filt = "".join(f'<a class="chip" href="{REGION_SLUG[n]}.html">{E(n)}</a>' for n in ALL_REGION_NAMES)
     page = head(title, desc, "cases.html", "시공사례, 전기공사 시공사례, 분전반 교체 사례, 누전 수리 사례", [business_schema(), crumbs_schema([("홈",""),("시공사례","cases.html")])]) + header() + f"""

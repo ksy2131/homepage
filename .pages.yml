@@ -31,7 +31,7 @@ content:
         type: select
         required: true
         options:
-          values: [의정부, 양주, 동두천, 포천, 남양주, 노원구, 도봉구, 강북구, 성북구, 하남]
+          values: [의정부, 양주, 동두천, 포천, 남양주, 구리, 하남, 노원구, 도봉구, 강북구, 성북구]
       - name: location
         label: 작업 위치 (예 - 양주 옥정 ○○아파트, 동·호수는 쓰지 마세요)
         type: string
