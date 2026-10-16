@@ -189,6 +189,7 @@ ICONS = {
     "bolt": '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/>',
     "phone": '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
     "pin": '<path d="M12 22s7-7 7-12a7 7 0 0 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>',
+    "blog": '<path d="M4 4h16v13H8l-4 3V4z"/><path d="M8 9h8M8 13h5"/>',
     "chat": '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.5-5A8 8 0 1 1 21 12z"/>',
     "check": '<path d="M20 6 9 17l-5-5"/>',
 }
@@ -279,7 +280,7 @@ def footer():
 <div class="float" aria-label="빠른 상담">
   <a class="fl fl-tel" href="tel:{TEL}">{icon('phone')}<span>전화</span></a>
   <a class="fl fl-sms" href="sms:{TEL}">{icon('chat')}<span>문자</span></a>
-  <a class="fl fl-map" href="{E(C['place'])}" target="_blank" rel="noopener">{icon('pin')}<span>지도</span></a>
+  <a class="fl fl-blog" href="{E(C['blog'])}" target="_blank" rel="noopener">{icon('blog')}<span>블로그</span></a>
 </div>
 </body>
 </html>"""
