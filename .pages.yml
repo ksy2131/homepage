@@ -1,0 +1,60 @@
+media:
+  input: static/images/posts
+  output: /images/posts
+  extensions: [jpg, jpeg, png, webp]
+
+content:
+  - name: posts
+    label: 시공사례
+    type: collection
+    path: posts
+    format: json
+    filename: "{year}-{month}-{day}-{hour}{minute}{second}.json"
+    view:
+      fields: [title, region, date]
+      primary: title
+      sort: [date]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: 제목 (지역명은 자동으로 앞에 붙어요. 예 - 아파트 분전반 교체)
+        type: string
+        required: true
+      - name: date
+        label: 작업 날짜
+        type: date
+        required: true
+      - name: region
+        label: 지역
+        type: select
+        required: true
+        options:
+          values: [의정부, 양주, 포천, 가평, 동두천, 남양주, 구리, 하남]
+      - name: location
+        label: 작업 위치 (예 - 양주 옥정 ○○아파트, 동·호수는 쓰지 마세요)
+        type: string
+      - name: service
+        label: 작업 종류
+        type: select
+        options:
+          values: [세대 전기 수리, 분전반 공사, 아파트 공용부 유지보수, 화재복구 전기공사]
+      - name: summary
+        label: 한 줄 요약 (목록에 보이는 문장)
+        type: string
+      - name: photos
+        label: 현장 사진 (작업 전 → 작업 후 순서로, 팻말에 동·호수가 보이면 빼주세요)
+        type: image
+        options:
+          multiple:
+            max: 10
+      - name: body
+        label: 본문 (문단 사이는 한 줄 띄우기)
+        type: text
+      - name: blog_url
+        label: 같은 현장 네이버 블로그 주소 (있으면)
+        type: string
+      - name: draft
+        label: 임시저장 (체크하면 홈페이지에 안 보임)
+        type: boolean
