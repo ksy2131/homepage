@@ -429,14 +429,14 @@ def build_home():
         ("상가나 사무실도 가능한가요?", "가능합니다. 상가·사무실 분전반 공사와 화재복구 전기공사도 진행합니다."),
     ]
     page = head(title, desc, "", kw, [business_schema(), faq_schema(faqs)]) + header() + f"""
-<section class="hero"><div class="wrap hero-in hero-grid"><div>
+<section class="hero"><div class="wrap hero-in"><div>
   <p class="eyebrow">의정부 · 양주 · 남양주 · 구리 · 포천 · 동두천 · 가평 · 하남</p>
   <h1>경기 북부 아파트<br><em>전기 유지보수·전기수리</em> 전문</h1>
   <p class="lead">관리사무소 공용부 설비부터 우리 집 누전·차단기 문제까지. <br class="pc">아파트 전기를 잘 아는 기술자가 직접 방문합니다.</p>
   <a class="big-tel" href="tel:{TEL}">{icon('phone')}<span><small>전화 한 통이면 바로 상담</small>{E(C['phone'])}</span></a>
   <div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} 지금 전화하기</a><a class="btn btn-o" href="sms:{TEL}">문자로 사진 보내기</a></div>
   <ul class="badges"><li>{icon('check')} 방문 전 증상 상담</li><li>{icon('check')} 작업 전 원인·비용 설명</li><li>{icon('check')} 공용부·세대·상가 모두 가능</li></ul>
-  </div>{hero_photo()}
+  </div>
 </div></section>
 {features_html()}
 {marquee_html()}
