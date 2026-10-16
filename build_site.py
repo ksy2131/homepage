@@ -14,6 +14,8 @@ CONFIG = {
     "owner": "",
     "hours": "평일 08:00–19:00 · 긴급출동 상시 상담",
     "blog": "https://blog.naver.com/smileelectronic",
+    "place": "https://naver.me/xPUHS2Mz",           # 네이버 플레이스(지도)
+    "hours_short": "평일 08:00–19:00",
     "naver_verify": "",                      # 네이버 서치어드바이저 인증코드
     "google_verify": "",                     # 구글 서치콘솔 인증코드
 }
@@ -201,6 +203,10 @@ def header(active=""):
     svc_links = "".join(f'<a href="{s["slug"]}.html">{E(s["short"])}</a>' for s in SERVICES)
     reg_links = "".join(f'<a href="{r["slug"]}.html">{E(r["name"])}</a>' for r in REGIONS)
     return f"""
+<div class="topbar"><div class="wrap topbar-in">
+  <span>{icon('phone')} 상담 {E(C['hours_short'])} · <a href="tel:{TEL}"><b>{E(C['phone'])}</b></a></span>
+  <span class="tb-links"><a href="sms:{TEL}">문자로 사진 보내기</a><a href="{E(C['place'])}" target="_blank" rel="noopener">네이버 지도</a><a href="{E(C['blog'])}" target="_blank" rel="noopener">블로그</a></span>
+</div></div>
 <header class="top">
   <div class="wrap top-in">
     <a class="logo" href="index.html" aria-label="{E(C['name'])} 홈">{icon('bolt','logo-ic')}<span>{E(C['name'])}</span></a>
@@ -209,6 +215,7 @@ def header(active=""):
       <div class="dd"><span class="dd-t">서비스</span><div class="dd-m">{svc_links}</div></div>
       <div class="dd"><span class="dd-t">출동 지역</span><div class="dd-m">{reg_links}</div></div>
       <a href="cases.html">시공사례</a>
+      <a href="guides.html">전기 상식</a>
       <a href="index.html#faq">자주 묻는 질문</a>
       <a href="index.html#contact">문의</a>
       <a class="nav-call" href="tel:{TEL}">{icon('phone')} {E(C['phone'])}</a>
@@ -228,7 +235,7 @@ def footer():
       <a class="logo logo-w" href="index.html">{icon('bolt','logo-ic')}<span>{E(C['name'])}</span></a>
       <p class="muted">경기 북부 아파트 전기 유지보수 · 세대 전기수리 · 분전반 공사 · 화재복구 전기공사</p>
       <p>상호 {E(C['name'])}{(' · ' + E(C['owner'])) if C['owner'] else ''}<br>사업자등록번호 {E(C['biz_no'])}<br>{E(C['address'])}<br>전화 <a href="tel:{TEL}">{E(C['phone'])}</a><br>{E(C['hours'])}</p>
-      <p><a href="{E(C['blog'])}" rel="noopener" target="_blank">네이버 블로그 시공사례 보기 →</a></p>
+      <p><a href="{E(C['place'])}" rel="noopener" target="_blank">네이버 지도에서 보기 →</a><br><a href="{E(C['blog'])}" rel="noopener" target="_blank">네이버 블로그 시공사례 보기 →</a></p>
     </div>
     <div><h3>서비스</h3><ul>{svc}</ul></div>
     <div><h3>출동 지역</h3><ul>{reg}</ul></div>
@@ -248,7 +255,7 @@ def business_schema(area_names=None):
         "url": C["domain"] + "/",
         "address": {"@type": "PostalAddress", "streetAddress": C["address"], "addressLocality": "양주시", "addressRegion": "경기도", "addressCountry": "KR"},
         "areaServed": [{"@type": "City", "name": n} for n in (area_names or ALL_REGION_NAMES)],
-        "sameAs": [C["blog"]],
+        "sameAs": [C["blog"], C["place"]],
         "openingHours": "Mo-Fr 08:00-19:00",
     }
 
@@ -267,7 +274,7 @@ def faq_html(faqs, title="자주 묻는 질문"):
 def cta(text="전기 문제, 지금 바로 상담하세요"):
     return f"""<section class="cta" id="contact"><div class="wrap cta-in">
   <div><h2>{E(text)}</h2><p>증상을 말씀해 주시면 원인과 예상 작업을 먼저 안내해 드립니다. 사진을 문자로 보내주시면 더 정확합니다.</p></div>
-  <div class="cta-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} {E(C['phone'])}</a><a class="btn btn-o" href="sms:{TEL}">문자로 사진 보내기</a></div>
+  <div class="cta-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} {E(C['phone'])}</a><a class="btn btn-o" href="sms:{TEL}">문자로 사진 보내기</a><a class="btn btn-o" href="{E(C['place'])}" target="_blank" rel="noopener">{icon('pin')} 네이버 지도</a></div>
 </div></section>"""
 
 def steps_html():
@@ -311,11 +318,101 @@ def cases_html(posts=None, title="시공사례", limit=6):
         body = blog_link_html()
     return f'<section class="sec alt" id="cases"><div class="wrap"><h2>{E(title)}</h2><p class="sub">직접 작업한 현장입니다.</p>{body}</div></section>'
 
+def signs_html():
+    sg=[("차단기가 자꾸 내려간다","특정 가전을 켤 때, 비 오는 날, 아무 이유 없이 떨어진다면 누전이나 과부하를 의심해야 합니다."),
+        ("콘센트·스위치가 뜨겁거나 그을렸다","접촉 불량이나 과부하로 열이 나는 상태입니다. 화재로 이어질 수 있어 빠른 교체가 필요합니다."),
+        ("타는 냄새가 난다","플라스틱 타는 냄새는 배선이나 기구가 과열됐다는 신호입니다. 해당 기기 사용을 멈춰주세요."),
+        ("조명이 깜빡이거나 켜지지 않는다","LED 모듈이나 안정기 수명, 스위치 접촉 불량인 경우가 많습니다."),
+        ("특정 방만 전기가 안 들어온다","해당 회로의 차단기나 배선 연결부 문제일 수 있습니다."),
+        ("분전반이 오래되고 차단기가 헐겁다","입주 15년 이상이면 분전반과 차단기 상태를 한 번 점검받는 것이 좋습니다.")]
+    li="".join(f'<li><span class="sg-n">{i+1}</span><div><b>{E(t)}</b><small>{E(d)}</small></div></li>' for i,(t,d) in enumerate(sg))
+    return f'<section class="sec"><div class="wrap"><h2>이런 증상이면 점검이 필요합니다</h2><p class="sub">하나라도 해당되면 전화나 사진 문자로 먼저 상담하세요.</p><ul class="signs">{li}</ul></div></section>'
+
+def causes_html():
+    rows=[("누전","특정 회로나 가전에서 전기가 새는 경우. 비 오는 날, 욕실·베란다 습기로 자주 발생","누전 위치를 찾아 해당 배선·콘센트·기기 정리"),
+          ("과부하","인덕션, 에어컨, 전기히터 등 큰 가전을 한 회로에 같이 쓰는 경우","전용 회로 증설, 회로 분리"),
+          ("차단기 노후","오래된 차단기가 약해져 정상 사용에도 떨어지는 경우","차단기 교체, 필요 시 분전반 교체"),
+          ("배선·접속부 불량","콘센트·스위치 안쪽 연결부가 헐거워져 열이 나는 경우","접속부 재시공, 콘센트·스위치 교체")]
+    tr="".join(f'<tr><th>{E(a)}</th><td>{E(b)}</td><td>{E(c)}</td></tr>' for a,b,c in rows)
+    return f'''<section class="sec alt"><div class="wrap"><h2>차단기가 떨어지는 원인과 해결 방법</h2>
+<p class="sub">원인에 따라 해결 방법이 다릅니다. 무조건 분전반을 바꾸지 않고, 원인부터 찾습니다.</p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>원인</th><th>이런 경우</th><th>해결 방법</th></tr></thead><tbody>{tr}</tbody></table></div>
+<p class="note">차단기가 반복해서 떨어질 때 억지로 계속 올리는 것은 위험합니다. 전화로 증상을 먼저 알려주세요.</p></div></section>'''
+
+def photo_quote_html():
+    st=[("1","증상 부위 사진","콘센트, 차단기, 조명 등 문제 있는 곳"),("2","분전반 사진","두꺼비집 문을 열고 차단기 전체가 보이게"),("3","주변 사진","어느 방, 어느 위치인지 알 수 있게")]
+    li="".join(f'<li><b>{a}</b><div><strong>{E(t)}</strong><small>{E(d)}</small></div></li>' for a,t,d in st)
+    return f'''<section class="sec"><div class="wrap two pq">
+<div><h2>사진 2~3장이면<br>방법부터 안내해 드립니다</h2><p>방문 전에 사진으로 먼저 상태를 보고, 어떤 작업이 필요한지 안내해 드립니다. 정확한 비용은 현장을 확인한 뒤 작업 전에 말씀드립니다.</p>
+<div class="hero-btns" style="margin-top:20px"><a class="btn btn-n" href="sms:{TEL}">{icon('phone')} 문자로 사진 보내기</a></div></div>
+<ol class="pq-steps">{li}</ol></div></section>'''
+
+# ───────────────── 전기 상식 정보글 ─────────────────
+GUIDES = [
+  {"slug":"guide-breaker-trips","q":"차단기가 자꾸 내려가요, 왜 그런가요?","sum":"누전, 과부하, 차단기 노후 등 차단기가 떨어지는 대표 원인과 집에서 확인할 수 있는 방법을 정리했습니다.",
+   "body":["차단기가 내려가는 것은 전기 설비가 위험을 감지하고 스스로 전기를 끊은 것입니다. 귀찮더라도 원인을 찾아야 하는 신호입니다.",
+           "가장 흔한 원인은 누전, 과부하, 차단기 노후입니다. 누전은 전기가 정해진 길 밖으로 새는 것으로, 욕실·베란다처럼 습기가 많은 곳이나 오래된 가전에서 자주 생깁니다. 과부하는 인덕션, 에어컨, 전기히터처럼 전기를 많이 쓰는 기기를 한 회로에 함께 쓸 때 생깁니다.",
+           "집에서 해볼 수 있는 확인 방법은 간단합니다. 플러그를 모두 뽑은 상태에서 차단기를 올려보고, 그래도 떨어지면 배선이나 차단기 쪽 문제일 가능성이 큽니다. 버티면 가전을 하나씩 꽂아보며 어느 기기에서 떨어지는지 확인합니다.",
+           "차단기를 억지로 반복해서 올리거나, 젖은 손으로 분전반을 만지는 것은 위험합니다. 원인이 확인되지 않으면 전문가 점검을 받으세요."]},
+  {"slug":"guide-leakage-check","q":"누전이 의심될 때 어떻게 확인하나요?","sum":"누전 차단기 동작, 비 오는 날만 떨어지는 경우 등 누전이 의심되는 상황과 안전한 대처 방법입니다.",
+   "body":["누전 차단기(보통 시험 버튼이 있는 차단기)가 떨어지면 어딘가에서 전기가 새고 있다는 뜻입니다. 비 오는 날이나 습한 날에만 떨어진다면 외부·욕실·베란다 쪽 배선이나 콘센트를 먼저 의심합니다.",
+           "가전제품 중에는 세탁기, 정수기, 전기온수기, 오래된 냉장고처럼 물과 가까운 기기가 누전 원인이 되는 경우가 많습니다.",
+           "누전이 의심되면 해당 기기의 플러그를 뽑고, 젖은 곳 주변 콘센트는 사용하지 마세요. 누전 위치는 절연저항 측정 장비로 회로별로 확인해야 정확히 찾을 수 있습니다.",
+           "누전은 감전과 화재로 이어질 수 있어 원인을 찾을 때까지 가볍게 넘기지 않는 것이 좋습니다."]},
+  {"slug":"guide-panel-replace","q":"분전반(두꺼비집)은 언제 교체해야 하나요?","sum":"분전반 교체가 필요한 신호와 교체할 때 함께 확인하면 좋은 점을 정리했습니다.",
+   "body":["분전반은 집 안 전기를 회로별로 나누고 보호하는 장치입니다. 오래 쓰면 차단기 내부 부품이 약해지고, 단자 연결부가 느슨해질 수 있습니다.",
+           "차단기 손잡이가 헐겁거나, 표면이 변색됐거나, 분전반 주변에서 열이나 소리가 나면 점검이 필요합니다. 입주 후 오랜 시간이 지난 아파트라면 한 번쯤 상태를 확인하는 것이 좋습니다.",
+           "인덕션이나 시스템 에어컨을 새로 설치하면서 회로가 부족해지는 경우에도 분전반 교체나 회로 증설을 함께 검토합니다.",
+           "교체할 때는 사용 전력에 맞는 차단기 용량을 고르고, 어느 차단기가 어느 공간인지 표시해 두면 다음에 문제가 생겨도 쉽게 확인할 수 있습니다."]},
+  {"slug":"guide-led-light","q":"방등이 깜빡이거나 안 켜지면 등만 바꾸면 되나요?","sum":"조명 고장의 흔한 원인과 LED 모듈 교체, 등기구 전체 교체 중 어떤 것이 나은지 정리했습니다.",
+   "body":["방등이 깜빡이거나 켜지지 않는 원인은 대부분 LED 모듈이나 안정기(컨버터) 수명, 또는 스위치 접촉 불량입니다.",
+           "모듈이나 안정기만 바꿔도 되는 경우가 있지만, 등기구가 오래됐거나 같은 시기에 설치된 다른 등도 비슷한 상태라면 등기구 전체를 교체하는 편이 오래 씁니다.",
+           "등을 바꿨는데도 증상이 같다면 스위치나 천장 배선 연결부를 확인해야 합니다.",
+           "천장 작업은 전기를 차단하고 해야 하며, 높은 곳 작업이라 낙상 위험도 있습니다. 어려우면 전문가에게 맡기세요."]},
+  {"slug":"guide-outlet-burn","q":"콘센트가 뜨겁거나 그을렸어요, 괜찮을까요?","sum":"콘센트 과열과 그을림의 원인, 바로 해야 할 일과 교체가 필요한 경우입니다.",
+   "body":["콘센트가 뜨겁거나 검게 그을렸다면 내부 접촉 불량이나 과부하로 열이 나고 있다는 신호입니다. 그대로 쓰면 화재로 이어질 수 있습니다.",
+           "멀티탭에 전기를 많이 쓰는 기기를 여러 개 꽂아 쓰거나, 플러그가 헐겁게 꽂히는 경우에 자주 생깁니다.",
+           "증상이 보이면 해당 콘센트 사용을 멈추고 플러그를 뽑아주세요. 그을린 콘센트는 겉만 닦아서 다시 쓰지 말고 교체하는 것이 안전합니다.",
+           "같은 회로에서 반복된다면 배선 상태나 회로 구성까지 함께 확인해야 합니다."]},
+]
+
+def guides_list_html(limit=None):
+    g = GUIDES[:limit] if limit else GUIDES
+    li="".join(f'<li><a href="{x["slug"]}.html"><b>Q. {E(x["q"])}</b><small>{E(x["sum"])}</small></a></li>' for x in g)
+    return f'<ul class="guides">{li}</ul>'
+
+def build_guides():
+    page = head(f"전기 상식 | 누전·차단기·분전반 궁금증 - {C['name']}", "차단기가 내려가는 이유, 누전 확인 방법, 분전반 교체 시기 등 생활 전기 궁금증을 정리했습니다.", "guides.html",
+                "차단기 내려감, 누전 확인, 분전반 교체 시기, 콘센트 그을림, 방등 교체", [business_schema()]) + header() + f"""
+<section class="hero sm"><div class="wrap hero-in"><nav class="crumb"><a href="index.html">홈</a> › 전기 상식</nav>
+<h1><em>전기 상식</em></h1><p class="lead">자주 받는 질문을 쉽게 정리했습니다.</p></div></section>
+<section class="sec"><div class="wrap narrow">{guides_list_html()}</div></section>
+{cta()}""" + footer()
+    write("guides.html", page)
+    for x in GUIDES:
+        body="".join(f"<p>{E(t)}</p>" for t in x["body"])
+        others = guides_list_html()
+        art={"@context":"https://schema.org","@type":"Article","headline":x["q"],"description":x["sum"],"author":{"@type":"Organization","name":C["name"]}}
+        page = head(f"{x['q']} | {C['name']}", x["sum"], f"{x['slug']}.html", x["q"], [art, business_schema()]) + header() + f"""
+<section class="hero sm"><div class="wrap hero-in"><nav class="crumb"><a href="index.html">홈</a> › <a href="guides.html">전기 상식</a></nav>
+<h1>{E(x['q'])}</h1><p class="lead">{E(x['sum'])}</p></div></section>
+<section class="sec"><div class="wrap post"><div class="post-body">{body}</div>
+<div class="box" style="margin-top:28px"><h3>직접 확인이 어렵다면</h3><p>사진 2~3장을 문자로 보내주시면 필요한 작업을 먼저 안내해 드립니다.</p><div class="hero-btns" style="margin-top:14px"><a class="btn btn-n" href="tel:{TEL}">{icon('phone')} {E(C['phone'])}</a></div></div></div></section>
+<section class="sec alt"><div class="wrap narrow"><h2>다른 전기 상식</h2>{others}</div></section>
+{cta()}""" + footer()
+        write(f"{x['slug']}.html", page)
+
 def write(name, content):
     with open(os.path.join(OUT, name), "w", encoding="utf-8") as f:
         f.write(content)
 
 # ───────────────── 홈 ─────────────────
+def hero_photo():
+    ph=[x for x in POSTS if x.get("photos")]
+    if not ph: return ""
+    x=ph[0]; img=x["photos"][-1]
+    return f'<a class="hero-ph" href="case-{x["slug"]}.html"><img src="{E(img)}" alt="{E(x["region"])} {E(x["title"])}"><span><b>최근 시공</b>{E(x["region"])} · {E(x["title"])}</span></a>'
+
 def build_home():
     title = f"경기 북부 아파트 전기 유지보수·전기수리 | {C['name']}"
     desc = f"의정부·양주·남양주·구리·포천·동두천·가평·하남 아파트 공용부 전기 유지보수, 세대 누전·차단기 수리, 분전반 공사, 화재복구 전기공사. {C['name']} {C['phone']}"
@@ -329,13 +426,14 @@ def build_home():
         ("상가나 사무실도 가능한가요?", "가능합니다. 상가·사무실 분전반 공사와 화재복구 전기공사도 진행합니다."),
     ]
     page = head(title, desc, "", kw, [business_schema(), faq_schema(faqs)]) + header() + f"""
-<section class="hero"><div class="wrap hero-in">
+<section class="hero"><div class="wrap hero-in hero-grid"><div>
   <p class="eyebrow">의정부 · 양주 · 남양주 · 구리 · 포천 · 동두천 · 가평 · 하남</p>
   <h1>경기 북부 아파트<br><em>전기 유지보수·전기수리</em> 전문</h1>
   <p class="lead">관리사무소 공용부 설비부터 우리 집 누전·차단기 문제까지.<br class="pc">아파트 전기를 잘 아는 기술자가 직접 방문합니다.</p>
   <a class="big-tel" href="tel:{TEL}">{icon('phone')}<span><small>전화 한 통이면 바로 상담</small>{E(C['phone'])}</span></a>
   <div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} 지금 전화하기</a><a class="btn btn-o" href="sms:{TEL}">문자로 사진 보내기</a></div>
   <ul class="badges"><li>{icon('check')} 방문 전 증상 상담</li><li>{icon('check')} 작업 전 원인·비용 설명</li><li>{icon('check')} 공용부·세대·상가 모두 가능</li></ul>
+  </div>{hero_photo()}
 </div></section>
 {features_html()}
 {marquee_html()}
@@ -355,9 +453,13 @@ def build_home():
   <a class="link" href="home-repair.html">세대 전기 수리 자세히 →</a></div>
 </div></section>
 
+{signs_html()}
+{causes_html()}
 {jobs_html()}
 {cases_html()}
+{photo_quote_html()}
 {steps_html()}
+<section class="sec alt"><div class="wrap narrow"><h2>전기 상식</h2><p class="sub">자주 받는 질문을 쉽게 정리했습니다.</p>{guides_list_html(4)}<p class="center"><a class="btn btn-n" href="guides.html">전체 보기 →</a></p></div></section>
 
 <section class="sec" id="regions"><div class="wrap">
   <h2>출동 지역</h2>
@@ -428,6 +530,7 @@ def build_region(r):
   <div class="box"><h3>{E(n)} 주요 출동 지역</h3><ul class="areas">{areas}</ul><p class="muted small">표시되지 않은 지역도 출동합니다.</p></div>
 </div></section>
 <section class="sec alt"><div class="wrap"><h2>{E(n)} 전기 서비스</h2><div class="cards">{svc}</div></div></section>
+{signs_html()}
 {jobs_html(n)}
 {cases_html([x for x in POSTS if x["region"]==n], f"{n} 시공사례") if any(x["region"]==n for x in POSTS) else ""}
 {steps_html()}
@@ -497,7 +600,7 @@ def build_post(pt):
 
 # ───────────────── 부가 파일 ─────────────────
 def build_extras():
-    pages = [("", "1.0")] + [(f"{s['slug']}.html", "0.9") for s in SERVICES] + [(f"{r['slug']}.html", "0.8") for r in REGIONS] + [("cases.html","0.8")] + [(f"case-{x['slug']}.html","0.7") for x in POSTS]
+    pages = [("", "1.0")] + [(f"{s['slug']}.html", "0.9") for s in SERVICES] + [(f"{r['slug']}.html", "0.8") for r in REGIONS] + [("cases.html","0.8"),("guides.html","0.7")] + [(f"{g['slug']}.html","0.6") for g in GUIDES] + [(f"case-{x['slug']}.html","0.7") for x in POSTS]
     urls = "".join(f"<url><loc>{C['domain']}/{p}</loc><lastmod>{TODAY}</lastmod><priority>{pr}</priority></url>\n" for p, pr in pages)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
     write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {C['domain']}/sitemap.xml\n")
@@ -513,6 +616,7 @@ if __name__ == "__main__":
     for s in SERVICES: build_service(s)
     for r in REGIONS: build_region(r)
     build_cases_list()
+    build_guides()
     for pt in POSTS: build_post(pt)
     build_extras()
     print("완료:", sorted(os.listdir(OUT)))
