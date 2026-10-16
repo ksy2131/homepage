@@ -18,7 +18,7 @@ CONFIG = {
     "place": "https://naver.me/xPUHS2Mz",           # 네이버 플레이스(지도)
     "hours_short": "평일 08:00–19:00",
     "naver_verify": "75f49b04581c32624dc86659c4af15b1d3194fa3",                      # 네이버 서치어드바이저 인증코드
-    "google_verify": "",                     # 구글 서치콘솔 인증코드
+    "google_verify": "zpQNlofCxZk2VsMZslXs9Cw0MMUJFJSGsrkLBoHlsgc",                     # 구글 서치콘솔 인증코드
 }
 OUT = "dist"
 BASE = os.path.dirname(os.path.abspath(__file__))
