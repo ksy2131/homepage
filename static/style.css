@@ -343,3 +343,17 @@ a.case:hover{box-shadow:0 14px 34px rgba(15,61,145,.13);transform:translateY(-3p
  .fl-tel{flex:1.6}
  .foot{padding-bottom:110px}
 }
+/* 홍보 전단 */
+.flyer{display:grid;grid-template-columns:400px 1fr;gap:56px;align-items:center}
+.flyer-img{position:relative;display:block;border-radius:16px;overflow:hidden;box-shadow:0 24px 50px rgba(15,61,145,.22);transform:rotate(-1.5deg);transition:transform .2s}
+.flyer-img:hover{transform:rotate(0) scale(1.02)}
+.flyer-img img{display:block;width:100%}
+.flyer-img span{position:absolute;right:12px;bottom:12px;background:rgba(10,42,102,.85);color:#fff;font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;display:flex;gap:4px;align-items:center}
+.flyer-img span .ic{width:14px;height:14px}
+.flyer-t h2{margin-top:10px}
+.flyer-t>p{color:#34405c}
+.flyer-l{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin-top:18px}
+.flyer-l li{display:flex;gap:8px;align-items:center;font-weight:600}
+.flyer-l .ic{width:20px;height:20px;color:var(--navy);flex:none}
+.btn-line{border:2px solid var(--navy);color:var(--navy)}
+@media (max-width:900px){.flyer{grid-template-columns:1fr;gap:32px}.flyer-img{max-width:420px;margin:0 auto}.flyer-l{grid-template-columns:1fr}}

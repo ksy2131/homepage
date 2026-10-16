@@ -453,6 +453,16 @@ def hero_photo():
     x=ph[0]; img=x["photos"][-1]
     return f'<a class="hero-ph" href="case-{x["slug"]}.html"><img src="{E(img)}" alt="{E(x["region"])} {E(x["title"])}"><span><b>최근 시공</b>{E(x["region"])} · {E(x["title"])}</span></a>'
 
+def flyer_html():
+    pts=["콘센트·스위치 증설 및 교체","LED 방등·안정기 교체","누전 점검 및 누전 공사","상가 증설 및 인테리어 전기","차단기·분전반 점검, 환풍기 설치"]
+    li="".join(f"<li>{icon('check')}{E(t)}</li>" for t in pts)
+    return f'''<section class="sec flyer-sec"><div class="wrap flyer">
+  <a class="flyer-img" href="images/flyer.jpg" target="_blank" rel="noopener"><img src="images/flyer-s.jpg" alt="스마일일렉 홍보 전단 - 아파트·주택 전기공사 전문" loading="lazy"><span>{icon('pin')} 크게 보기</span></a>
+  <div class="flyer-t"><span class="ceo-t">홍보 전단</span><h2>생활 속 전기 문제,<br>빠르고 안전하게 해결해 드립니다</h2>
+  <p>작은 전기부터 누전까지, 아파트·주택·상가 어디든 방문합니다.</p><ul class="flyer-l">{li}</ul>
+  <div class="hero-btns" style="margin-top:22px"><a class="btn btn-n" href="tel:{TEL}">{icon('phone')} {E(C['phone'])}</a><a class="btn btn-line" href="images/flyer.jpg" download="스마일일렉_전단.jpg">전단 이미지 저장</a></div></div>
+</div></section>'''
+
 def build_home():
     title = f"경기북부·서울 노원·도봉 전기수리·전기공사 | 아파트·주택·상가 - {C['name']}"
     desc = f"의정부·양주·동두천·포천·남양주·구리·하남·서울 노원·도봉·강북·성북 아파트·주택·상가 전기수리와 전기공사. 누전·차단기 수리, 분전반 교체, 상가 인테리어 전기, 아파트 공용부 유지보수, 화재복구. {C['name']} {C['phone']}"
@@ -502,6 +512,7 @@ def build_home():
 {causes_html()}
 {jobs_html()}
 {cases_html(limit=20, cls="cases cases-home")}
+{flyer_html()}
 {photo_quote_html()}
 {steps_html()}
 <section class="sec alt"><div class="wrap narrow"><h2>전기 상식</h2><p class="sub">자주 받는 질문을 쉽게 정리했습니다.</p>{guides_list_html(4)}<p class="center"><a class="btn btn-n" href="guides.html">전체 보기 →</a></p></div></section>
