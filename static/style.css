@@ -259,3 +259,9 @@ a.case:hover{box-shadow:0 14px 34px rgba(15,61,145,.13);transform:translateY(-3p
 .ceo-cred .ic{position:absolute;left:12px;top:14px;width:18px;height:18px;color:var(--navy)}
 .ceo-cred small{color:var(--muted);font-size:13px}
 @media (max-width:760px){.ceo-cred{grid-template-columns:1fr}}
+/* 메인 시공사례 (최대 20개, 4열) */
+.cases-home{grid-template-columns:repeat(4,1fr);gap:16px}
+.cases-home .case-b b{font-size:16px}
+.cases-home .case-b small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media (max-width:960px){.cases-home{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.cases-home{grid-template-columns:repeat(2,1fr);gap:10px}.cases-home .case-b{padding:12px}.cases-home .case-b small{display:none}.cases-home .case-b b{font-size:14.5px}}

@@ -312,10 +312,11 @@ def post_card(pt):
 def blog_link_html():
     return f'<a class="case-blog" href="{E(C["blog"])}" target="_blank" rel="noopener">{icon("check")}<div><b>더 많은 현장 기록은 네이버 블로그에서</b><small>분전반 교체, 화재복구, 누전 수리 등 실제 작업 기록</small></div><span class="more">블로그 보기 →</span></a>'
 
-def cases_html(posts=None, title="시공사례", limit=6):
+def cases_html(posts=None, title="시공사례", limit=6, cls="cases"):
     posts = POSTS if posts is None else posts
     if posts:
-        body = f'<div class="cases">{"".join(post_card(x) for x in posts[:limit])}</div><p class="center"><a class="btn btn-n" href="cases.html">시공사례 전체 보기 →</a></p>'
+        more = f'더보기 (전체 {len(posts)}건) →' if len(posts) > limit else '시공사례 전체 보기 →'
+        body = f'<div class="{cls}">{"".join(post_card(x) for x in posts[:limit])}</div><p class="center"><a class="btn btn-n" href="cases.html">{more}</a></p>'
     else:
         body = blog_link_html()
     return f'<section class="sec alt" id="cases"><div class="wrap"><h2>{E(title)}</h2><p class="sub">직접 작업한 현장입니다.</p>{body}</div></section>'
@@ -465,7 +466,7 @@ def build_home():
 {signs_html()}
 {causes_html()}
 {jobs_html()}
-{cases_html()}
+{cases_html(limit=20, cls="cases cases-home")}
 {photo_quote_html()}
 {steps_html()}
 <section class="sec alt"><div class="wrap narrow"><h2>전기 상식</h2><p class="sub">자주 받는 질문을 쉽게 정리했습니다.</p>{guides_list_html(4)}<p class="center"><a class="btn btn-n" href="guides.html">전체 보기 →</a></p></div></section>
