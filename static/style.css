@@ -247,3 +247,10 @@ a.case:hover{box-shadow:0 14px 34px rgba(15,61,145,.13);transform:translateY(-3p
 @media (max-width:960px){.signs{grid-template-columns:repeat(2,1fr)}.hero-grid{grid-template-columns:1fr}.hero-ph{max-width:460px}}
 @media (max-width:820px){.tb-links a:not(:first-child){display:none}.topbar{font-size:13px}}
 @media (max-width:520px){.signs{grid-template-columns:1fr}.topbar-in span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+/* 대표 소개 */
+.ceo{display:flex;gap:24px;align-items:flex-start;background:linear-gradient(135deg,#fff,#f3f6fb);border:1px solid var(--line);border-radius:18px;padding:32px;box-shadow:0 10px 30px rgba(15,61,145,.08)}
+.ceo-ic .ic{width:64px;height:64px;padding:16px;border-radius:18px;background:var(--navy);color:var(--yellow)}
+.ceo-t{display:inline-block;background:#fff6dc;color:#7a5600;font-weight:700;font-size:13px;padding:4px 10px;border-radius:999px;margin-bottom:8px}
+.ceo h2{margin-bottom:2px}.ceo-sub{color:var(--navy);font-weight:700;margin-bottom:10px}
+.ceo p{color:#34405c}
+@media (max-width:620px){.ceo{flex-direction:column;padding:24px}}

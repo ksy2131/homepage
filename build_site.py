@@ -11,7 +11,8 @@ CONFIG = {
     "address": "경기도 양주시 광적면 지섬로 214번길 15-12 가동 1층",        # 사업장 주소
     "domain": "https://www.example.co.kr",   # 구입한 도메인 (끝에 / 없이)
     "biz_no": "139-56-00663",                # 사업자등록번호
-    "owner": "",
+    "owner": "대표 김선용",
+    "owner_title": "공학기술자 · 네이버 인물정보 등록",
     "hours": "평일 08:00–19:00 · 긴급출동 상시 상담",
     "blog": "https://blog.naver.com/smileelectronic",
     "place": "https://naver.me/xPUHS2Mz",           # 네이버 플레이스(지도)
@@ -257,6 +258,7 @@ def business_schema(area_names=None):
         "areaServed": [{"@type": "City", "name": n} for n in (area_names or ALL_REGION_NAMES)],
         "sameAs": [C["blog"], C["place"]],
         "openingHours": "Mo-Fr 08:00-19:00",
+        "founder": {"@type": "Person", "name": "김선용", "jobTitle": "공학기술자"},
     }
 
 def faq_schema(faqs):
@@ -443,6 +445,12 @@ def build_home():
   <p class="sub">아파트 공용부 관리부터 세대 수리, 분전반 공사, 화재복구까지 전기의 모든 것을 한 업체에서.</p>
   <div class="cards">{cards}</div>
 </div></section>
+
+<section class="sec"><div class="wrap"><div class="ceo">
+  <div class="ceo-ic">{icon('check')}</div>
+  <div><span class="ceo-t">대표 직접 확인</span><h2>{E(C['owner'])}</h2><p class="ceo-sub">{E(C['owner_title'])}</p>
+  <p>현장마다 대표가 직접 상태를 확인하고, 원인과 작업 방법을 설명드립니다. 네이버에서 <b>김선용 공학기술자</b>로 인물정보를 확인하실 수 있습니다.</p></div>
+</div></div></section>
 
 <section class="sec alt"><div class="wrap two">
   <div><h2>관리사무소 담당자님께</h2>
