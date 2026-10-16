@@ -448,8 +448,8 @@ def build_home():
 
 <section class="sec"><div class="wrap"><div class="ceo">
   <div class="ceo-ic">{icon('check')}</div>
-  <div><span class="ceo-t">대표 직접 확인</span><h2>{E(C['owner'])}</h2><p class="ceo-sub">{E(C['owner_title'])}</p>
-  <p>현장마다 대표가 직접 상태를 확인하고, 원인과 작업 방법을 설명드립니다. 네이버에서 <b>김선용 공학기술자</b>로 인물정보를 확인하실 수 있습니다.</p></div>
+  <div><span class="ceo-t">믿을 수 있는 업체</span><h2>{E(C['owner'])}</h2><p class="ceo-sub">{E(C['owner_title'])}</p>
+  <p>대표와 경험 있는 기술자가 현장을 확인하고, 원인과 작업 방법을 먼저 설명드립니다. 네이버에서 <b>김선용 공학기술자</b>로 인물정보를 확인하실 수 있습니다.</p></div>
 </div></div></section>
 
 <section class="sec alt"><div class="wrap two">
