@@ -26,7 +26,7 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 if os.environ.get("URL"): CONFIG["domain"] = os.environ["URL"].rstrip("/")
 TODAY = datetime.date.today().isoformat()
 # 시공사례 글: posts 폴더의 JSON 파일 하나 = 글 하나 (Pages CMS 글쓰기 화면에서 작성)
-SVC_LABEL = {"아파트 공용부 유지보수":"apartment-maintenance","세대 전기 수리":"home-repair","분전반 공사":"panel","화재복구 전기공사":"fire-restoration"}
+SVC_LABEL = {"아파트 공용부 유지보수":"apartment-maintenance","세대 전기 수리":"home-repair","주거공간 전기수리":"home-repair","상업공간 전기공사":"commercial","분전반 공사":"panel","화재복구 전기공사":"fire-restoration"}
 def load_posts():
     out=[]
     for f in sorted(glob.glob(os.path.join(BASE,"posts","*.json"))):
@@ -67,17 +67,33 @@ SERVICES = [
     },
     {
         "slug": "home-repair",
-        "short": "세대 전기 수리",
-        "kw": "아파트 세대 전기수리",
+        "short": "주거공간 전기수리",
+        "kw": "아파트·주택 전기수리",
         "icon": "plug",
-        "summary": "누전, 차단기 내려감, 스위치·콘센트 교체, LED 방등 교체까지. 아파트 세대 전기 문제를 빠르게 해결합니다.",
-        "intro": "갑자기 차단기가 내려가거나 콘센트에서 탄 냄새가 난다면 원인부터 정확히 찾아야 합니다. 스마일일렉는 아파트 구조를 잘 아는 기술자가 직접 방문해 누전 위치를 찾고, 스위치·콘센트·조명 교체까지 한 번에 처리합니다.",
+        "summary": "아파트·빌라·단독주택·전원주택의 누전, 차단기 내려감, 스위치·콘센트 교체, LED 방등 교체까지 빠르게 해결합니다.",
+        "intro": "갑자기 차단기가 내려가거나 콘센트에서 탄 냄새가 난다면 원인부터 정확히 찾아야 합니다. 스마일일렉은 아파트는 물론 빌라, 단독주택, 전원주택까지 직접 방문해 누전 위치를 찾고, 스위치·콘센트·조명 교체까지 한 번에 처리합니다.",
         "items": ["누전 점검과 누전 위치 탐색", "차단기 내려감·두꺼비집 수리", "스위치·콘센트 교체 (노후·파손·그을림)", "LED 방등·거실등·주방등 교체", "인덕션·에어컨 전용 회로 증설", "욕실·베란다 습기로 인한 전기 고장 수리"],
         "symptoms": ["누전 차단기가 자꾸 내려간다", "특정 방만 전기가 안 들어온다", "콘센트나 스위치가 뜨겁거나 그을렸다", "형광등을 LED로 바꾸고 싶다"],
         "faq": [
             ("차단기가 계속 내려가는데 바로 와주실 수 있나요?", "전화 주시면 증상을 먼저 듣고 가능한 가장 빠른 시간으로 방문 일정을 잡아 드립니다."),
             ("누전 원인을 못 찾으면 비용이 드나요?", "방문 전 출장·점검 비용 기준을 미리 안내해 드리고, 수리 전 원인과 비용을 설명드린 뒤 동의하시면 작업합니다."),
-            ("스위치·콘센트 여러 개를 한 번에 바꿀 수 있나요?", "네. 세대 전체 스위치·콘센트 일괄 교체도 진행합니다."),
+            ("스위치·콘센트 여러 개를 한 번에 바꿀 수 있나요?", "네. 집 전체 스위치·콘센트 일괄 교체도 진행합니다."),
+            ("빌라나 단독주택도 가능한가요?", "가능합니다. 아파트뿐 아니라 빌라, 다세대, 단독주택, 전원주택 모두 방문합니다."),
+        ],
+    },
+    {
+        "slug": "commercial",
+        "short": "상업공간 전기공사",
+        "kw": "상가·사무실 전기공사",
+        "icon": "store",
+        "summary": "상가, 사무실, 매장의 전기 수리와 공사. 인테리어 전기, 조명, 콘센트·회로 증설, 누전과 차단기 문제까지 처리합니다.",
+        "intro": "상가와 사무실은 전기가 멈추면 영업이 멈춥니다. 스마일일렉은 매장 오픈 전 인테리어 전기 공사부터 영업 중 갑자기 생긴 누전·차단기 문제까지, 영업 일정을 고려해 빠르게 처리합니다.",
+        "items": ["상가·매장 인테리어 전기 공사", "매장 조명·LED 교체 및 추가 설치", "콘센트·전용 회로 증설 (주방·냉난방기기)", "상가 분전반 교체 및 회로 정리", "누전·차단기 내려감 원인 점검", "사무실 이전·리모델링 전기 공사"],
+        "symptoms": ["영업 중 차단기가 자꾸 떨어진다", "매장 조명이 깜빡이거나 일부가 안 켜진다", "주방 기기나 냉난방기를 추가해야 한다", "인테리어 공사에 맞춰 전기 배선이 필요하다"],
+        "faq": [
+            ("영업시간을 피해서 작업할 수 있나요?", "가능합니다. 영업에 지장이 없도록 작업 시간을 미리 협의합니다."),
+            ("인테리어 업체와 같이 일정 맞춰주나요?", "네. 철거·인테리어 공정에 맞춰 전기 작업을 나눠 진행합니다."),
+            ("작은 매장 조명 몇 개 교체도 오시나요?", "네. 작은 작업도 방문합니다."),
         ],
     },
     {
@@ -148,11 +164,15 @@ REGIONS = [
      "focus": "신도시 세대 전기 수리, 회로 증설"},
 ]
 ALL_REGION_NAMES = [r["name"] for r in REGIONS]
+_order={"home-repair":0,"commercial":1,"apartment-maintenance":2,"panel":3,"fire-restoration":4}
+SERVICES.sort(key=lambda x:_order.get(x["slug"],9))
 
 ICONS = {
     "building": '<path d="M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16M15 9h4a1 1 0 0 1 1 1v11M3 21h18M8 8h3M8 12h3M8 16h3"/>',
     "plug": '<path d="M9 2v5M15 2v5M6 7h12v4a6 6 0 0 1-12 0V7zM12 17v5"/>',
     "panel": '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7v4M12 7v4M16 7v4M8 15h8"/>',
+    "store": '<path d="M3 9l2-5h14l2 5M3 9h18v2a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0V9zM5 13v8h14v-8M10 21v-5h4v5"/>',
+    "home": '<path d="M3 11 12 3l9 8M5 9.5V21h14V9.5M10 21v-6h4v6"/>',
     "fire": '<path d="M12 22c4 0 7-3 7-7 0-4-3-6-4-9-1 2-2 3-3 3 0-2-1-4-3-6 0 4-4 6-4 12 0 4 3 7 7 7z"/>',
     "bolt": '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/>',
     "phone": '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
@@ -234,7 +254,7 @@ def footer():
   <div class="wrap foot-grid">
     <div>
       <a class="logo logo-w" href="index.html">{icon('bolt','logo-ic')}<span>{E(C['name'])}</span></a>
-      <p class="muted">경기 북부 아파트 전기 유지보수 · 세대 전기수리 · 분전반 공사 · 화재복구 전기공사</p>
+      <p class="muted">경기 북부 아파트·주택·상가 전기수리 · 전기공사 · 분전반 · 화재복구</p>
       <p>상호 {E(C['name'])}{(' · ' + E(C['owner'])) if C['owner'] else ''}<br>사업자등록번호 {E(C['biz_no'])}<br>{E(C['address'])}<br>전화 <a href="tel:{TEL}">{E(C['phone'])}</a><br>{E(C['hours'])}</p>
       <p><a href="{E(C['place'])}" rel="noopener" target="_blank">네이버 지도에서 보기 →</a><br><a href="{E(C['blog'])}" rel="noopener" target="_blank">네이버 블로그 시공사례 보기 →</a></p>
     </div>
@@ -286,13 +306,13 @@ def steps_html():
 
 def features_html():
     f=[("bolt","사전 견적 후 작업","원인과 비용을 먼저 설명드리고, 동의하신 뒤에 작업합니다."),
-       ("building","자격 갖춘 아파트 전기 전문","전기공사기술자(중급)·전기기능사 보유. 관리사무소 공용부 유지보수를 하는 업체라 아파트 전기 구조를 잘 압니다."),
+       ("building","자격 갖춘 전기 전문","전기공사기술자(중급)·전기기능사 보유. 아파트 공용부 유지보수까지 맡는 업체라 주택·상가 전기도 꼼꼼하게 봅니다."),
        ("pin","경기 북부 빠른 방문","양주에 있어 의정부·포천·동두천·남양주·구리·가평·하남까지 방문합니다.")]
     li="".join(f'<li>{icon(i)}<div><h3>{E(t)}</h3><p>{E(d)}</p></div></li>' for i,t,d in f)
     return f'<section class="feat"><div class="wrap"><ul class="feat-list">{li}</ul></div></section>'
 
 def marquee_html(prefix=""):
-    words=["누전 수리","차단기 내려감","콘센트 교체","스위치 교체","LED 방등 교체","분전반 교체","전기 배선 공사","상가 전기공사","화재복구 전기공사","아파트 공용부 유지보수"]
+    words=["누전 수리","차단기 내려감","콘센트 교체","스위치 교체","LED 방등 교체","분전반 교체","전기 배선 공사","상가 전기공사","주택 전기수리","화재복구 전기공사","아파트 공용부 유지보수"]
     if prefix: words=[f"{prefix} {w}" for w in words]
     row="".join(f"<span>{icon('bolt')}{E(w)}</span>" for w in words)
     return f'<div class="marq" aria-label="작업 키워드"><div class="marq-in">{row}{row}</div></div>'
@@ -417,9 +437,9 @@ def hero_photo():
     return f'<a class="hero-ph" href="case-{x["slug"]}.html"><img src="{E(img)}" alt="{E(x["region"])} {E(x["title"])}"><span><b>최근 시공</b>{E(x["region"])} · {E(x["title"])}</span></a>'
 
 def build_home():
-    title = f"경기 북부 아파트 전기 유지보수·전기수리 | {C['name']}"
-    desc = f"의정부·양주·남양주·구리·포천·동두천·가평·하남 아파트 공용부 전기 유지보수, 세대 누전·차단기 수리, 분전반 공사, 화재복구 전기공사. {C['name']} {C['phone']}"
-    kw = "경기북부 전기수리, 아파트 전기 유지보수, 누전수리, 차단기 수리, 분전반 교체, 화재복구 전기공사, " + ", ".join(f"{n} 전기수리" for n in ALL_REGION_NAMES)
+    title = f"경기북부 전기수리·전기공사 | 아파트·주택·상가 - {C['name']}"
+    desc = f"의정부·양주·남양주·구리·포천·동두천·가평·하남 아파트·주택·상가 전기수리와 전기공사. 누전·차단기 수리, 분전반 교체, 상가 인테리어 전기, 아파트 공용부 유지보수, 화재복구. {C['name']} {C['phone']}"
+    kw = "경기북부 전기수리, 경기북부 전기공사, 아파트 전기수리, 주택 전기수리, 상가 전기공사, 아파트 전기 유지보수, 누전수리, 차단기 수리, 분전반 교체, 화재복구 전기공사, " + ", ".join(f"{n} 전기수리" for n in ALL_REGION_NAMES)
     cards = "".join(f"""<a class="card" href="{s['slug']}.html">{icon(s['icon'])}<h3>{E(s['short'])}</h3><p>{E(s['summary'])}</p><span class="more">자세히 보기 →</span></a>""" for s in SERVICES)
     regs = "".join(f"""<a class="reg" href="{r['slug']}.html">{icon('pin')}<b>{E(r['name'])}</b><small>{E(' · '.join(r['areas'][:3]))}</small></a>""" for r in REGIONS)
     faqs = [
@@ -431,11 +451,11 @@ def build_home():
     page = head(title, desc, "", kw, [business_schema(), faq_schema(faqs)]) + header() + f"""
 <section class="hero"><div class="wrap hero-in"><div>
   <p class="eyebrow">의정부 · 양주 · 남양주 · 구리 · 포천 · 동두천 · 가평 · 하남</p>
-  <h1>경기 북부 아파트<br><em>전기 유지보수·전기수리</em> 전문</h1>
-  <p class="lead">관리사무소 공용부 설비부터 우리 집 누전·차단기 문제까지. <br class="pc">아파트 전기를 잘 아는 기술자가 직접 방문합니다.</p>
+  <h1>경기 북부<br><em>전기수리·전기공사</em> 전문</h1>
+  <p class="lead"><b class="sp">아파트</b><b class="sp">주택·빌라</b><b class="sp">상가·사무실</b><br>우리 집 누전·차단기부터 매장 전기공사, 아파트 공용부 관리까지 직접 방문합니다.</p>
   <a class="big-tel" href="tel:{TEL}">{icon('phone')}<span><small>전화 한 통이면 바로 상담</small>{E(C['phone'])}</span></a>
   <div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} 지금 전화하기</a><a class="btn btn-o" href="sms:{TEL}">문자로 사진 보내기</a></div>
-  <ul class="badges"><li>{icon('check')} 방문 전 증상 상담</li><li>{icon('check')} 작업 전 원인·비용 설명</li><li>{icon('check')} 공용부·세대·상가 모두 가능</li></ul>
+  <ul class="badges"><li>{icon('check')} 방문 전 증상 상담</li><li>{icon('check')} 작업 전 원인·비용 설명</li><li>{icon('check')} 아파트·주택·상가 모두 가능</li></ul>
   </div>
 </div></section>
 {features_html()}
@@ -443,7 +463,7 @@ def build_home():
 
 <section class="sec" id="services"><div class="wrap">
   <h2>서비스 안내</h2>
-  <p class="sub">아파트 공용부 관리부터 세대 수리, 분전반 공사, 화재복구까지 전기의 모든 것을 한 업체에서.</p>
+  <p class="sub">아파트·주택·상가 전기의 모든 것을 한 업체에서.</p>
   <div class="cards">{cards}</div>
 </div></section>
 
@@ -454,14 +474,11 @@ def build_home():
   <ul class="ceo-cred"><li>{icon('check')}<b>전기공사기술자 중급</b><small>한국전기공사협회 경력 인정</small></li><li>{icon('check')}<b>전기기능사</b><small>국가기술자격</small></li><li>{icon('check')}<b>네이버 인물정보 등록</b><small>"김선용 공학기술자" 검색</small></li></ul></div>
 </div></div></section>
 
-<section class="sec alt"><div class="wrap two">
-  <div><h2>관리사무소 담당자님께</h2>
-  <p>공용부 조명, 지하주차장, 분전반·동력반, 외등까지 정기 점검과 보수를 맡겨 주세요. 점검 결과와 보수 견적을 정리해 드려 관리비 집행과 입주민 안내가 쉬워집니다.</p>
-  <a class="link" href="apartment-maintenance.html">공용부 유지보수 자세히 →</a></div>
-  <div><h2>입주민 세대 전기 수리</h2>
-  <p>누전 차단기가 자꾸 내려가거나, 콘센트·스위치가 그을렸거나, 방등을 LED로 바꾸고 싶을 때. 아파트 구조를 잘 알기 때문에 원인을 빠르게 찾습니다.</p>
-  <a class="link" href="home-repair.html">세대 전기 수리 자세히 →</a></div>
-</div></section>
+<section class="sec alt"><div class="wrap"><h2>이런 분들이 찾습니다</h2><p class="sub">공간에 맞춰 필요한 작업을 안내해 드립니다.</p><div class="who">
+  <a class="who-c" href="home-repair.html">{icon('home')}<h3>아파트·주택에 사시는 분</h3><p>차단기가 자꾸 내려가거나, 콘센트·스위치가 그을렸거나, 방등을 LED로 바꾸고 싶을 때. 아파트, 빌라, 단독·전원주택 모두 방문합니다.</p><span class="more">주거공간 전기수리 →</span></a>
+  <a class="who-c" href="commercial.html">{icon('store')}<h3>상가·사무실 사장님</h3><p>매장 인테리어 전기, 조명 교체, 주방·냉난방기 회로 증설, 영업 중 누전·차단기 문제까지. 영업 일정에 맞춰 작업합니다.</p><span class="more">상업공간 전기공사 →</span></a>
+  <a class="who-c" href="apartment-maintenance.html">{icon('building')}<h3>관리사무소 담당자님</h3><p>공용부 조명, 지하주차장, 분전반·동력반, 외등까지 정기 점검과 보수. 점검 결과와 견적을 정리해 드립니다.</p><span class="more">공용부 유지보수 →</span></a>
+</div></div></section>
 
 {signs_html()}
 {causes_html()}
@@ -515,22 +532,23 @@ def build_service(s):
 # ───────────────── 지역 페이지 ─────────────────
 def build_region(r):
     n = r["name"]
-    title = f"{n} 전기수리·아파트 전기 유지보수 | {n} 누전·분전반 - {C['name']}"
-    desc = f"{n} 아파트 공용부 전기 유지보수, 세대 누전·차단기 수리, 분전반 교체, 화재복구 전기공사. {', '.join(r['areas'][:4])} 출동. {C['phone']}"
-    kw = f"{n} 전기수리, {n} 누전수리, {n} 차단기 수리, {n} 분전반 교체, {n} 아파트 전기, {n} 전기공사, {n} 화재복구, " + ", ".join(f"{a} 전기수리" for a in r["areas"])
+    title = f"{n} 전기수리·전기공사 | 아파트·주택·상가 누전·분전반 - {C['name']}"
+    desc = f"{n} 아파트·주택·상가 전기수리와 전기공사. 누전·차단기 수리, 분전반 교체, 상가 전기, 아파트 공용부 유지보수, 화재복구. {', '.join(r['areas'][:4])} 출동. {C['phone']}"
+    kw = f"{n} 전기수리, {n} 누전수리, {n} 차단기 수리, {n} 분전반 교체, {n} 아파트 전기, {n} 주택 전기수리, {n} 상가 전기공사, {n} 전기공사, {n} 화재복구, " + ", ".join(f"{a} 전기수리" for a in r["areas"])
     areas = "".join(f'<li>{icon("pin")}{E(a)}</li>' for a in r["areas"])
     svc = "".join(f"""<a class="card" href="{s['slug']}.html">{icon(s['icon'])}<h3>{E(n)} {E(s['short'])}</h3><p>{E(s['summary'])}</p><span class="more">자세히 보기 →</span></a>""" for s in SERVICES)
     near = "".join(f'<a class="chip" href="{o["slug"]}.html">{E(o["name"])} 전기수리</a>' for o in REGIONS if o is not r)
     faqs = [
         (f"{n} 어느 동네까지 출동하나요?", f"{', '.join(r['areas'])} 등 {n} 전 지역에 출동합니다."),
+        (f"{n} 주택이나 상가도 가능한가요?", f"네. {n} 지역 아파트뿐 아니라 빌라, 단독주택, 상가, 사무실 모두 방문합니다."),
         (f"{n} 아파트 관리사무소 공용부 유지보수도 가능한가요?", f"네. {n} 지역 아파트 관리사무소와 공용부 조명, 분전반, 지하주차장 설비 정기점검·보수를 진행합니다."),
         (f"{n}에서 누전 차단기가 자꾸 내려가면 어떻게 하나요?", "무리하게 계속 올리지 말고 전화 주세요. 증상을 먼저 듣고 방문해 누전 위치를 찾아 수리합니다."),
     ]
     page = head(title, desc, f"{r['slug']}.html", kw, [business_schema([n]), faq_schema(faqs), crumbs_schema([("홈", ""), (f"{n} 전기수리", f"{r['slug']}.html")])]) + header() + f"""
 <section class="hero sm"><div class="wrap hero-in">
   <nav class="crumb"><a href="index.html">홈</a> › <a href="index.html#regions">출동 지역</a> › {E(n)}</nav>
-  <h1><em>{E(n)}</em> 전기수리 · 아파트 전기 유지보수</h1>
-  <p class="lead">{E(n)} 아파트 공용부 관리, 세대 누전·차단기 수리, 분전반 공사, 화재복구 전기공사까지.</p>
+  <h1><em>{E(n)}</em> 전기수리 · 전기공사</h1>
+  <p class="lead">{E(n)} 아파트·주택·상가의 누전·차단기 수리, 분전반 공사, 매장 전기, 아파트 공용부 관리, 화재복구까지.</p>
   <div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} {E(n)} 출동 상담 {E(C['phone'])}</a></div>
 </div></section>
 {features_html()}
@@ -572,7 +590,7 @@ def build_cases_list():
     write("cases.html", page)
 
 SVC_TAGS = {"home-repair":["전기수리","누전수리","차단기수리"],"panel":["분전반교체","차단기교체","분전반공사"],
-            "apartment-maintenance":["아파트전기","공용부유지보수","관리사무소"],"fire-restoration":["화재복구","화재복구전기공사","전기공사"]}
+            "apartment-maintenance":["아파트전기","공용부유지보수","관리사무소"],"commercial":["상가전기공사","매장전기","사무실전기"],"fire-restoration":["화재복구","화재복구전기공사","전기공사"]}
 def post_tags(pt):
     n = pt["region"]; svc = pt.get("service")
     loc = (pt.get("location") or "").replace(n,"").replace("아파트","").strip().split(" ")[0] if pt.get("location") else ""
@@ -646,7 +664,7 @@ def build_extras():
         except Exception: return ""
     feed = "".join(f"<item><title>{E(full_title(x))}</title><link>{C['domain']}/case-{x['slug']}.html</link><guid>{C['domain']}/case-{x['slug']}.html</guid><pubDate>{pub(x['date'])}</pubDate><description>{E(x['summary'])}</description>{''.join(f'<category>{E(t)}</category>' for t in post_tags(x))}</item>" for x in POSTS)
     feed += "".join(f"<item><title>{E(g['q'])}</title><link>{C['domain']}/{g['slug']}.html</link><guid>{C['domain']}/{g['slug']}.html</guid><description>{E(g['sum'])}</description></item>" for g in GUIDES)
-    write("rss.xml", f'<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>{E(C["name"])}</title><link>{C["domain"]}/</link><description>경기 북부 아파트 전기 유지보수·전기수리</description>{feed}</channel></rss>')
+    write("rss.xml", f'<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>{E(C["name"])}</title><link>{C["domain"]}/</link><description>경기 북부 아파트·주택·상가 전기수리·전기공사</description>{feed}</channel></rss>')
 
 if __name__ == "__main__":
     if os.path.exists(OUT): shutil.rmtree(OUT)

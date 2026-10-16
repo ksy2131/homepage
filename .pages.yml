@@ -39,7 +39,7 @@ content:
         label: 작업 종류
         type: select
         options:
-          values: [세대 전기 수리, 분전반 공사, 아파트 공용부 유지보수, 화재복구 전기공사]
+          values: [주거공간 전기수리, 상업공간 전기공사, 아파트 공용부 유지보수, 분전반 공사, 화재복구 전기공사]
       - name: summary
         label: 한 줄 요약 (목록에 보이는 문장)
         type: string

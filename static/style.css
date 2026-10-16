@@ -267,3 +267,13 @@ a.case:hover{box-shadow:0 14px 34px rgba(15,61,145,.13);transform:translateY(-3p
 @media (max-width:520px){.cases-home{grid-template-columns:repeat(2,1fr);gap:10px}.cases-home .case-b{padding:12px}.cases-home .case-b small{display:none}.cases-home .case-b b{font-size:14.5px}}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;padding-top:20px;border-top:1px solid var(--line)}
 .tag{color:var(--navy);background:var(--alt);font-size:14px;font-weight:600;padding:5px 12px;border-radius:999px}
+/* 공간별 */
+.lead .sp{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:700;padding:4px 14px;border-radius:999px;margin:0 6px 10px 0;font-size:.95em}
+.who{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.who-c{display:flex;flex-direction:column;gap:10px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:28px;transition:box-shadow .2s,transform .2s}
+.who-c:hover{box-shadow:0 14px 34px rgba(15,61,145,.13);transform:translateY(-3px)}
+.who-c .ic{width:48px;height:48px;padding:11px;border-radius:12px;background:#fff6dc;color:var(--navy)}
+.who-c p{color:var(--muted);font-size:15.5px;flex:1}
+.who-c .more{color:var(--navy);font-weight:700}
+.cards{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+@media (max-width:960px){.who{grid-template-columns:1fr}}
