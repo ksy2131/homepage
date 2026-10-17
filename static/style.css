@@ -364,3 +364,19 @@ a.case:hover{box-shadow:0 14px 34px rgba(15,61,145,.13);transform:translateY(-3p
 .areas{grid-template-columns:repeat(3,1fr);gap:8px 10px}
 .areas li{font-size:15px}
 @media (max-width:520px){.areas{grid-template-columns:repeat(2,1fr)}}
+/* 정보글 */
+.guides a.has-th{flex-direction:row;align-items:center;gap:16px}
+.guides a.has-th img{width:140px;aspect-ratio:16/9;object-fit:cover;border-radius:10px;flex:none}
+.guides a span{display:flex;flex-direction:column;gap:4px}
+.g-body h2{font-size:clamp(21px,2.6vw,26px);margin:44px 0 14px;padding-top:6px;border-top:2px solid var(--line);padding-top:26px}
+.g-body p{font-size:17px;line-height:1.85;margin-bottom:16px}
+.g-fig{margin:18px 0 22px}
+.g-fig img{width:100%;border-radius:14px;display:block}
+.g-fig figcaption{font-size:13px;color:var(--muted);margin-top:8px;text-align:center}
+.g-top{margin-top:0}
+.g-toc{background:var(--alt);border-radius:14px;padding:20px 24px;margin:24px 0}
+.g-toc ol{margin:10px 0 0 20px}.g-toc li{margin:5px 0}.g-toc a{color:var(--navy);font-weight:600}
+.g-list{margin:0 0 20px 22px}.g-list li{margin:10px 0;font-size:17px;line-height:1.7}
+.g-warn{background:#fff4f2;border:1px solid #ffd1c9;border-radius:14px;padding:20px 24px;margin:24px 0}
+.g-warn h3{color:#c2381b;margin-bottom:10px}.g-warn ul{margin-left:20px}.g-warn li{margin:8px 0;line-height:1.7}
+@media (max-width:560px){.guides a.has-th{flex-direction:column;align-items:stretch}.guides a.has-th img{width:100%}}

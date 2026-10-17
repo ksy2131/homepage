@@ -389,7 +389,70 @@ def photo_quote_html():
 <ol class="pq-steps">{li}</ol></div></section>'''
 
 # ───────────────── 전기 상식 정보글 ─────────────────
-GUIDES = [
+AIRCON_GUIDE = {
+ "slug": "guide-aircon-breaker",
+ "q": "에어컨만 켜면 차단기가 내려가는 이유와 해결 방법",
+ "sum": "에어컨을 켤 때마다 전기가 나간다면 과부하, 실외기 누전, 멀티탭 용량, 차단기 노후 중 하나인 경우가 대부분입니다. 원인별 확인 방법과 근본적인 해결책을 정리했습니다.",
+ "thumb": "images/guides/aircon-breaker-thumb.jpg",
+ "tags": ["에어컨차단기", "에어컨차단기내려감", "에어컨누전", "에어컨전용회로", "에어컨전용콘센트", "실외기누전", "차단기내려감", "과부하"],
+ "intro": [
+   "여름이 시작되면 가장 먼저 늘어나는 문의가 \"에어컨만 켜면 전기가 나가요\"입니다. 다른 가전은 멀쩡한데 에어컨 전원을 넣는 순간, 혹은 10~20분쯤 돌다가 차단기가 툭 떨어지는 경우입니다.",
+   "현장에서 보면 원인은 대부분 네 가지 중 하나로 좁혀집니다. 원인마다 해결 방법이 완전히 다르기 때문에, 차단기를 무작정 바꾸기 전에 어떤 경우인지부터 구분하는 것이 중요합니다."
+ ],
+ "sections": [
+  {"h": "먼저 확인할 것: 어떤 차단기가 떨어졌나요?",
+   "img": "images/guides/aircon-panel-measure.jpg", "alt": "분전반 차단기 상태를 측정기로 점검하는 모습",
+   "p": ["분전반(두꺼비집)을 열어 내려간 차단기를 먼저 보세요. 이것 하나로 원인의 방향이 정해집니다.",
+         "버튼(시험 버튼)이 달린 큰 차단기, 즉 누전차단기가 떨어졌다면 전기가 어딘가로 새고 있다는 뜻이고, 에어컨 이름표가 붙은 작은 분기 차단기만 떨어졌다면 전기를 너무 많이 쓰고 있다는 쪽, 즉 과부하일 가능성이 큽니다. 차단기 이름표가 없는 집도 많으니, 에어컨을 켰을 때 어느 것이 내려가는지 한 번 확인해 두면 이후 판단이 훨씬 빨라집니다."]},
+  {"h": "원인 1. 과부하: 한 회로에 에어컨과 다른 가전이 같이 물려 있는 경우",
+   "img": "images/guides/aircon-multitap-overload.jpg", "alt": "멀티탭에 여러 가전을 연결해 과열된 모습",
+   "p": ["가정용 분기 차단기는 보통 20A입니다. 220V 기준으로 계산하면 한 회로에서 안정적으로 쓸 수 있는 전력은 4kW 안팎입니다.",
+         "스탠드 에어컨은 가동 중에도 소비전력이 크지만, 압축기가 처음 돌기 시작하는 순간에는 순간적으로 더 많은 전류가 흐릅니다. 여기에 같은 회로로 전자레인지, 전기밥솥, 건조기 같은 가전이 함께 돌고 있으면 합계가 차단기 용량을 넘게 되고, 차단기는 정상적으로 동작해 전기를 끊습니다.",
+         "특히 오래된 아파트나 주택은 지어질 당시 에어컨을 고려하지 않아, 거실 콘센트와 주방 콘센트가 한 회로로 묶여 있는 경우가 흔합니다. 이 경우 차단기는 고장이 아니라 제 할 일을 하고 있는 것입니다."]},
+  {"h": "원인 2. 실외기 누전: 비 오는 날이나 장마철에 유독 심한 경우",
+   "img": "images/guides/aircon-outdoor-leak.jpg", "alt": "비에 젖은 실외기 배선 손상으로 누전이 발생한 모습",
+   "p": ["평소엔 괜찮다가 비가 오거나 습한 날에만 누전차단기가 떨어진다면 실외기 쪽을 먼저 의심해야 합니다.",
+         "실외기는 베란다 밖이나 외벽에 있어 비, 햇빛, 온도 변화를 그대로 받습니다. 몇 년이 지나면 전선 피복이 갈라지고, 테이프로 감아둔 연결부 사이로 물이 스며듭니다. 겉으로는 멀쩡해 보여도 절연이 약해진 상태라 습기만 차면 전기가 새어 나갑니다.",
+         "이 경우 차단기를 바꿔도 해결되지 않습니다. 절연저항을 측정해 실외기 본체 문제인지, 실외기까지 가는 배선 문제인지를 나눠서 확인해야 정확한 수리가 가능합니다."]},
+  {"h": "원인 3. 멀티탭과 일반 콘센트의 용량 한계",
+   "img": "images/guides/aircon-dedicated-outlet.jpg", "alt": "에어컨 전용 콘센트에 플러그를 꽂은 모습",
+   "p": ["에어컨 플러그를 멀티탭에 꽂아 쓰는 집이 의외로 많습니다. 일반 멀티탭은 대부분 16A 정격으로, 에어컨 한 대만으로도 여유가 거의 없습니다. 여기에 다른 기기까지 함께 꽂으면 멀티탭이 먼저 과열됩니다.",
+         "더 위험한 것은 차단기가 떨어지지 않는 경우입니다. 차단기 용량 안쪽이라도 멀티탭이나 낡은 콘센트 접점에서 열이 계속 나면 플러그 주변이 녹거나 그을립니다. 콘센트 주변에서 플라스틱 타는 냄새가 나거나 플러그가 뜨겁다면 차단기와 상관없이 바로 사용을 멈춰야 합니다.",
+         "에어컨은 벽에 있는 콘센트에 직접 꽂는 것이 원칙이고, 가능하면 에어컨만 쓰는 전용 콘센트를 두는 것이 가장 안전합니다."]},
+  {"h": "원인 4. 차단기 자체의 노후",
+   "img": None,
+   "p": ["차단기도 소모품입니다. 15년, 20년 가까이 쓴 차단기는 내부 부품이 약해져 정격보다 낮은 전류에서도 떨어지기 시작합니다. 손잡이가 헐겁게 느껴지거나, 표면이 누렇게 변색됐거나, 올린 직후 금방 다시 떨어진다면 노후를 의심할 수 있습니다.",
+         "다만 노후 판정은 앞의 세 가지 원인을 먼저 배제한 다음에 내리는 것이 맞습니다. 실제 사용 전류를 측정해 보면 차단기 문제인지, 쓰는 양이 많은 것인지가 분명하게 나옵니다."]},
+ ],
+ "check_h": "집에서 안전하게 해볼 수 있는 확인 순서",
+ "check": [
+   "내려간 차단기가 누전차단기인지, 에어컨 분기 차단기인지 확인합니다.",
+   "같은 회로를 쓰는 다른 가전의 플러그를 뽑고 에어컨만 단독으로 켜봅니다. 이때 버틴다면 과부하일 가능성이 큽니다.",
+   "비 온 뒤나 습한 날에만 증상이 생기는지 기억해 봅니다. 그렇다면 실외기나 외부 배선 쪽입니다.",
+   "에어컨 플러그와 콘센트 주변에 열, 변색, 타는 냄새가 없는지 손등으로 살짝 확인합니다."
+ ],
+ "dont_h": "절대 하지 말아야 할 것",
+ "dont": [
+   "차단기를 테이프나 끈으로 고정해 못 떨어지게 하는 것. 보호 장치를 없애는 일이라 화재로 직결됩니다.",
+   "20A 차단기를 30A처럼 더 큰 용량으로 임의 교체하는 것. 차단기만 커지고 전선 굵기는 그대로라, 이번엔 차단기 대신 벽 속 전선이 과열됩니다.",
+   "젖은 손으로 분전반을 만지거나, 실외기 배선을 직접 풀어보는 것."
+ ],
+ "fix_h": "근본적인 해결은 원인에 따라 다릅니다",
+ "fix_img": "images/guides/aircon-panel-work.jpg", "fix_alt": "분전반에 에어컨 전용 회로를 증설하는 작업",
+ "fix": [
+   "과부하라면 에어컨 전용 회로를 따로 만드는 것이 정답입니다. 분전반에 에어컨 전용 차단기를 추가하고, 에어컨 용량에 맞는 굵기의 전선으로 전용 콘센트까지 새로 연결합니다. 이렇게 하면 다른 가전과 전기를 나눠 쓰지 않아 여름 내내 안정적으로 쓸 수 있습니다.",
+   "실외기 누전이라면 손상된 배선 구간을 교체하고 연결부를 방수 처리합니다. 실외기 본체 내부 문제로 확인되면 에어컨 제조사 서비스와 함께 보는 것이 맞습니다.",
+   "콘센트나 멀티탭 문제라면 전용 콘센트로 바꾸고, 그을린 콘센트는 교체합니다. 차단기 노후라면 같은 용량의 새 차단기로 교체하되, 분전반 전체가 오래됐다면 이번 기회에 분전반 상태를 함께 점검하는 것을 권합니다."
+ ],
+ "fix_img2": "images/guides/aircon-outdoor-check.jpg", "fix_alt2": "실외기 전원부 배선을 측정기로 점검하는 모습",
+ "faq": [
+   ["에어컨 전용 콘센트가 꼭 필요한가요?", "벽걸이 소형 에어컨은 기존 콘센트로도 쓰는 경우가 많지만, 스탠드형이나 2in1처럼 용량이 큰 제품은 전용 회로와 전용 콘센트를 두는 것이 안전합니다. 특히 차단기가 한 번이라도 떨어졌다면 회로를 나눠야 할 신호로 보시면 됩니다."],
+   ["차단기를 다시 올리면 되는데 그냥 써도 되나요?", "가끔 한 번이 아니라 반복된다면 원인을 확인해야 합니다. 과부하는 차단기가 막아주고 있는 것이고, 누전은 감전과 화재 위험이 있는 상태라 모두 그대로 두면 안 됩니다."],
+   ["비 오는 날만 차단기가 떨어지는데 에어컨 고장인가요?", "에어컨 본체보다는 실외기까지 가는 배선이나 연결부에 물이 들어가는 경우가 더 많습니다. 절연저항을 측정하면 어느 구간이 문제인지 확인할 수 있습니다."]
+ ]
+}
+
+GUIDES = [AIRCON_GUIDE,
   {"slug":"guide-breaker-trips","q":"차단기가 자꾸 내려가요, 왜 그런가요?","sum":"누전, 과부하, 차단기 노후 등 차단기가 떨어지는 대표 원인과 집에서 확인할 수 있는 방법을 정리했습니다.",
    "body":["차단기가 내려가는 것은 전기 설비가 위험을 감지하고 스스로 전기를 끊은 것입니다. 귀찮더라도 원인을 찾아야 하는 신호입니다.",
            "가장 흔한 원인은 누전, 과부하, 차단기 노후입니다. 누전은 전기가 정해진 길 밖으로 새는 것으로, 욕실·베란다처럼 습기가 많은 곳이나 오래된 가전에서 자주 생깁니다. 과부하는 인덕션, 에어컨, 전기히터처럼 전기를 많이 쓰는 기기를 한 회로에 함께 쓸 때 생깁니다.",
@@ -417,9 +480,10 @@ GUIDES = [
            "같은 회로에서 반복된다면 배선 상태나 회로 구성까지 함께 확인해야 합니다."]},
 ]
 
-def guides_list_html(limit=None):
-    g = GUIDES[:limit] if limit else GUIDES
-    li="".join(f'<li><a href="{x["slug"]}.html"><b>Q. {E(x["q"])}</b><small>{E(x["sum"])}</small></a></li>' for x in g)
+def guides_list_html(limit=None, exclude=None):
+    g = [x for x in GUIDES if x["slug"]!=exclude]
+    g = g[:limit] if limit else g
+    li="".join(f'<li><a href="{x["slug"]}.html" class="{"has-th" if x.get("thumb") else ""}">{(f'<img src="{x["thumb"]}" alt="{E(x["q"])}" loading="lazy">') if x.get("thumb") else ""}<span><b>Q. {E(x["q"])}</b><small>{E(x["sum"])}</small></span></a></li>' for x in g)
     return f'<ul class="guides">{li}</ul>'
 
 def build_guides():
@@ -431,13 +495,34 @@ def build_guides():
 {cta()}""" + footer()
     write("guides.html", page)
     for x in GUIDES:
-        body="".join(f"<p>{E(t)}</p>" for t in x["body"])
-        others = guides_list_html()
-        art={"@context":"https://schema.org","@type":"Article","headline":x["q"],"description":x["sum"],"author":{"@type":"Organization","name":C["name"]}}
-        page = head(f"{x['q']} | {C['name']}", x["sum"], f"{x['slug']}.html", x["q"], [art, business_schema()]) + header() + f"""
+        if x.get("sections"):
+            fig=lambda src,alt: f'<figure class="g-fig"><img src="{src}" alt="{E(alt)}" loading="lazy"><figcaption>{E(alt)} (이해를 돕기 위한 이미지)</figcaption></figure>' if src else ""
+            b=[f'<figure class="g-fig g-top"><img src="{x["thumb"]}" alt="{E(x["q"])}"></figure>'] if x.get("thumb") else []
+            b+=[f"<p>{E(t)}</p>" for t in x["intro"]]
+            toc="".join(f'<li><a href="#s{i+1}">{E(sec["h"])}</a></li>' for i,sec in enumerate(x["sections"]))
+            b.append(f'<nav class="g-toc"><b>목차</b><ol>{toc}<li><a href="#check">{E(x["check_h"])}</a></li><li><a href="#fix">{E(x["fix_h"])}</a></li></ol></nav>')
+            for i,sec in enumerate(x["sections"]):
+                b.append(f'<h2 id="s{i+1}">{E(sec["h"])}</h2>'+fig(sec.get("img"),sec.get("alt",""))+"".join(f"<p>{E(t)}</p>" for t in sec["p"]))
+            b.append(f'<h2 id="check">{E(x["check_h"])}</h2><ol class="g-list">'+"".join(f"<li>{E(t)}</li>" for t in x["check"])+"</ol>")
+            b.append(f'<div class="g-warn"><h3>{E(x["dont_h"])}</h3><ul>'+"".join(f"<li>{E(t)}</li>" for t in x["dont"])+"</ul></div>")
+            b.append(f'<h2 id="fix">{E(x["fix_h"])}</h2>'+fig(x.get("fix_img"),x.get("fix_alt",""))+"".join(f"<p>{E(t)}</p>" for t in x["fix"])+fig(x.get("fix_img2"),x.get("fix_alt2","")))
+            if x.get("faq"):
+                b.append('<h2>자주 묻는 질문</h2><div class="faq">'+"".join(f'<details><summary>{E(q)}</summary><p>{E(a)}</p></details>' for q,a in x["faq"])+"</div>")
+            if x.get("tags"):
+                b.append('<div class="tags">'+"".join(f'<span class="tag">#{E(t)}</span>' for t in x["tags"])+"</div>")
+            body="".join(b)
+        else:
+            body="".join(f"<p>{E(t)}</p>" for t in x["body"])
+        others = guides_list_html(exclude=x['slug'])
+        art={"@context":"https://schema.org","@type":"Article","headline":x["q"],"description":x["sum"],"author":{"@type":"Organization","name":C["name"]},"datePublished":x.get("date","2026-10-18")}
+        sch=[art, business_schema()]
+        if x.get("thumb"): art["image"]=[f'{C["domain"]}/{x["thumb"]}']
+        if x.get("tags"): art["keywords"]=", ".join(x["tags"])
+        if x.get("faq"): sch.append(faq_schema([tuple(f) for f in x["faq"]]))
+        page = head(f"{x['q']} | {C['name']}", x["sum"], f"{x['slug']}.html", ", ".join(x.get("tags") or [x["q"]]), sch) + header() + f"""
 <section class="hero sm"><div class="wrap hero-in"><nav class="crumb"><a href="index.html">홈</a> › <a href="guides.html">전기 상식</a></nav>
 <h1>{E(x['q'])}</h1><p class="lead">{E(x['sum'])}</p></div></section>
-<section class="sec"><div class="wrap post"><div class="post-body">{body}</div>
+<section class="sec"><div class="wrap post"><div class="post-body g-body">{body}</div>
 <div class="box" style="margin-top:28px"><h3>직접 확인이 어렵다면</h3><p>사진 2~3장을 문자로 보내주시면 필요한 작업을 먼저 안내해 드립니다.</p><div class="hero-btns" style="margin-top:14px"><a class="btn btn-n" href="tel:{TEL}">{icon('phone')} {E(C['phone'])}</a></div></div></div></section>
 <section class="sec alt"><div class="wrap narrow"><h2>다른 전기 상식</h2>{others}</div></section>
 {cta()}""" + footer()
