@@ -550,7 +550,7 @@ def flyer_html():
 </div></section>'''
 
 def build_home():
-    title = f"경기북부·노원 아파트 전기수리·전기공사 - {C['name']}"
+    title = f"{C['name']} | 의정부·양주 출장 전기수리·전기공사"
     desc = f"의정부·양주·노원·도봉 아파트·주택·상가 전기수리. 누전·차단기 수리, 분전반 교체, 공용부 유지보수. {C['name']} {C['phone']}"
     kw = "경기북부 전기수리, 경기북부 전기공사, 노원 전기수리, 도봉 전기수리, 강북 전기수리, 성북 전기수리, 아파트 전기수리, 주택 전기수리, 상가 전기공사, 아파트 전기 유지보수, 누전수리, 차단기 수리, 분전반 교체, 화재복구 전기공사, " + ", ".join(f"{n} 전기수리" for n in ALL_REGION_NAMES)
     cards = "".join(f"""<a class="card" href="{s['slug']}.html">{icon(s['icon'])}<h3>{E(s['short'])}</h3><p>{E(s['summary'])}</p><span class="more">자세히 보기 →</span></a>""" for s in SERVICES)
