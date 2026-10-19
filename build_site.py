@@ -566,7 +566,10 @@ def build_home():
         ("견적은 어떻게 받을 수 있나요?", "전화나 문자로 증상과 사진을 보내주시면 대략적인 작업 내용을 안내드리고, 필요하면 방문 점검 후 정확한 견적을 드립니다."),
         ("상가나 사무실도 가능한가요?", "가능합니다. 상가·사무실 분전반 공사와 화재복구 전기공사도 진행합니다."),
     ]
-    page = head(title, desc, "", kw, [business_schema(), faq_schema(faqs)]) + header() + f"""
+    # 구글 검색결과 위쪽 "사이트 이름"(netlify.app 대신 스마일일렉)으로 쓰라는 표시 — 홈페이지에만 넣음
+    website = {"@context": "https://schema.org", "@type": "WebSite", "name": C["name"],
+               "alternateName": ["스마일일렉 전기", "Smile Elec"], "url": f'{C["domain"]}/'}
+    page = head(title, desc, "", kw, [website, business_schema(), faq_schema(faqs)]) + header() + f"""
 <section class="hero hero-main"><div class="wrap hero-in hero-c">
   <p class="eyebrow">{icon('pin')} 의정부 · 양주 · 동두천 · 포천 · 남양주 · 구리 · 하남 · 서울 노원 · 도봉 · 강북 · 성북</p>
   <h1>경기북부·서울 <em>전기수리·전기공사</em></h1>
