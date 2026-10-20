@@ -380,3 +380,7 @@ a.case:hover{box-shadow:0 14px 34px rgba(15,61,145,.13);transform:translateY(-3p
 .g-warn{background:#fff4f2;border:1px solid #ffd1c9;border-radius:14px;padding:20px 24px;margin:24px 0}
 .g-warn h3{color:#c2381b;margin-bottom:10px}.g-warn ul{margin-left:20px}.g-warn li{margin:8px 0;line-height:1.7}
 @media (max-width:560px){.guides a.has-th{flex-direction:column;align-items:stretch}.guides a.has-th img{width:100%}}
+
+.post-body h2{font-size:1.25rem;margin:32px 0 12px;color:#0f3d91}
+.post-body ul{margin:0 0 16px 1.2em;color:#2a3550}
+.post-body li{margin-bottom:6px}

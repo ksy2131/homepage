@@ -740,7 +740,15 @@ def build_post(pt):
     title = f"{full_title(pt)} | {C['name']}"
     desc = f"{loc} {pt['summary']} {C['name']} {C['phone']}"
     photos = "".join(f'<img src="{E(f)}" alt="{E(loc)} {E(pt["title"])} 현장 사진 {i+1}" loading="lazy">' for i, f in enumerate(pt.get("photos", [])))
-    body = "".join(f"<p>{E(par)}</p>" for par in pt.get("body", []))
+    def blk(par):
+        if par.startswith("## "): return f"<h2>{E(par[3:].strip())}</h2>"
+        lines=[l for l in par.split("\n") if l.strip()]
+        if lines and all(l.lstrip().startswith("- ") for l in lines):
+            return "<ul>"+"".join(f"<li>{E(l.lstrip()[2:].strip())}</li>" for l in lines)+"</ul>"
+        return f"<p>{E(par)}</p>"
+    body = "".join(blk(par) for par in pt.get("body", []))
+    faqs = [(f.get("q",""), f.get("a","")) for f in (pt.get("faq") or []) if isinstance(f, dict) and f.get("q") and f.get("a")]
+    faq_sec = faq_html(faqs, f"{n} {pt['title']} 자주 묻는 질문") if faqs else ""
     info = [("작업 위치", pt.get("location", n)), ("작업 내용", svc["short"] if svc else "전기공사"), ("작업일", pt["date"])]
     info_html = "".join(f"<li><span>{E(a)}</span><b>{E(b)}</b></li>" for a, b in info)
     blog = f'<p><a class="link" href="{E(pt["blog_url"])}" target="_blank" rel="noopener">네이버 블로그에서 자세히 보기 →</a></p>' if pt.get("blog_url") else ""
@@ -754,7 +762,7 @@ def build_post(pt):
     if pt.get("photos"): art["image"] = [f'{C["domain"]}/{x}' for x in pt["photos"]]
     art["keywords"] = ", ".join(tags); art["contentLocation"] = {"@type":"Place","name":loc}
     page = head(title, desc, f"case-{pt['slug']}.html", ", ".join(tags),
-                [art, crumbs_schema([("홈",""),("시공사례","cases.html"),(pt["title"], f"case-{pt['slug']}.html")])]) + header() + f"""
+                [art, crumbs_schema([("홈",""),("시공사례","cases.html"),(pt["title"], f"case-{pt['slug']}.html")])] + ([faq_schema(faqs)] if faqs else [])) + header() + f"""
 <section class="hero sm"><div class="wrap hero-in">
   <nav class="crumb"><a href="index.html">홈</a> › <a href="cases.html">시공사례</a> › {E(n)}</nav>
   <h1>{E(full_title(pt))}</h1>
@@ -770,6 +778,7 @@ def build_post(pt):
     <div class="chips" style="margin-top:20px">{links}</div>
   </article>
 </div></section>
+{faq_sec}
 {more}
 {cta(f"{n} 비슷한 문제가 있으신가요?")}
 """ + footer()

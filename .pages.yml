@@ -55,6 +55,17 @@ content:
       - name: tags
         label: 태그 (쉼표로 구분, 예 - 옥정전기수리, 차단기교체 / 비워두면 지역·작업 종류로 자동 생성)
         type: string
+      - name: faq
+        label: 자주 묻는 질문 (질문·답변, 검색 노출용)
+        type: object
+        list: true
+        fields:
+          - name: q
+            label: 질문
+            type: string
+          - name: a
+            label: 답변
+            type: text
       - name: blog_url
         label: 같은 현장 네이버 블로그 주소 (있으면)
         type: string
