@@ -780,7 +780,7 @@ def post_tags(pt):
     out=[]
     for t in [x.strip().lstrip("#") for x in user] + auto:
         if t and t not in out: out.append(t)
-    return out[:12]
+    return out[:30]
 
 def full_title(pt):
     n=pt["region"]; loc=pt.get("location") or n; t=pt["title"]
