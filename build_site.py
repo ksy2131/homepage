@@ -848,7 +848,7 @@ def build_extras():
     pages = [("", "1.0")] + [(f"{s['slug']}.html", "0.9") for s in SERVICES] + [(f"{r['slug']}.html", "0.8") for r in REGIONS] + [(f"{l['slug']}.html", "0.8") for l in LOCALS] + [("cases.html","0.8"),("guides.html","0.7")] + [(f"{g['slug']}.html","0.6") for g in GUIDES] + [(f"case-{x['slug']}.html","0.7") for x in POSTS]
     urls = "".join(f"<url><loc>{C['domain']}/{p}</loc><lastmod>{TODAY}</lastmod><priority>{pr}</priority></url>\n" for p, pr in pages)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
-    write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {C['domain']}/sitemap.xml\n\n# 다음(Daum) 웹마스터도구 소유 인증\n#DaumWebMasterTool:5e97232627d479a890acd3a3bf5f5d5d5e55fd99662e9e730568741acadc91d5:1T0ZRs6bn/unEVfM5aXupg==\n")
+    write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {C['domain']}/sitemap.xml\n\n# 다음(Daum) 웹마스터도구 소유 인증\n#DaumWebMasterTool:5e97232627d479a890acd3a3bf5f5d5d5e55fd99662e9e730568741acadc91d5:1T0ZRs6bn/unEVfM5aXupg==\n#DaumWebMasterTool:a999723e179b57c3a13a4b44307b5943e2dc7ea96ef5469887ec197d37746247:RXqVBM7XE5wroppTXsoV6g==\n")
     write("favicon.svg", '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#0f3d91"/><path d="M18 4 7 18h8l-2 10 12-15h-8l1-9z" fill="#ffc83d"/></svg>')
     from email.utils import format_datetime
     def pub(d):
