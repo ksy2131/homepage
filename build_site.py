@@ -510,7 +510,9 @@ def build_guides():
             toc="".join(f'<li><a href="#s{i+1}">{E(sec["h"])}</a></li>' for i,sec in enumerate(x["sections"]))
             b.append(f'<nav class="g-toc"><b>목차</b><ol>{toc}<li><a href="#check">{E(x["check_h"])}</a></li><li><a href="#fix">{E(x["fix_h"])}</a></li></ol></nav>')
             for i,sec in enumerate(x["sections"]):
-                b.append(f'<h2 id="s{i+1}">{E(sec["h"])}</h2>'+fig(sec.get("img"),sec.get("alt",""))+"".join(f"<p>{E(t)}</p>" for t in sec["p"]))
+                tb = table_html(*sec["table"]) if sec.get("table") else ""
+                dg = DIAGRAMS[sec["diag"]]() if sec.get("diag") else ""
+                b.append(f'<h2 id="s{i+1}">{E(sec["h"])}</h2>'+fig(sec.get("img"),sec.get("alt",""))+"".join(f"<p>{E(t)}</p>" for t in sec["p"])+tb+dg)
             b.append(f'<h2 id="check">{E(x["check_h"])}</h2><ol class="g-list">'+"".join(f"<li>{E(t)}</li>" for t in x["check"])+"</ol>")
             b.append(f'<div class="g-warn"><h3>{E(x["dont_h"])}</h3><ul>'+"".join(f"<li>{E(t)}</li>" for t in x["dont"])+"</ul></div>")
             b.append(f'<h2 id="fix">{E(x["fix_h"])}</h2>'+fig(x.get("fix_img"),x.get("fix_alt",""))+"".join(f"<p>{E(t)}</p>" for t in x["fix"])+fig(x.get("fix_img2"),x.get("fix_alt2","")))
@@ -672,8 +674,14 @@ def build_region(r):
         (f"{n} 주택이나 상가도 가능한가요?", f"네. {n} 지역 아파트뿐 아니라 빌라, 단독주택, 상가, 사무실 모두 방문합니다."),
         (f"{n} 아파트 관리사무소 공용부 유지보수도 가능한가요?", f"네. {n} 지역 아파트 관리사무소와 공용부 조명, 분전반, 지하주차장 설비 정기점검·보수를 진행합니다."),
         (f"{n}에서 누전 차단기가 자꾸 내려가면 어떻게 하나요?", "무리하게 계속 올리지 말고 전화 주세요. 증상을 먼저 듣고 방문해 누전 위치를 찾아 수리합니다."),
+        (f"{n} 출장은 얼마나 빨리 오나요?", "양주에 있어 경기 북부·서울 동북부는 이동이 빠릅니다. 전화로 증상을 듣고 가능한 가장 빠른 시간으로 일정을 잡습니다."),
+        (f"{n}에서 콘센트 하나, 전등 하나 같은 작은 작업도 오시나요?", "네. 콘센트·스위치 한 개, 방등 한 개 교체도 출장합니다."),
+        ("견적은 언제 알려주시나요?", "전화·사진으로 대략적인 작업 방향을 먼저 안내하고, 현장을 보고 작업 전에 정확한 비용을 말씀드립니다. 동의하신 뒤에만 작업합니다."),
+        ("인덕션·에어컨 전용 회로도 만들어 주시나요?", "네. 분전반에 전용 차단기를 추가하고 맞는 굵기의 전선으로 전용 콘센트까지 새로 연결합니다."),
+        ("분전반이 오래됐는데 꼭 바꿔야 하나요?", "차단기가 헐겁거나 변색됐거나, 정상 사용에도 자꾸 떨어지면 교체를 권합니다. 상태가 괜찮으면 문제 차단기만 바꿔도 됩니다."),
+        ("작업 후 문제가 다시 생기면요?", "같은 증상이 다시 생기면 연락 주세요. 작업 내용을 기록해 두어 원인을 빠르게 다시 확인합니다."),
     ]
-    page = head(title, desc, f"{r['slug']}.html", kw, [business_schema([n]), faq_schema(faqs), crumbs_schema([("홈", ""), (f"{n} 전기수리", f"{r['slug']}.html")])]) + header() + f"""
+    page = head(title, desc, f"{r['slug']}.html", kw, [business_schema([n]), faq_schema(faqs), crumbs_schema([("홈", ""), (f"{n} 전기수리", f"{r['slug']}.html")]), howto_schema(f"{n} 전기수리 진행 순서", STEPS)]) + header() + f"""
 <section class="hero sm"><div class="wrap hero-in">
   <nav class="crumb"><a href="index.html">홈</a> › <a href="index.html#regions">출동 지역</a> › {E(n)}</nav>
   <h1><em>{E(n)}</em> 전기수리 · 전기공사</h1>
@@ -687,8 +695,18 @@ def build_region(r):
   <div class="box"><h3>{E(n)} 전 지역 출동 ({len(r['areas'])}개 {'읍·면·동' if any(a.endswith(('읍','면')) for a in r['areas']) else '동'})</h3><ul class="areas">{areas}</ul><p class="muted small">위 모든 지역에 출동합니다.</p></div>
 </div></section>
 <section class="sec"><div class="wrap"><h2>{E(n)} 동네별 전기수리</h2><p>{E(", ".join(f"{d[:-1] if d.endswith('동') and len(d)>2 else d}전기수리" for d in r.get("dongs",[])))}</p><div class="chips">{"".join(f'<a class="chip" href="{lp["slug"]}.html">{E(lp["name"])} 전기수리</a>' for lp in LOCALS if lp["region"]==r["slug"])}</div></div></section>
+{region_symptom_links_html(r)}
 <section class="sec alt"><div class="wrap"><h2>{E(n)} 전기 서비스</h2><div class="cards">{svc}</div></div></section>
-{signs_html()}
+<section class="sec"><div class="wrap post"><div class="post-body g-body">
+  <h2>{E(n)} 집에 전기가 들어오는 길</h2>
+  <p>어디가 고장인지 알려면 전기가 어떤 순서로 들어오는지부터 알면 쉽습니다. 계량기까지는 한전이, 그 뒤 메인차단기와 집 안 분전반부터는 건물·세대가 관리하는 부분입니다. {E(n)}에서 받는 전기수리 문의 대부분이 이 뒤쪽에서 생깁니다.</p>
+  {diag_power_flow()}
+  <h2>차단기가 떨어졌을 때 문제 회로 찾기</h2>
+  <p>차단기가 떨어지면 아래 순서로 어느 회로가 문제인지 찾을 수 있습니다. 같은 차단기가 또 떨어지면 그 회로에 원인이 남아 있는 것이니 더 올리지 말고 연락 주세요.</p>
+  {diag_reset_steps()}
+  {urgency_table(n + ' ')}
+</div></div></section>
+{causes_html()}
 {jobs_html(n)}
 {cases_html([x for x in POSTS if x["region"]==n], f"{n} 시공사례") if any(x["region"]==n for x in POSTS) else ""}
 {steps_html()}
@@ -701,21 +719,21 @@ def build_region(r):
 
 # ───────────────── 동네별 페이지 ─────────────────
 LOCALS = [
- {"slug":"yangju-okjeong","region":"yangju","name":"옥정","full":"양주 옥정동","match":["옥정"],"near":["고읍동","율정동","회정동","덕정동"],
+ {"slug":"yangju-okjeong","kn":"옥정동","region":"yangju","name":"옥정","full":"양주 옥정동","match":["옥정"],"near":["고읍동","율정동","회정동","덕정동"],
   "intro":"옥정신도시는 2018년 이후 입주한 대단지 아파트가 모여 있는 양주의 대표 신도시입니다. 공공임대·분양 단지가 함께 있어 세대 내 콘센트·스위치·조명 수리와 함께 계단실 방화문, 지하주차장, 단지 외등 같은 공용부 전기 유지보수 수요가 많습니다."},
- {"slug":"yangju-hoecheon","region":"yangju","name":"회천","full":"양주 회천(덕정·회정·율정)","match":["회천","덕정","회정","율정"],"near":["옥정동","덕계동","봉양동","고암동"],
+ {"slug":"yangju-hoecheon","kn":"회천","region":"yangju","name":"회천","full":"양주 회천(덕정·회정·율정)","match":["회천","덕정","회정","율정"],"near":["옥정동","덕계동","봉양동","고암동"],
   "intro":"회천지구는 덕정역 주변 덕정동·회정동·율정동 일대로 신축 아파트 입주가 이어지고 있는 지역입니다. 입주 후 회로 증설, 조명 교체, 콘센트 추가 같은 세대 전기 공사와 신규 단지 공용부 관리 문의가 많습니다."},
- {"slug":"yangju-deokjeong","region":"yangju","name":"덕정","full":"양주 덕정동","match":["덕정"],"near":["회정동","덕계동","봉양동","옥정동"],
+ {"slug":"yangju-deokjeong","kn":"덕정동","region":"yangju","name":"덕정","full":"양주 덕정동","match":["덕정"],"near":["회정동","덕계동","봉양동","옥정동"],
   "intro":"덕정동은 덕정역 상권과 오래된 아파트, 신축 단지가 함께 있는 지역입니다. 상가 매장 전기와 오래된 세대의 분전반·차단기 노후, 누전 점검 문의가 꾸준합니다."},
- {"slug":"uijeongbu-minrak","region":"uijeongbu","name":"민락","full":"의정부 민락동","match":["민락"],"near":["고산동","낙양동","용현동","금오동"],
+ {"slug":"uijeongbu-minrak","kn":"민락동","region":"uijeongbu","name":"민락","full":"의정부 민락동","match":["민락"],"near":["고산동","낙양동","용현동","금오동"],
   "intro":"민락2지구는 공공임대·분양 대단지와 상가가 밀집한 의정부 동부의 주거 중심지입니다. 세대 주방·전열 차단기 트립, 누전, 조명 교체 같은 세대 수리와 펌프실·전기실·발전기·공동구 같은 단지 공용 설비 관리 수요가 많습니다."},
- {"slug":"uijeongbu-gosan","region":"uijeongbu","name":"고산","full":"의정부 고산동","match":["고산"],"near":["민락동","산곡동","용현동","녹양동"],
+ {"slug":"uijeongbu-gosan","kn":"고산동","region":"uijeongbu","name":"고산","full":"의정부 고산동","match":["고산"],"near":["민락동","산곡동","용현동","녹양동"],
   "intro":"고산지구는 최근 입주한 신축 아파트 단지가 모여 있는 의정부의 새 택지지구입니다. 세대 LED 조명과 콘센트 수리, 전기차 충전기와 전기실 설비, 공용시설 분전반 공사, 화재 복구 같은 다양한 전기 작업 문의가 있습니다."},
- {"slug":"uijeongbu-singok","region":"uijeongbu","name":"신곡","full":"의정부 신곡동","match":["신곡"],"near":["장암동","용현동","의정부동","금오동"],
+ {"slug":"uijeongbu-singok","kn":"신곡동","region":"uijeongbu","name":"신곡","full":"의정부 신곡동","match":["신곡"],"near":["장암동","용현동","의정부동","금오동"],
   "intro":"신곡동은 1990년대~2000년대 초에 지어진 아파트 단지가 많은 지역입니다. 분전반과 차단기 노후, 콘센트 그을림, 형광등을 LED로 바꾸는 교체 문의가 많습니다."},
- {"slug":"hanam-misa","region":"hanam","name":"미사","full":"하남 미사동","match":["미사"],"near":["망월동","풍산동","덕풍동","감일동"],
+ {"slug":"hanam-misa","kn":"미사동","region":"hanam","name":"미사","full":"하남 미사동","match":["미사"],"near":["망월동","풍산동","덕풍동","감일동"],
   "intro":"미사강변도시는 대단지 아파트가 밀집한 하남의 대표 신도시입니다. 세대 스마트 스위치와 조명 수리, 전기실 계측기·비상발전기·배수펌프 같은 단지 공용 설비 유지보수 문의가 많습니다."},
- {"slug":"hanam-gamil","region":"hanam","name":"감일","full":"하남 감일동","match":["감일"],"near":["위례동","감북동","학암동","미사동"],
+ {"slug":"hanam-gamil","kn":"감일동","region":"hanam","name":"감일","full":"하남 감일동","match":["감일"],"near":["위례동","감북동","학암동","미사동"],
   "intro":"감일지구는 신축 공공주택 단지가 모여 있는 하남 서쪽의 택지지구입니다. 세대 조명·콘센트 수리와 계단실 자동폐쇄장치 같은 소방 연동 설비 보수 문의가 많습니다."},
 ]
 def build_local(lp):
@@ -726,11 +744,14 @@ def build_local(lp):
     kw = ", ".join([f"{nm}전기수리", f"{nm}전기공사", f"{nm}동 전기수리", f"{nm} 전기수리", f"{rn} {nm} 전기수리", f"{nm} 누전", f"{nm} 차단기", f"{nm} 분전반", f"{nm} 전기출장", f"{nm} 아파트 전기"] + [f"{d} 전기수리" for d in lp["near"]])
     faqs = [(f"{nm} 어디까지 출동하나요?", f"{lp['full']} 전 지역과 인근 {', '.join(lp['near'])}까지 출동합니다."),
             (f"{nm} 아파트 관리사무소 공용부 보수도 하나요?", f"네. {nm} 지역 아파트의 계단·복도·지하주차장 조명, 분전반, 소방 연동 설비, 전기실 설비 보수를 진행합니다."),
-            (f"{nm}에서 차단기가 자꾸 내려가면 어떻게 하나요?", "차단기를 억지로 계속 올리지 말고 전화 주세요. 증상을 먼저 듣고 방문해 누전·과부하 원인을 찾아 수리합니다.")]
+            (f"{nm}에서 차단기가 자꾸 내려가면 어떻게 하나요?", "차단기를 억지로 계속 올리지 말고 전화 주세요. 증상을 먼저 듣고 방문해 누전·과부하 원인을 찾아 수리합니다."),
+            (f"{nm} 세대 콘센트·방등 한 개 교체도 오시나요?", "네. 작은 작업 한 건도 출장합니다. 사진을 먼저 보내 주시면 맞는 자재를 챙겨 갑니다."),
+            (f"{nm} 아파트에서 우리 집만 전기가 나갔어요.", "복도 계량기함 안 세대 메인차단기를 먼저 확인해 보세요. 타는 냄새가 나면 손대지 말고 바로 연락 주세요."),
+            ("작업 전에 비용을 알 수 있나요?", "현장을 보고 원인과 비용을 먼저 말씀드리고, 동의하신 뒤에만 작업합니다.")]
     svc = "".join(f"""<a class="card" href="{s['slug']}.html">{icon(s['icon'])}<h3>{E(nm)} {E(s['short'])}</h3><p>{E(s['summary'])}</p><span class="more">자세히 보기 →</span></a>""" for s in SERVICES)
     others = "".join(f'<a class="chip" href="{o["slug"]}.html">{E(o["name"])} 전기수리</a>' for o in LOCALS if o is not lp)
     case_sec = cases_html(cases, f"{nm} 시공사례", limit=12) if cases else cases_html([x for x in POSTS if x["region"]==r["name"]], f"{r['name']} 시공사례")
-    page = head(title, desc, f"{lp['slug']}.html", kw, [business_schema([lp["full"]]), faq_schema(faqs), crumbs_schema([("홈",""),(f"{r['name']} 전기수리", f"{r['slug']}.html"),(f"{nm} 전기수리", f"{lp['slug']}.html")])]) + header() + f"""
+    page = head(title, desc, f"{lp['slug']}.html", kw, [business_schema([lp["full"]]), faq_schema(faqs), howto_schema(f"{nm} 전기수리 진행 순서", STEPS), crumbs_schema([("홈",""),(f"{r['name']} 전기수리", f"{r['slug']}.html"),(f"{nm} 전기수리", f"{lp['slug']}.html")])]) + header() + f"""
 <section class="hero sm"><div class="wrap hero-in">
   <nav class="crumb"><a href="index.html">홈</a> › <a href="{r['slug']}.html">{E(r['name'])}</a> › {E(nm)}</nav>
   <h1><em>{E(nm)}</em> 전기수리 · 전기공사</h1>
@@ -742,12 +763,19 @@ def build_local(lp):
   <div class="box"><h3>{E(nm)}·인근 출장 지역</h3><ul class="areas">{"".join(f'<li>{icon("pin")}{E(a)}</li>' for a in [lp['full']]+lp['near'])}</ul><p class="muted small">{E(nm)}전기수리 · {E(nm)}전기공사 · {E(rn)}{E(nm)} 전기출장</p></div>
 </div></section>
 {case_sec}
+{symptom_links_html(lp['slug'], lp['kn'])}
 <section class="sec alt"><div class="wrap"><h2>{E(nm)} 전기 서비스</h2><div class="cards">{svc}</div></div></section>
+<section class="sec"><div class="wrap post"><div class="post-body g-body">{urgency_table(lp['kn'] + ' ')}{diag_which_breaker()}</div></div></section>
+{steps_html()}
 {faq_html(faqs, f"{nm} 전기수리 자주 묻는 질문")}
 <section class="sec"><div class="wrap"><h2>다른 동네</h2><div class="chips"><a class="chip" href="{r['slug']}.html">{E(r['name'])} 전체</a>{others}</div></div></section>
 {cta(f"{nm} 전기 문제, 지금 바로 상담하세요")}
 """ + footer()
     write(f"{lp['slug']}.html", page)
+
+# 도표·그림 부품, 증상별 페이지, 시공사례 보강 데이터 (별도 파일)
+for _f in ("seo_parts.py","seo_symptoms.py","seo_posts.py","seo_guides.py"):
+    exec(open(os.path.join(BASE,_f),encoding="utf-8").read())
 
 # ───────────────── 시공사례 게시판 ─────────────────
 REGION_SLUG = {r["name"]: r["slug"] for r in REGIONS}
@@ -805,6 +833,11 @@ def build_post(pt):
         return f"<p>{E(par)}</p>"
     body = "".join(blk(par) for par in pt.get("body", []))
     faqs = [(f.get("q",""), f.get("a","")) for f in (pt.get("faq") or []) if isinstance(f, dict) and f.get("q") and f.get("a")]
+    extra_html, extra_faq = post_extra(pt)
+    faqs += [f for f in extra_faq if f[0] not in [q for q, _ in faqs]]
+    _tp = TOPICS.get(POST_TOPIC.get(pt["slug"], ""), {})
+    if len(faqs) < 6 and _tp.get("sym"):
+        faqs += [(sym_text(q, n), sym_text(a, n)) for q, a in SYM[_tp["sym"]]["faq"]][:6 - len(faqs)]
     faq_sec = faq_html(faqs, f"{n} {pt['title']} 자주 묻는 질문") if faqs else ""
     info = [("작업 위치", pt.get("location", n)), ("작업 내용", svc["short"] if svc else "전기공사"), ("작업일", pt["date"])]
     info_html = "".join(f"<li><span>{E(a)}</span><b>{E(b)}</b></li>" for a, b in info)
@@ -832,6 +865,7 @@ def build_post(pt):
     <ul class="post-info">{info_html}</ul>
     <div class="post-photos">{photos}</div>
     <div class="post-body">{body}</div>
+    <div class="post-body g-body">{extra_html}</div>
     {blog}
     <div class="tags">{tag_html}</div>
     <div class="chips" style="margin-top:20px">{links}</div>
@@ -845,7 +879,7 @@ def build_post(pt):
 
 # ───────────────── 부가 파일 ─────────────────
 def build_extras():
-    pages = [("", "1.0")] + [(f"{s['slug']}.html", "0.9") for s in SERVICES] + [(f"{r['slug']}.html", "0.8") for r in REGIONS] + [(f"{l['slug']}.html", "0.8") for l in LOCALS] + [("cases.html","0.8"),("guides.html","0.7")] + [(f"{g['slug']}.html","0.6") for g in GUIDES] + [(f"case-{x['slug']}.html","0.7") for x in POSTS]
+    pages = [("", "1.0")] + [(f"{s['slug']}.html", "0.9") for s in SERVICES] + [(f"{r['slug']}.html", "0.8") for r in REGIONS] + [(f"{l['slug']}.html", "0.8") for l in LOCALS] + [("cases.html","0.8"),("guides.html","0.7")] + [(f"{g['slug']}.html","0.6") for g in GUIDES] + [(f"case-{x['slug']}.html","0.7") for x in POSTS] + SYMPTOM_PAGES
     urls = "".join(f"<url><loc>{C['domain']}/{p}</loc><lastmod>{TODAY}</lastmod><priority>{pr}</priority></url>\n" for p, pr in pages)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
     write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {C['domain']}/sitemap.xml\n\n# 다음(Daum) 웹마스터도구 소유 인증\n#DaumWebMasterTool:5e97232627d479a890acd3a3bf5f5d5d5e55fd99662e9e730568741acadc91d5:1T0ZRs6bn/unEVfM5aXupg==\n#DaumWebMasterTool:a999723e179b57c3a13a4b44307b5943e2dc7ea96ef5469887ec197d37746247:RXqVBM7XE5wroppTXsoV6g==\n")
@@ -868,5 +902,6 @@ if __name__ == "__main__":
     build_cases_list()
     build_guides()
     for pt in POSTS: build_post(pt)
+    build_all_symptom_pages()
     build_extras()
     print("완료:", sorted(os.listdir(OUT)))
