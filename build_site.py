@@ -9,7 +9,7 @@ CONFIG = {
     "name": "스마일일렉",                     # 상호
     "phone": "010-6666-1128",                # 대표 전화
     "address": "경기도 양주시 광적면 지섬로 214번길 15-12 가동 1층",        # 사업장 주소
-    "domain": "https://www.example.co.kr",   # 구입한 도메인 (끝에 / 없이)
+    "domain": "https://smile1128.com",   # 구입한 도메인 (끝에 / 없이)
     "biz_no": "139-56-00663",                # 사업자등록번호
     "owner": "대표 김선용",
     "owner_title": "전기공사기술자(중급) · 전기기능사",
@@ -17,7 +17,7 @@ CONFIG = {
     "blog": "https://blog.naver.com/smileelectronic",
     "place": "https://naver.me/xPUHS2Mz",           # 네이버 플레이스(지도)
     "hours_short": "평일 08:00–19:00",
-    "naver_verify": "75f49b04581c32624dc86659c4af15b1d3194fa3",                      # 네이버 서치어드바이저 인증코드
+    "naver_verify": ["75f49b04581c32624dc86659c4af15b1d3194fa3", "dbabcf680f4c377553fea377bbf8ea66961d5ef7"],  # 네이버 서치어드바이저 인증코드 (예전 netlify.app, 새 smile1128.com)
     "google_verify": "zpQNlofCxZk2VsMZslXs9Cw0MMUJFJSGsrkLBoHlsgc",                     # 구글 서치콘솔 인증코드
 }
 OUT = "dist"
@@ -206,8 +206,9 @@ TEL = C["phone"].replace("-", "")
 def head(title, desc, path, keywords, schema_list):
     url = f'{C["domain"]}/{path}' if path else f'{C["domain"]}/'
     verify = ""
-    if C["naver_verify"]:
-        verify += f'<meta name="naver-site-verification" content="{E(C["naver_verify"])}">\n'
+    nv = C["naver_verify"]
+    for code in ([nv] if isinstance(nv, str) else nv):
+        if code: verify += f'<meta name="naver-site-verification" content="{E(code)}">\n'
     if C["google_verify"]:
         verify += f'<meta name="google-site-verification" content="{E(C["google_verify"])}">\n'
     schemas = "\n".join(f'<script type="application/ld+json">{json.dumps(s, ensure_ascii=False)}</script>' for s in schema_list)
