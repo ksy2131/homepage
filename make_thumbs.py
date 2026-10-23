@@ -123,7 +123,7 @@ def make(lp):
     d.rounded_rectangle([60, 350, 60 + d.textlength(head, font=fit(d, head, FB, 34, 600)) + 40, 410], 14, fill="#ffffff")
     d.text((80, 380), head, font=fit(d, head, FB, 34, 600), fill="#0a2a66", anchor="lm")
     d.rectangle([0, 530, W, H], fill="#ffffff")
-    bolt(d, 52, 548, 2.6, "#0f3d91")
+    mk = Image.open(os.path.join(BASE, "static", "images", "mark.png")).convert("RGBA"); mk.thumbnail((46, 62)); im.paste(mk, (58, 580 - mk.height // 2), mk)
     d.text((112, 580), C["name"], font=F(FB, 38), fill="#0f3d91", anchor="lm")
     d.text((W - 60, 580), C["phone"], font=F(FB, 36), fill="#16213a", anchor="rm")
     d.text((W - 60 - d.textlength(C["phone"], font=F(FB, 36)) - 24, 580), "상담", font=F(FM, 24), fill="#5b6782", anchor="rm")

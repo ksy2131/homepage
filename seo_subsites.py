@@ -36,7 +36,7 @@ def sub_layout(r, title, desc, body, schema):
     nv = SUB_NAVER_VERIFY.get(r["slug"]); gv = SUB_GOOGLE_VERIFY.get(r["slug"])
     codes = ([nv] if nv else []) + [c for c in SUB_NAVER_ALL if c != nv]
     ver = "".join(f'<meta name="naver-site-verification" content="{E(c)}">\n' for c in codes) + (f'<meta name="google-site-verification" content="{E(gv)}">\n' if gv else "")
-    og = f"{main}/images/dong/region-{r['slug']}.jpg" if os.path.exists(os.path.join(BASE, "static", "images", "dong", f"region-{r['slug']}.jpg")) else f"{main}/images/og-main.jpg"
+    og = f"{main}/images/dong/region-{r['slug']}.jpg" if os.path.exists(os.path.join(BASE, "static", "images", "dong", f"region-{r['slug']}.jpg")) else f"{main}/images/og-main-v2.jpg"
     sch = "\n".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in schema)
     return f"""<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
