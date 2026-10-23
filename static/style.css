@@ -254,7 +254,7 @@ a.case:hover{box-shadow:0 14px 34px rgba(15,61,145,.13);transform:translateY(-3p
 .ceo h2{margin-bottom:2px}.ceo-sub{color:var(--navy);font-weight:700;margin-bottom:10px}
 .ceo p{color:#34405c}
 @media (max-width:620px){.ceo{flex-direction:column;padding:24px}}
-.ceo-cred{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.ceo-cred{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}
 .ceo-cred li{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;position:relative;padding-left:40px}
 .ceo-cred .ic{position:absolute;left:12px;top:14px;width:18px;height:18px;color:var(--navy)}
 .ceo-cred small{color:var(--muted);font-size:13px}
