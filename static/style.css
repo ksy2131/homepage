@@ -489,3 +489,4 @@ a.case:hover{box-shadow:0 14px 34px rgba(15,61,145,.13);transform:translateY(-3p
 @media (max-width:820px){.hs{height:calc(100svh - 106px);min-height:620px;max-height:none}.hs-s{background:linear-gradient(180deg,rgba(6,22,56,.15) 0%,rgba(6,22,56,.85) 58%),var(--bgm) center/cover no-repeat}}
 .hs-prev{left:112px}
 @media (max-width:820px){.hs .hero-btns{display:none}.hs-s{padding-bottom:80px}.hs-dots{bottom:30px}}
+.hs-arr{display:none}
