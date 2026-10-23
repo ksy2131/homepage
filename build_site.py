@@ -286,6 +286,7 @@ def footer():
     <p>주소 {E(C['address'])}</p>
     <p>대표 번호 <a class="fw" href="tel:{TEL}">{E(C['phone'])}</a> · {E(C['hours'])}</p>
     <p class="foot-links"><a class="fw" href="sms:{TEL}">문자 상담</a>{f' · <a class="fw" href="{E(C["kakao"])}" target="_blank" rel="noopener">카카오톡 상담</a>' if C.get("kakao") else ''}{f' · <a class="fw" href="{E(C["talk"])}" target="_blank" rel="noopener">네이버 톡톡</a>' if C.get("talk") else ''} · 블로그 <a class="fw" href="{E(C['blog'])}" target="_blank" rel="noopener">{E(C['blog'].split('://')[-1])}</a> · <a class="fw" href="{E(C['place'])}" target="_blank" rel="noopener">네이버 지도</a></p>
+    <p class="fw">조달청 나라장터 정식 등록 업체</p>
     <p>{E(C['owner_title'])} 대표 운영 · 아파트·주택·빌라·상가 전기수리 · 전기공사 · 분전반 · 화재복구</p>
     <p class="foot-reg"><span>서비스</span>{''.join(f' · <a href="{s["slug"]}.html">{E(s["short"])}</a>' for s in SERVICES)}</p>
     <p class="foot-reg"><span>출동 지역</span>{''.join(f' · <a href="{r["slug"]}.html">{E(r["name"])} 전기수리</a>' for r in REGIONS)}</p>
@@ -642,7 +643,7 @@ def build_home():
   <div class="ceo-ic">{icon('check')}</div>
   <div><span class="ceo-t">믿을 수 있는 업체</span><h2>{E(C['owner'])}</h2><p class="ceo-sub">{E(C['owner_title'])}</p>
   <p>대표와 경험 있는 기술자가 현장을 확인하고, 원인과 작업 방법을 먼저 설명드립니다.</p>
-  <ul class="ceo-cred"><li>{icon('check')}<b>전기공사기술자 중급</b><small>한국전기공사협회 경력 인정</small></li><li>{icon('check')}<b>전기기능사</b><small>국가기술자격</small></li><li>{icon('check')}<b>네이버 인물정보 등록</b><small>"김선용 공학기술자" 검색</small></li></ul></div>
+  <ul class="ceo-cred"><li>{icon('check')}<b>전기공사기술자 중급</b><small>한국전기공사협회 경력 인정</small></li><li>{icon('check')}<b>전기기능사</b><small>국가기술자격</small></li><li>{icon('check')}<b>나라장터 등록 업체</b><small>조달청 정식 등록</small></li><li>{icon('check')}<b>네이버 인물정보 등록</b><small>"김선용 공학기술자" 검색</small></li></ul></div>
 </div></div></section>
 
 <section class="sec alt"><div class="wrap"><h2>이런 분들이 찾습니다</h2><p class="sub">공간에 맞춰 필요한 작업을 안내해 드립니다.</p><div class="who">
