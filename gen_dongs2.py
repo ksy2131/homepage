@@ -140,7 +140,7 @@ def build():
                         "near": [clean(x) for x in near], "jobs": " · ".join(f"{t.split('·')[0]} 전기수리" for t in types[:3]) or "누전·차단기·조명 수리",
                         "topics": topics, "faqs": faqs, "mix": tuple(mix),
                         "lead": f"{lead_spot} 일대 {city} {name} {tshort}의 누전·차단기 수리, 콘센트·조명 교체, 전기공사까지 직접 전기출장합니다.",
-                        "match": [short(name)] if len(short(name)) >= 2 else [name]}
+                        "match": [name]}
             w = WR.get(d["name"]) or WR.get(name)
             if w:
                 for k in ("intro", "intro2", "lead", "housing", "jobs"):
