@@ -7,6 +7,8 @@
 SUB_ON = True
 # 네이버 서치어드바이저에 하위 주소를 사이트로 추가하면 받는 인증 코드 — 받으면 여기에 넣기
 SUB_NAVER_VERIFY = {}   # 예: {"nowon": "abc123..."}
+# 어느 하위 주소 것인지 모르는 코드는 여기에 넣으면 11개 하위 주소 전부에 들어감 (다른 사이트 코드가 같이 있어도 문제없음)
+SUB_NAVER_ALL = ["9ace38e64cf68f152b6af913a9e904e66fe8186d"]
 SUB_GOOGLE_VERIFY = {}
 
 def sub_host(r):
@@ -32,7 +34,8 @@ def sub_layout(r, title, desc, body, schema):
     host = sub_host(r); url = f"https://{host}/"
     main = "https://smile1128.com"
     nv = SUB_NAVER_VERIFY.get(r["slug"]); gv = SUB_GOOGLE_VERIFY.get(r["slug"])
-    ver = (f'<meta name="naver-site-verification" content="{E(nv)}">\n' if nv else "") + (f'<meta name="google-site-verification" content="{E(gv)}">\n' if gv else "")
+    codes = ([nv] if nv else []) + [c for c in SUB_NAVER_ALL if c != nv]
+    ver = "".join(f'<meta name="naver-site-verification" content="{E(c)}">\n' for c in codes) + (f'<meta name="google-site-verification" content="{E(gv)}">\n' if gv else "")
     og = f"{main}/images/dong/region-{r['slug']}.jpg" if os.path.exists(os.path.join(BASE, "static", "images", "dong", f"region-{r['slug']}.jpg")) else f"{main}/images/og-main.jpg"
     sch = "\n".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in schema)
     return f"""<!doctype html>
