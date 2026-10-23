@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 G = runpy.run_path(os.path.join(BASE, "build_site.py"), run_name="lib")
-LOCALS, TOPIC_SHORT, POSTS, C = G["LOCALS"], G["TOPIC_SHORT"], G["POSTS"], G["CONFIG"]
+LOCALS, TOPIC_SHORT, POSTS, C, mix_names = G["LOCALS"], G["TOPIC_SHORT"], G["POSTS"], G["CONFIG"], G["mix_names"]
 OUTD = os.path.join(BASE, "static", "images", "dong"); os.makedirs(OUTD, exist_ok=True)
 
 FB = "/usr/share/fonts/opentype/noto/NotoSansCJK-Black.ttc"
@@ -110,10 +110,11 @@ def make(lp):
         im = Image.alpha_composite(im, art)
     d = ImageDraw.Draw(im)
     city = CITY.get(lp["region"], ""); n = lp["kn"]
+    tag = "·".join(x.split("·")[0] for x in mix_names(lp, 2)[:3]) + " 출장 전기수리"
     tg = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    ImageDraw.Draw(tg).rounded_rectangle([60, 56, 60 + d.textlength(f"{city} 출장 전기수리", font=F(FM, 24)) + 36, 98], 21, fill=(255, 255, 255, 46))
+    ImageDraw.Draw(tg).rounded_rectangle([60, 56, 60 + d.textlength(tag, font=F(FM, 24)) + 36, 98], 21, fill=(255, 255, 255, 46))
     im = Image.alpha_composite(im, tg); d = ImageDraw.Draw(im)
-    d.text((78, 77), f"{city} 출장 전기수리", font=F(FM, 24), fill="#ffffff", anchor="lm")
+    d.text((78, 77), tag, font=F(FM, 24), fill="#ffffff", anchor="lm")
     f1 = fit(d, f"{city} {n}", FB, 92, 620)
     d.text((60, 120), f"{city} {n}", font=f1, fill="#ffc83d")
     d.text((60, 240), "전기수리 · 전기출장", font=fit(d, "전기수리 · 전기출장", FB, 64, 620), fill="#ffffff")

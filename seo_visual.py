@@ -18,7 +18,7 @@ def summary_cards(lp, n, city):
         age = f"{lo}~{hi}년 입주 단지" if lo != hi else f"{lo}년 입주 단지"
     house = age or (lp.get("housing", "").split(",")[0].split("(")[0].strip()[:24])
     near = lp.get("near", [])[:4]
-    cards = [("building", "동네 성격", house or f"{city} {n}"),
+    cards = [("building", "건물 구성", " · ".join(mix_names(lp, 1)[:4]) or house),
              ("bolt", "자주 생기는 고장", " · ".join(tp) or "누전 · 차단기 · 조명"),
              ("pin", "함께 출장하는 곳", " · ".join(near) or city),
              ("chat", "가장 빠른 상담", "증상 사진을 문자로")]
@@ -150,7 +150,7 @@ def topic_fig(key, n):
         return chart_appliances()
     if key == "panel_age":
         return bars_fig([("누전차단기", 15), ("분기 차단기", 20), ("분전반 단자·함체", 25), ("세대 배선 점검", 30)], "년",
-                        "설비별 점검·교체를 생각할 시기", f"그래프. 설비별로 점검·교체를 생각할 시기(대략) — {n} 단지 입주연도와 비교해 보세요")
+                        "설비별 점검·교체를 생각할 시기", f"그래프. 설비별로 점검·교체를 생각할 시기(대략) — 우리 집·건물이 지어진 해와 비교해 보세요")
     if key == "old_outlet":
         return compare_fig([("정상", "#2e9e5b", ["플러그가 단단히 꽂힘", "커버 색 그대로", "만져도 미지근"]),
                             ("교체 권장", "#e67e22", ["플러그가 헐겁게 꽂힘", "커버가 누렇게 변색", "스위치를 여러 번 눌러야 켜짐"]),
@@ -191,3 +191,57 @@ def topic_fig(key, n):
                             ("점검 주기", "#2e9e5b", ["계절 바뀔 때 절연 측정", "누전차단기 동작 확인", "비상 전원 점검"])],
                            "축사 전기 점검 포인트", "그림. 축사는 설비가 쉬지 않고 돌아가 정기 점검이 중요합니다")
     return ""
+
+
+def complex_table(lp, n):
+    """단지별 입주연도와 지금 필요한 점검 — 표 (그림보다 읽기 쉽게)"""
+    items = sorted(complex_years(lp), key=lambda x: x[1])
+    if not items: return ""
+    tr = ""
+    for nm, y in items:
+        age = NOW_YEAR - y
+        if y > NOW_YEAR: cls, st, need = "b-new", "입주 예정", "입주 전 콘센트 추가·전용 회로 계획"
+        elif age >= 25: cls, st, need = "b-old", f"{age}년 차", "분전반·누전차단기·배선 점검"
+        elif age >= 10: cls, st, need = "b-mid", f"{age}년 차", "차단기·LED 방등·콘센트 교체"
+        else: cls, st, need = "b-new", (f"{age}년 차" if age else "올해 입주"), "인덕션·건조기 전용 회로, 콘센트 추가"
+        tr += f'<tr><th>{E(nm)}</th><td class="c">{y}</td><td class="c"><span class="badge {cls}">{E(st)}</span></td><td>{E(need)}</td></tr>'
+    named = {nm for nm, _ in items}
+    rest = [_re.sub(r"\s*\(.*?\)", "", c) for c in lp.get("complexes", []) if _re.sub(r"\s*\(.*?\)", "", c).strip() not in named]
+    more = f'<p class="tbl-cap">그 밖의 단지: {E(", ".join(rest))}</p>' if rest else ""
+    return (f'<h3 class="cx-h">{E(n)} 단지별 입주연도와 지금 필요한 점검</h3>'
+            f'<div class="tbl-wrap"><table class="tbl cx"><thead><tr><th>단지</th><th class="c">입주</th><th class="c">연차</th><th>이 시기에 많은 작업</th></tr></thead><tbody>{tr}</tbody></table></div>'
+            f'{more}<p class="tbl-cap">입주연도는 공개 자료 기준이며 실제와 다를 수 있습니다. <span class="badge b-old">25년 이상</span> <span class="badge b-mid">10~25년</span> <span class="badge b-new">10년 이내</span></p>')
+
+
+BTYPES = [("아파트", "home", "차단기·누전차단기 노후, LED 방등 고장, 주방 가전 과부하", "세대 분전반, 복도 계량기함 메인차단기"),
+          ("빌라·다세대", "building", "우리 집만 정전, 계량기함 단자 풀림, 계단 등 고장", "세대 차단기, 계량기함, 공용 분전반"),
+          ("상가·사무실", "store", "영업 중 차단기 과부하, 간판·외부 조명 누전, 콘센트 부족", "회로별 사용 전류, 기기 전용 회로"),
+          ("단독·전원주택", "home", "비 오는 날 누전, 외부 조명·지하수 모터 고장", "인입선, 외부 콘센트, 누전차단기"),
+          ("공장·창고", "panel", "모터 정지, 동력 차단기 트립, 단자 발열", "3상 전압·전류, 절연저항, 동력반 단자")]
+LEVEL = {3: ("많음", "b-hi"), 2: ("보통", "b-md"), 1: ("적음", "b-lo")}
+
+def mix_names(lp, minv=2):
+    m = lp.get("mix") or (2, 1, 1, 1, 0)
+    order = sorted([(v, i) for i, v in enumerate(m) if v >= minv], key=lambda x: (-x[0], x[1]))
+    return [BTYPES[i][0] for _, i in order]
+
+def building_table(lp, n):
+    m = lp.get("mix") or (2, 1, 1, 1, 0)
+    rows = sorted([(v, i) for i, v in enumerate(m) if v > 0], key=lambda x: (-x[0], x[1]))
+    tr = ""
+    for v, i in rows:
+        t, ic, trb, chk = BTYPES[i]; lv, cls = LEVEL[v]
+        tr += f'<tr><th>{icon(ic)} {E(t)}</th><td class="c"><span class="badge {cls}">{lv}</span></td><td>{E(trb)}</td><td>{E(chk)}</td></tr>'
+    return (f'<h2>{E(n)} 건물 유형별 자주 생기는 전기 고장</h2>'
+            f'<p>{E(n)}에는 {E("·".join(mix_names(lp, 1)))}이 함께 있습니다. 건물 유형마다 전기가 들어오는 구조가 달라 고장 나는 곳과 먼저 확인할 곳도 다릅니다.</p>'
+            f'<div class="tbl-wrap"><table class="tbl bt"><thead><tr><th>건물 유형</th><th class="c">이 동네 비중</th><th>자주 생기는 고장</th><th>먼저 확인할 곳</th></tr></thead><tbody>{tr}</tbody></table></div>'
+            f'<p class="tbl-cap">비중은 동네 주거·상업 시설 구성을 보고 정리한 대략적인 정도입니다.</p>')
+
+MIX_FAQ = {
+ "빌라·다세대": [("{n} 빌라인데 우리 집만 전기가 나갔어요.", "집 안 분전반 메인 차단기를 먼저 보고, 멀쩡하면 건물 계량기함 안 우리 집 차단기를 확인해 보세요. 오래된 빌라는 계량기함 단자가 풀려 한 집만 끊기는 경우가 있어 단자 상태까지 점검합니다."),
+                ("{n} 다세대 건물주인데 공용 계단 등과 세대 전기를 같이 봐 주실 수 있나요?", "네. 공용 분전반, 계량기함, 세대별 차단기를 한 번에 점검하고 문제 있는 곳만 정리해 드립니다.")],
+ "상가·사무실": [("{n} 상가 매장인데 점심·저녁 바쁠 때마다 차단기가 떨어져요.", "손님이 몰려 주방기기·냉방기를 동시에 쓸 때 생기는 과부하가 많습니다. 회로별 사용 전류를 재 보고 큰 기기 회로를 따로 나누면 해결됩니다. 영업 시간을 피해 작업합니다."),
+                ("{n} 사무실 이전하는데 콘센트와 조명을 새로 배치할 수 있나요?", "네. 책상·장비 배치를 알려주시면 콘센트 위치와 회로를 나눠 배선하고, 조명도 함께 정리합니다.")],
+ "단독·전원주택": [("{n} 단독주택인데 비 오는 날만 차단기가 떨어져요.", "외부 조명, 외부 콘센트, 창고나 모터로 나간 선에 빗물이 드는 경우가 대부분입니다. 구간별로 절연저항을 재서 문제 선을 찾아 교체합니다.")],
+ "공장·창고": [("{n} 공장인데 기계가 갑자기 멈췄어요.", "동력 차단기 트립, 접촉기 불량, 3상 중 한 상 끊김 가운데 무엇인지 측정기로 바로 구분합니다. 원인 부품을 교체하고 재발 방지를 위해 단자와 절연 상태도 확인합니다.")],
+}
