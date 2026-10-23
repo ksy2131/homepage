@@ -383,7 +383,7 @@ def features_html():
         ("비용 먼저","원인·비용 설명 후 작업"),("자격 보유","전기공사기술자 · 전기기능사"),("11개 지역","경기북부·서울 동북부 방문")]
     tl="".join(f'<li><b>{E(a)}</b><span>{E(b)}</span></li>' for a,b in tr)
     return f'''<section class="pop"><div class="wrap"><p class="pop-h">많이 찾는 전기수리</p><div class="pop-g">{ch}</div></div></section>
-<section class="trust"><div class="wrap"><h2>아파트 공용부를 맡아 온 기술자가 <br class="m">직접 방문합니다</h2><p class="sub">작은 콘센트 하나도 단지 설비를 다루는 기준으로 봅니다. <a href="about.html">스마일일렉 소개 →</a></p><ul class="trust-l">{tl}</ul></div></section>'''
+<section class="trust"><div class="wrap"><h2>자격 갖춘 전기 기술자가 <br class="m">직접 찾아갑니다</h2><p class="sub">{years}년 동안 아파트 전기·소방 설비를 관리해 온 경험으로, 작은 고장도 원인부터 찾아 드립니다. <a href="about.html">스마일일렉 소개 →</a></p><ul class="trust-l">{tl}</ul></div></section>'''
 
 def marquee_html(prefix=""):
     words=["누전 수리","차단기 내려감","콘센트 교체","스위치 교체","LED 방등 교체","분전반 교체","전기 배선 공사","상가 전기공사","주택 전기수리","화재복구 전기공사","아파트 공용부 유지보수"]
