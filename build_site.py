@@ -255,7 +255,7 @@ def header(active=""):
     return f"""
 <div class="topbar"><div class="wrap topbar-in">
   <span>{icon('phone')} 상담 {E(C['hours_short'])} · <a href="tel:{TEL}"><b>{E(C['phone'])}</b></a></span>
-  <span class="tb-links"><a href="sms:{TEL}">문자상담</a>{f'<a href="{E(C["kakao"])}" target="_blank" rel="noopener">카톡상담</a>' if C.get("kakao") else ''}{f'<a href="{E(C["talk"])}" target="_blank" rel="noopener">톡톡상담</a>' if C.get("talk") else ''}<a href="{E(C['blog'])}" target="_blank" rel="noopener">블로그</a></span>
+  <span class="tb-links"><a href="{E(C['kakao'])}" target="_blank" rel="noopener">카톡상담</a><a href="sms:{TEL}">문자상담</a><a href="{E(C['talk'])}" target="_blank" rel="noopener">톡톡상담</a><a href="{E(C['blog'])}" target="_blank" rel="noopener">블로그</a></span>
 </div></div>
 <header class="top">
   <div class="wrap top-in">
@@ -268,8 +268,12 @@ def header(active=""):
       <a href="cases.html">시공사례</a>
       <a href="guides.html">전기 상식</a>
       <a href="index.html#faq">자주 묻는 질문</a>
-      <a href="index.html#contact">문의</a>
-      <a class="nav-call" href="tel:{TEL}">{icon('phone')} {E(C['phone'])}</a>
+      <span class="hb">
+        <a class="hb-b hb-tel" href="tel:{TEL}">{icon('phone')}<span>{E(C['phone'])}</span></a>
+        <a class="hb-b hb-kakao" href="{E(C['kakao'])}" target="_blank" rel="noopener" aria-label="카톡상담">{icon('kakao')}<span>카톡</span></a>
+        <a class="hb-b hb-sms" href="sms:{TEL}" aria-label="문자상담">{icon('msg')}<span>문자</span></a>
+        <a class="hb-b hb-talk" href="{E(C['talk'])}" target="_blank" rel="noopener" aria-label="톡톡상담">{icon('naver')}<span>톡톡</span></a>
+      </span>
     </nav>
   </div>
 </header>

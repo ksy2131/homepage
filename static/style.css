@@ -558,3 +558,19 @@ a.aw-c:hover{transform:translateY(-3px)}
 .about-ph{display:block;width:160px;height:160px;border-radius:50%;object-fit:cover;margin-bottom:18px;box-shadow:0 10px 24px rgba(15,61,145,.18)}
 .logo-mk{height:34px;width:auto;flex:none}
 .logo span{letter-spacing:-.5px}
+/* 상단 상담 버튼 */
+.hb{display:flex;gap:6px;align-items:center;margin-left:8px}
+.hb-b{display:inline-flex;align-items:center;gap:5px;height:40px;padding:0 13px;border-radius:999px;font-weight:700;font-size:14.5px;white-space:nowrap}
+.hb-b .ic{width:17px;height:17px}
+.hb-tel{background:var(--navy);color:#fff;padding:0 16px;font-size:15.5px}
+.hb-kakao{background:#fee500;color:#191919}
+.hb-sms{background:var(--yellow);color:var(--navy-d)}
+.hb-talk{background:#03c75a;color:#fff}.hb-talk .ic{width:14px;height:14px}
+.nav{gap:22px}
+@media (max-width:1200px){.nav{gap:16px}.hb-b:not(.hb-tel) span{display:none}.hb-b:not(.hb-tel){width:40px;padding:0;justify-content:center}}
+@media (max-width:820px){.hb{margin:14px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:8px}.hb-b{justify-content:center;height:46px;width:auto!important;padding:0 10px!important}.hb-b span{display:inline!important}.hb-tel{grid-column:1/-1}}
+.nav>a,.dd-t{white-space:nowrap}
+.nav{gap:18px}
+.hb-b{padding:0 11px;font-size:14px}
+.hb-tel{padding:0 14px;font-size:15px}
+@media (max-width:1360px){.hb-b:not(.hb-tel) span{display:none}.hb-b:not(.hb-tel){width:40px;padding:0;justify-content:center}}
