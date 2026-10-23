@@ -361,6 +361,15 @@ def steps_html():
     li = "".join(f'<li><b>{i+1:02d}</b><h3>{E(t)}</h3><p>{E(d)}</p></li>' for i, (t, d) in enumerate(st))
     return f'<section class="sec alt"><div class="wrap"><h2>작업 진행 순서</h2><ol class="steps">{li}</ol></div></section>'
 
+def awards_html(big=False):
+    items=[("images/about/cert-engineer.jpg","전기공사기술자 중급","한국전기공사협회 경력증 · 전기기능사","스마일일렉 김선용 대표 전기공사기술자 중급 경력증"),
+           ("images/about/award-gg-council.jpg","경기도의회 의장 표창","2025년 12월 · 지역사회 발전과 주민 화합에 기여한 공로","스마일일렉 김선용 대표 경기도의회 의장 표창장"),
+           ("images/about/cert-safety.jpg","전기안전교육 수료","한국전기공사협회 · 안전시공교육 21시간 (2026년 7월)","한국전기공사협회 전기안전교육 안전시공교육 수료증"),]
+    cards="".join(f'<a class="aw-c" href="{src}" target="_blank" rel="noopener"><span class="aw-img"><img src="{src}" alt="{E(alt)}" loading="lazy"></span><b>{E(t)}</b><small>{E(d)}</small></a>' for src,t,d,alt in items)
+    cards+=f'<div class="aw-c aw-txt"><span class="aw-img aw-ic">{icon("check")}</span><b>조달청 나라장터 등록</b><small>공공기관 견적·계약 가능 업체</small></div>'
+    h = "<h2>수상 · 교육 · 등록</h2>" if big else "<h2>믿고 맡기실 수 있도록</h2><p class=\"sub\">수상과 교육, 등록 내역을 그대로 보여 드립니다.</p>"
+    return f'<section class="sec{"" if big else " alt"} aw"><div class="wrap">{h}<div class="aw-g">{cards}</div></div></section>'
+
 def features_html():
     chips=[("bolt","누전·차단기 수리","guide-breaker-trips.html"),("plug","콘센트·스위치 교체","home-repair.html"),("home","LED 전등 교체","guide-led-light.html"),
            ("panel","분전반 교체","panel.html"),("store","상가·사무실 전기공사","commercial.html"),("building","아파트 공용부 관리","apartment-maintenance.html")]
@@ -637,6 +646,7 @@ def build_home():
   <div class="hs-dots" role="tablist"><button class="hs-dot on" type="button" role="tab" aria-selected="true" aria-label="1번 슬라이드"></button><button class="hs-dot" type="button" role="tab" aria-selected="false" aria-label="2번 슬라이드"></button><button class="hs-dot" type="button" role="tab" aria-selected="false" aria-label="3번 슬라이드"></button></div>
 </section>
 {features_html()}
+{awards_html()}
 {marquee_html()}
 
 <section class="sec" id="services"><div class="wrap">
@@ -646,10 +656,10 @@ def build_home():
 </div></section>
 
 <section class="sec"><div class="wrap"><div class="ceo">
-  <div class="ceo-ic">{icon('check')}</div>
+  <div class="ceo-ph"><img src="images/about/ceo.jpg" alt="스마일일렉 대표 김선용 전기공사기술자" loading="lazy"></div>
   <div><span class="ceo-t">믿을 수 있는 업체</span><h2>{E(C['owner'])}</h2><p class="ceo-sub">{E(C['owner_title'])}</p>
   <p>대표와 경험 있는 기술자가 현장을 확인하고, 원인과 작업 방법을 먼저 설명드립니다.</p>
-  <ul class="ceo-cred"><li>{icon('check')}<b>전기공사기술자 중급</b><small>한국전기공사협회 경력 인정</small></li><li>{icon('check')}<b>전기기능사</b><small>국가기술자격</small></li><li>{icon('check')}<b>나라장터 등록 업체</b><small>조달청 정식 등록</small></li><li>{icon('check')}<b>KC 안전인증 자재</b><small>스위치·콘센트 제일전기·진흥전기, 네트워크 스위치 다산지앤지 클리오·제일전기</small></li><li>{icon('check')}<b>네이버 인물정보 등록</b><small>"김선용 공학기술자" 검색</small></li></ul></div>
+  <ul class="ceo-cred"><li>{icon('check')}<b>전기공사기술자 중급</b><small>한국전기공사협회 경력 인정</small></li><li>{icon('check')}<b>전기기능사</b><small>국가기술자격</small></li><li>{icon('check')}<b>나라장터 등록 업체</b><small>조달청 정식 등록</small></li><li>{icon('check')}<b>경기도의회 의장 표창</b><small>2025년 지역사회 발전 공로</small></li><li>{icon('check')}<b>KC 안전인증 자재</b><small>스위치·콘센트 제일전기·진흥전기, 네트워크 스위치 다산지앤지 클리오·제일전기</small></li><li>{icon('check')}<b>네이버 인물정보 등록</b><small>"김선용 공학기술자" 검색</small></li></ul></div>
 </div></div></section>
 
 <section class="sec alt"><div class="wrap"><h2>이런 분들이 찾습니다</h2><p class="sub">공간에 맞춰 필요한 작업을 안내해 드립니다.</p><div class="who">
@@ -937,7 +947,7 @@ def build_about():
     desc = f"2018년부터 아파트 전기·소방 유지보수를 해 온 전기공사기술자가 운영하는 스마일일렉. 조달청 나라장터 등록, KC 안전인증 자재 사용. 경기북부·서울 동북부 출장 전기수리."
     kw = "스마일일렉, 양주 전기공사업체, 의정부 전기업체, 전기공사기술자, 나라장터 등록 전기업체, 아파트 전기 유지보수 업체"
     reg = " · ".join(r["name"] for r in REGIONS)
-    hist = [("2018","공공임대·분양 아파트 전기·소방 유지보수 업무 시작"),("2022","스마일일렉 설립, 세대·상가 전기수리와 공사 시작"),
+    hist = [("2018","공공임대·분양 아파트 전기·소방 유지보수 업무 시작"),("2022","스마일일렉 설립, 세대·상가 전기수리와 공사 시작"),("2025","경기도의회 의장 표창 (지역사회 발전·주민 화합 공로)"),("2026","한국전기공사협회 전기안전교육(안전시공교육) 수료"),
             ("현재",f"아파트 공용부 유지보수와 세대·상가 전기수리 병행, 경기북부·서울 동북부 {len(REGIONS)}개 지역 출장")]
     hl="".join(f'<li><b>{E(y)}</b><span>{E(t)}</span></li>' for y,t in hist)
     rules=[("원인 먼저","무엇이 고장 났는지 먼저 찾고, 왜 그런지 설명드립니다."),("비용은 작업 전에","작업 범위와 비용을 먼저 말씀드리고, 동의하신 뒤에 시작합니다."),
@@ -957,7 +967,7 @@ def build_about():
   {consult_btns()}
 </div></section>
 <section class="sec"><div class="wrap two">
-  <div><span class="ceo-t">대표 인사말</span><h2>안녕하세요, 스마일일렉 {E(C['owner'].replace('대표 ',''))}입니다</h2>
+  <div><img class="about-ph" src="images/about/ceo.jpg" alt="스마일일렉 대표 김선용" width="600" height="600"><span class="ceo-t">대표 인사말</span><h2>안녕하세요, 스마일일렉 {E(C['owner'].replace('대표 ',''))}입니다</h2>
   <p>2018년부터 공공임대·분양 아파트의 전기와 소방 설비를 유지보수해 왔습니다. 분전반, 동력반, 지하주차장 조명, 화재 수신기처럼 단지 전체가 쓰는 설비를 다루다 보니, 작은 고장도 원인을 끝까지 찾는 습관이 몸에 배었습니다.</p>
   <p>2022년 스마일일렉을 세운 뒤로는 세대와 상가 전기도 같은 기준으로 봅니다. 차단기가 왜 떨어지는지, 콘센트가 왜 탔는지 먼저 설명드리고, 비용을 말씀드린 다음 작업합니다.</p>
   <p>전기는 눈에 안 보여서 더 불안하실 겁니다. 무엇이 문제였고 무엇을 고쳤는지, 알아듣기 쉽게 말씀드리겠습니다.</p></div>
@@ -965,6 +975,8 @@ def build_about():
     <li><b>경력</b><span>2018년부터 {years}년째 아파트 전기·소방 유지보수</span></li>
     <li><b>자격</b><span>{E(C['owner_title'])}</span></li>
     <li><b>등록</b><span>조달청 나라장터 정식 등록 업체</span></li>
+    <li><b>수상</b><span>2025 경기도의회 의장 표창</span></li>
+    <li><b>교육</b><span>한국전기공사협회 전기안전교육(안전시공) 수료</span></li>
     <li><b>자재</b><span>KC 안전인증 정품만 사용</span></li>
     <li><b>분야</b><span>세대·상가 전기수리, 전기공사, 분전반, 화재복구, 아파트 공용부 유지보수</span></li>
     <li><b>지역</b><span>{E(reg)}</span></li>
@@ -972,7 +984,8 @@ def build_about():
   </ul></div>
 </div></section>
 <section class="sec alt"><div class="wrap"><h2>걸어온 길</h2><ul class="hist">{hl}</ul></div></section>
-<section class="sec"><div class="wrap"><h2>일하는 원칙</h2><p class="sub">어떤 현장이든 이 네 가지는 지킵니다.</p><ul class="feat-list rules">{rl}</ul></div></section>
+{awards_html(big=True)}
+<section class="sec alt"><div class="wrap"><h2>일하는 원칙</h2><p class="sub">어떤 현장이든 이 네 가지는 지킵니다.</p><ul class="feat-list rules">{rl}</ul></div></section>
 {cases_html(limit=6, cls="cases")}
 {faq_html(faqs)}
 {cta("전기 고민, 편하게 물어보세요")}
