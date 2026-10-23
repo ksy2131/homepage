@@ -481,3 +481,5 @@ a.case:hover{box-shadow:0 14px 34px rgba(15,61,145,.13);transform:translateY(-3p
 .qc+.feat{margin-top:22px}
 .hs-dots{bottom:70px}
 @media (max-width:820px){.qc{margin-top:-34px}.qc-in{padding-top:0;padding-bottom:0}.hs-dots{bottom:52px}.hs-s{padding-bottom:90px}}
+.btn-sms{background:#fff;color:var(--navy-d)}.btn-sms .ic{color:var(--navy)}
+@media (max-width:820px){.hs .hero-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}.hs .btn{padding:13px 8px;font-size:15px}}

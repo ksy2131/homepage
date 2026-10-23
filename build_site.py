@@ -592,7 +592,7 @@ def build_home():
     # 구글 검색결과 위쪽 "사이트 이름"(netlify.app 대신 스마일일렉)으로 쓰라는 표시 — 홈페이지에만 넣음
     website = {"@context": "https://schema.org", "@type": "WebSite", "name": C["name"],
                "alternateName": ["스마일일렉 전기", "Smile Elec"], "url": f'{C["domain"]}/'}
-    HS_BTNS = f'<div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon("phone")} 전화상담</a>' + (f'<a class="btn btn-kakao" href="{E(C["kakao"])}" target="_blank" rel="noopener">{icon("kakao")} 카톡상담</a>' if C.get("kakao") else '') + (f'<a class="btn btn-talk" href="{E(C["talk"])}" target="_blank" rel="noopener">{icon("naver")} 톡톡상담</a>' if C.get("talk") else '') + '</div>'
+    HS_BTNS = f'<div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon("phone")} 전화상담</a><a class="btn btn-sms" href="sms:{TEL}">{icon("msg")} 문자상담</a>' + (f'<a class="btn btn-kakao" href="{E(C["kakao"])}" target="_blank" rel="noopener">{icon("kakao")} 카톡상담</a>' if C.get("kakao") else '') + (f'<a class="btn btn-talk" href="{E(C["talk"])}" target="_blank" rel="noopener">{icon("naver")} 톡톡상담</a>' if C.get("talk") else '') + '</div>'
     QC_TALK = f'<a class="qc-b qc-talk" href="{E(C["talk"])}" target="_blank" rel="noopener">{icon("naver")}<span><b>네이버 톡톡</b><small>톡톡으로 상담</small></span></a>' if C.get("talk") else ''
     QC_KAKAO = f'<a class="qc-b qc-kakao" href="{E(C["kakao"])}" target="_blank" rel="noopener">{icon("kakao")}<span><b>카톡상담</b><small>카카오톡 채널</small></span></a>' if C.get("kakao") else ''
     page = head(title, desc, "", kw, [website, business_schema(), faq_schema(faqs)]) + header() + f"""
