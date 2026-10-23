@@ -774,7 +774,7 @@ def build_local(lp):
     write(f"{lp['slug']}.html", page)
 
 # 도표·그림 부품, 증상별 페이지, 시공사례 보강 데이터 (별도 파일)
-for _f in ("seo_parts.py","seo_symptoms.py","seo_posts.py","seo_guides.py"):
+for _f in ("seo_parts.py","seo_symptoms.py","seo_posts.py","seo_guides.py","seo_dongs.py"):
     exec(open(os.path.join(BASE,_f),encoding="utf-8").read())
 
 # ───────────────── 시공사례 게시판 ─────────────────
