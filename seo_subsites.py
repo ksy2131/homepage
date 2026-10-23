@@ -47,7 +47,7 @@ def sub_layout(r, title, desc, body, schema):
 <link rel="stylesheet" href="{main}/style.css">
 {sch}
 </head><body>
-<header class="top"><div class="wrap top-in"><a class="logo" href="{url}">{icon('bolt','logo-ic')}<span>{E(C['name'])}</span></a>
+<header class="top"><div class="wrap top-in"><a class="logo" href="{main}/">{icon('bolt','logo-ic')}<span>{E(C['name'])}</span></a>
 <nav class="nav" style="display:flex"><a href="{main}/">본 홈페이지</a><a href="{main}/cases.html">시공사례</a><a class="nav-call" href="tel:{TEL}">{icon('phone')} {E(C['phone'])}</a></nav></div></header>
 <main>{body}</main>
 <footer class="foot"><div class="wrap"><p>상호 {E(C['name'])} · {E(C['owner'])} · 사업자등록번호 {E(C['biz_no'])}<br>{E(C['address'])} · 전화 <a href="tel:{TEL}">{E(C['phone'])}</a><br>
