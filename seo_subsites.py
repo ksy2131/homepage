@@ -8,7 +8,7 @@ SUB_ON = True
 # 네이버 서치어드바이저에 하위 주소를 사이트로 추가하면 받는 인증 코드 — 받으면 여기에 넣기
 SUB_NAVER_VERIFY = {}   # 예: {"nowon": "abc123..."}
 # 어느 하위 주소 것인지 모르는 코드는 여기에 넣으면 11개 하위 주소 전부에 들어감 (다른 사이트 코드가 같이 있어도 문제없음)
-SUB_NAVER_ALL = ["9ace38e64cf68f152b6af913a9e904e66fe8186d", "d3fb30ed9d6694cab37f6f4ccb1ce952989bae14", "cf009c8f6e951abc2a1adbc9b860766e06dfc639", "188a33baf8ba2a071f0ff76e0c8e6c5ab0b4b116"]
+SUB_NAVER_ALL = ["9ace38e64cf68f152b6af913a9e904e66fe8186d", "d3fb30ed9d6694cab37f6f4ccb1ce952989bae14", "cf009c8f6e951abc2a1adbc9b860766e06dfc639", "188a33baf8ba2a071f0ff76e0c8e6c5ab0b4b116", "223b50ffe3dd36303581d707df8daa15a0ea35a1"]
 SUB_GOOGLE_VERIFY = {}
 
 def sub_host(r):
@@ -120,6 +120,16 @@ def build_subsites():
     p = os.path.join(OUT, "_redirects")
     old = open(p, encoding="utf-8").read() if os.path.exists(p) else ""
     open(p, "w", encoding="utf-8").write("# 지역 하위 주소\n" + rules + "\n" + old)
+    # 본 홈페이지 지역 페이지에 하위 주소 링크 (네이버가 하위 주소를 찾아가도록)
+    for r, h in hosts:
+        fp = os.path.join(OUT, f"{r['slug']}.html")
+        if not os.path.exists(fp): continue
+        t = open(fp, encoding="utf-8").read()
+        mark = '<section class="sec"><div class="wrap"><h2>인근 지역</h2>'
+        box = (f'<section class="sec"><div class="wrap"><h2>{E(r["name"])}전기수리 지역 안내</h2>'
+               f'<p>{E(r["name"])} 동네별 전기수리 안내를 한 장에 정리했습니다: <a class="link" href="https://{h}/">{E(r["name"])}전기수리 · {h}</a></p></div></section>\n')
+        if mark in t and h not in t:
+            open(fp, "w", encoding="utf-8").write(t.replace(mark, box + mark, 1))
     # 본 주소에서 /sub/ 폴더는 검색 제외 (하위 주소에서만 노출)
     rp = os.path.join(OUT, "robots.txt")
     t = open(rp, encoding="utf-8").read()
