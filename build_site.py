@@ -291,7 +291,7 @@ def footer():
     <p>주소 {E(C['address'])}</p>
     <p>대표 번호 <a class="fw" href="tel:{TEL}">{E(C['phone'])}</a> · {E(C['hours'])}</p>
     <p class="foot-links"><a class="fw" href="sms:{TEL}">문자 상담</a>{f' · <a class="fw" href="{E(C["kakao"])}" target="_blank" rel="noopener">카카오톡 상담</a>' if C.get("kakao") else ''}{f' · <a class="fw" href="{E(C["talk"])}" target="_blank" rel="noopener">네이버 톡톡</a>' if C.get("talk") else ''} · 블로그 <a class="fw" href="{E(C['blog'])}" target="_blank" rel="noopener">{E(C['blog'].split('://')[-1])}</a> · <a class="fw" href="{E(C['place'])}" target="_blank" rel="noopener">네이버 지도</a></p>
-    <p class="fw">조달청 나라장터 정식 등록 업체 · KC 안전인증 정품 자재만 사용</p>
+    <p class="fw">조달청 나라장터 정식 등록 업체 · KC 안전인증·KS 인증·고효율 인증 정품 자재 사용</p>
     <p>{E(C['owner_title'])} 대표 운영 · 아파트·주택·빌라·상가 전기수리 · 전기공사 · 분전반 · 화재복구</p>
     <p class="foot-reg"><span>바로가기</span> · <a href="about.html">스마일일렉 소개</a> · <a href="cases.html">시공사례</a> · <a href="guides.html">전기 상식</a></p>
     <p class="foot-reg"><span>서비스</span>{''.join(f' · <a href="{s["slug"]}.html">{E(s["short"])}</a>' for s in SERVICES)}</p>
@@ -379,7 +379,7 @@ def features_html():
            ("panel","분전반 교체","panel.html"),("store","상가·사무실 전기공사","commercial.html"),("building","아파트 공용부 관리","apartment-maintenance.html")]
     ch="".join(f'<a class="pop-c" href="{h}">{icon(i)}<span>{E(t)}</span></a>' for i,t,h in chips)
     years = datetime.date.today().year - 2016  # 전기 현장 경력 (2026년 기준 10년)
-    tr=[(f"{years}년 경력","전기 현장 경력 · 아파트 전기·소방 유지보수"),("나라장터","조달청 정식 등록 업체"),("KC 정품","안전인증 자재만 사용"),
+    tr=[(f"{years}년 경력","전기 현장 경력 · 아파트 전기·소방 유지보수"),("나라장터","조달청 정식 등록 업체"),("인증 자재","KC·KS·고효율 인증 정품"),
         ("비용 먼저","원인·비용 설명 후 작업"),("자격 보유","전기공사기술자 · 전기기능사"),("11개 지역","경기북부·서울 동북부 방문")]
     tl="".join(f'<li><b>{E(a)}</b><span>{E(b)}</span></li>' for a,b in tr)
     return f'''<section class="pop"><div class="wrap"><p class="pop-h">많이 찾는 전기수리</p><div class="pop-g">{ch}</div></div></section>
@@ -618,7 +618,7 @@ def build_home():
         ("어느 지역까지 출동하나요?", "경기도 의정부, 양주, 동두천, 포천, 남양주, 구리, 하남과 서울 노원구, 도봉구, 강북구, 성북구까지 출동합니다."),
         ("관리사무소 공용부 유지보수와 세대 수리를 모두 하나요?", "네. 관리사무소 대상 공용부 전기설비 유지보수와 입주민 세대 전기 수리를 모두 진행합니다."),
         ("견적은 어떻게 받을 수 있나요?", "전화나 문자로 증상과 사진을 보내주시면 대략적인 작업 내용을 안내드리고, 필요하면 방문 점검 후 정확한 견적을 드립니다."),
-        ("어떤 자재를 쓰나요?", "모든 자재는 KC 안전인증을 받은 정품만 사용합니다. 스위치·콘센트는 주로 제일전기·진흥전기 제품을, 아파트 네트워크 스위치는 다산지앤지 클리오·제일전기 제품을 사용합니다."),
+        ("어떤 자재를 쓰나요?", "모든 자재는 KC 안전인증을 받은 정품을 쓰고, KS 인증 제품과 고효율 인증 제품도 함께 사용합니다. 스위치·콘센트는 주로 제일전기·진흥전기 제품을, 아파트 네트워크 스위치는 다산지앤지 클리오·제일전기 제품을 사용합니다."),
         ("상가나 사무실도 가능한가요?", "가능합니다. 상가·사무실 분전반 공사와 화재복구 전기공사도 진행합니다."),
     ]
     # 구글 검색결과 위쪽 "사이트 이름"(netlify.app 대신 스마일일렉)으로 쓰라는 표시 — 홈페이지에만 넣음
@@ -663,7 +663,7 @@ def build_home():
   <div class="ceo-ph"><img src="images/about/ceo.jpg" alt="스마일일렉 대표 김선용 전기공사기술자" loading="lazy"></div>
   <div><span class="ceo-t">믿을 수 있는 업체</span><h2>{E(C['owner'])}</h2><p class="ceo-sub">{E(C['owner_title'])}</p>
   <p>대표와 경험 있는 기술자가 현장을 확인하고, 원인과 작업 방법을 먼저 설명드립니다.</p>
-  <ul class="ceo-cred"><li>{icon('check')}<b>전기공사기술자 중급</b><small>한국전기공사협회 경력 인정</small></li><li>{icon('check')}<b>전기기능사</b><small>국가기술자격</small></li><li>{icon('check')}<b>나라장터 등록 업체</b><small>조달청 정식 등록</small></li><li>{icon('check')}<b>경기도의회 의장 표창</b><small>2025년 지역사회 발전 공로</small></li><li>{icon('check')}<b>KC 안전인증 자재</b><small>스위치·콘센트 제일전기·진흥전기, 네트워크 스위치 다산지앤지 클리오·제일전기</small></li><li>{icon('check')}<b>네이버 인물정보 등록</b><small>"김선용 공학기술자" 검색</small></li></ul></div>
+  <ul class="ceo-cred"><li>{icon('check')}<b>전기공사기술자 중급</b><small>한국전기공사협회 경력 인정</small></li><li>{icon('check')}<b>전기기능사</b><small>국가기술자격</small></li><li>{icon('check')}<b>나라장터 등록 업체</b><small>조달청 정식 등록</small></li><li>{icon('check')}<b>경기도의회 의장 표창</b><small>2025년 지역사회 발전 공로</small></li><li>{icon('check')}<b>KC·KS·고효율 인증 자재</b><small>스위치·콘센트 제일전기·진흥전기, 네트워크 스위치 다산지앤지 클리오·제일전기</small></li><li>{icon('check')}<b>네이버 인물정보 등록</b><small>"김선용 공학기술자" 검색</small></li></ul></div>
 </div></div></section>
 
 <section class="sec alt"><div class="wrap"><h2>이런 분들이 찾습니다</h2><p class="sub">공간에 맞춰 필요한 작업을 안내해 드립니다.</p><div class="who">
@@ -948,19 +948,19 @@ def build_post(pt):
 def build_about():
     years = datetime.date.today().year - 2016  # 전기 현장 경력 (2026년 기준 10년)
     title = f"스마일일렉 소개 | 양주 전기공사업체 · 나라장터 등록 · 전기공사기술자 대표"
-    desc = f"전기 현장 경력 {years}년, 아파트 전기·소방 유지보수를 해 온 전기공사기술자가 운영하는 스마일일렉. 조달청 나라장터 등록, KC 안전인증 자재 사용. 경기북부·서울 동북부 출장 전기수리."
+    desc = f"전기 현장 경력 {years}년, 아파트 전기·소방 유지보수를 해 온 전기공사기술자가 운영하는 스마일일렉. 조달청 나라장터 등록, KC·KS·고효율 인증 자재 사용. 경기북부·서울 동북부 출장 전기수리."
     kw = "스마일일렉, 양주 전기공사업체, 의정부 전기업체, 전기공사기술자, 나라장터 등록 전기업체, 아파트 전기 유지보수 업체"
     reg = " · ".join(r["name"] for r in REGIONS)
     hist = [("2018","공공임대·분양 아파트 전기·소방 유지보수 업무 시작"),("2022","스마일일렉 설립, 세대·상가 전기수리와 공사 시작"),("2025","경기도의회 의장 표창 (지역사회 발전·주민 화합 공로)"),("2026","한국전기공사협회 전기안전교육(안전시공교육) 수료"),
             ("현재",f"아파트 공용부 유지보수와 세대·상가 전기수리 병행, 경기북부·서울 동북부 {len(REGIONS)}개 지역 출장")]
     hl="".join(f'<li><b>{E(y)}</b><span>{E(t)}</span></li>' for y,t in hist)
     rules=[("원인 먼저","무엇이 고장 났는지 먼저 찾고, 왜 그런지 설명드립니다."),("비용은 작업 전에","작업 범위와 비용을 먼저 말씀드리고, 동의하신 뒤에 시작합니다."),
-           ("정품 자재만","KC 안전인증 자재만 씁니다. 스위치·콘센트는 제일전기·진흥전기, 아파트 네트워크 스위치는 다산지앤지 클리오·제일전기 제품을 주로 씁니다."),
+           ("인증받은 자재만","KC 안전인증 정품에 KS 인증·고효율 인증 제품을 씁니다. 스위치·콘센트는 제일전기·진흥전기, 아파트 네트워크 스위치는 다산지앤지 클리오·제일전기 제품을 주로 씁니다."),
            ("사진으로 보고","작업 전후 사진을 남기고, 관리사무소에는 결과를 정리해 드립니다.")]
     rl="".join(f'<li>{icon("check")}<div><h3>{E(t)}</h3><p>{E(d)}</p></div></li>' for t,d in rules)
     faqs=[("스마일일렉은 어떤 업체인가요?", f"양주에 있는 전기 업체로, 전기 현장 경력 {years}년에 공공임대·분양 아파트 전기·소방 유지보수를 해 온 전기공사기술자가 대표로 운영합니다. 세대·상가 전기수리와 전기공사, 아파트 공용부 유지보수를 함께 합니다."),
           ("관공서나 공공기관 일도 하나요?","조달청 나라장터에 정식 등록된 업체라 공공기관 견적과 계약도 진행할 수 있습니다."),
-          ("어떤 자재를 쓰나요?","모든 자재는 KC 안전인증을 받은 정품만 씁니다. 스위치·콘센트는 제일전기·진흥전기, 아파트 네트워크 스위치는 다산지앤지 클리오·제일전기 제품을 주로 씁니다."),
+          ("어떤 자재를 쓰나요?","모든 자재는 KC 안전인증 정품을 쓰고, KS 인증 제품과 고효율 인증 제품도 함께 씁니다. 스위치·콘센트는 제일전기·진흥전기, 아파트 네트워크 스위치는 다산지앤지 클리오·제일전기 제품을 주로 씁니다."),
           ("어디까지 출장하나요?", f"{reg}까지 출장합니다.")]
     about_schema={"@context":"https://schema.org","@type":"AboutPage","name":title,"url":f'{C["domain"]}/about.html',"about":{"@type":"Electrician","name":C["name"]}}
     page = head(title, desc, "about.html", kw, [about_schema, business_schema(), faq_schema(faqs)]) + header() + f"""
@@ -981,7 +981,7 @@ def build_about():
     <li><b>등록</b><span>조달청 나라장터 정식 등록 업체</span></li>
     <li><b>수상</b><span>2025 경기도의회 의장 표창</span></li>
     <li><b>교육</b><span>한국전기공사협회 전기안전교육(안전시공) 수료</span></li>
-    <li><b>자재</b><span>KC 안전인증 정품만 사용</span></li>
+    <li><b>자재</b><span>KC 안전인증 · KS 인증 · 고효율 인증 정품 사용</span></li>
     <li><b>분야</b><span>세대·상가 전기수리, 전기공사, 분전반, 화재복구, 아파트 공용부 유지보수</span></li>
     <li><b>지역</b><span>{E(reg)}</span></li>
     <li><b>사업자</b><span>{E(C['name'])} · {E(C['biz_no'])} · {E(C['address'])}</span></li>
