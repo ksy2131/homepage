@@ -615,21 +615,9 @@ def build_home():
     <p class="lead">거실등·방등·주방등 교체부터 콘센트·스위치 증설까지 <br class="pc">한 번 방문으로 정리해 드립니다.</p>
     {HS_BTNS}
   </div></div>
-  <div class="hs-s" style="--bg:url(images/hero/slide-4.jpg);--bgm:url(images/hero/slide-4-m.jpg)"><div class="wrap hs-in">
-    <p class="eyebrow">{icon('building')} 관리사무소 · 상가 · 공용부</p>
-    <p class="hs-h">아파트 공용부·상가 전기<br><em>점검부터 공사까지</em></p>
-    <p class="lead">지하주차장 조명, 분전반·동력반, 발전기실, 매장 인테리어 전기.<br class="pc">점검 결과와 견적을 정리해 드립니다.</p>
-    {HS_BTNS}
-  </div></div>
   <button class="hs-arr hs-prev" type="button" aria-label="이전 슬라이드">‹</button><button class="hs-arr hs-next" type="button" aria-label="다음 슬라이드">›</button>
-  <div class="hs-dots" role="tablist"><button class="hs-dot on" type="button" role="tab" aria-selected="true" aria-label="1번 슬라이드"></button><button class="hs-dot" type="button" role="tab" aria-selected="false" aria-label="2번 슬라이드"></button><button class="hs-dot" type="button" role="tab" aria-selected="false" aria-label="3번 슬라이드"></button><button class="hs-dot" type="button" role="tab" aria-selected="false" aria-label="4번 슬라이드"></button></div>
+  <div class="hs-dots" role="tablist"><button class="hs-dot on" type="button" role="tab" aria-selected="true" aria-label="1번 슬라이드"></button><button class="hs-dot" type="button" role="tab" aria-selected="false" aria-label="2번 슬라이드"></button><button class="hs-dot" type="button" role="tab" aria-selected="false" aria-label="3번 슬라이드"></button></div>
 </section>
-<section class="qc"><div class="wrap qc-in">
-  <a class="qc-b qc-tel" href="tel:{TEL}">{icon('phone')}<span><b>전화상담</b><small>{E(C['phone'])}</small></span></a>
-  <a class="qc-b qc-sms" href="sms:{TEL}">{icon('msg')}<span><b>문자상담</b><small>사진 보내고 상담</small></span></a>
-  {QC_TALK}
-  {QC_KAKAO}
-</div></section>
 {features_html()}
 {marquee_html()}
 
