@@ -556,3 +556,5 @@ a.aw-c:hover{transform:translateY(-3px)}
 .ceo-ph{flex:none;width:150px;height:150px;border-radius:50%;overflow:hidden;border:4px solid #fff;box-shadow:0 10px 24px rgba(15,61,145,.2)}
 .ceo-ph img{width:100%;height:100%;object-fit:cover}
 .about-ph{display:block;width:160px;height:160px;border-radius:50%;object-fit:cover;margin-bottom:18px;box-shadow:0 10px 24px rgba(15,61,145,.18)}
+.logo-mk{height:34px;width:auto;flex:none}
+.logo span{letter-spacing:-.5px}

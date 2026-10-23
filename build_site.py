@@ -259,7 +259,7 @@ def header(active=""):
 </div></div>
 <header class="top">
   <div class="wrap top-in">
-    <a class="logo" href="index.html" aria-label="{E(C['name'])} 홈">{icon('bolt','logo-ic')}<span>{E(C['name'])}</span></a>
+    <a class="logo" href="index.html" aria-label="{E(C['name'])} 홈"><svg class="logo-mk" viewBox="0 0 100 120" aria-hidden="true"><defs><mask id="lmh"><rect width="100" height="120" fill="#fff"/><polygon points="92,6 38,66 57,64 18,116 80,50 61,52" fill="#000" stroke="#000" stroke-width="9" stroke-linejoin="round"/></mask></defs><path d="M84 21 H40 A19 19 0 0 0 40 59 H60 A20 20 0 0 1 60 99 H16" fill="none" stroke="#0f2355" stroke-width="22" mask="url(#lmh)"/><polygon points="92,6 38,66 57,64 18,116 80,50 61,52" fill="#ffc400"/></svg><span>{E(C['name'])}</span></a>
     <button class="menu-btn" aria-label="메뉴 열기" aria-expanded="false" onclick="var n=document.getElementById('nav');var o=n.classList.toggle('open');this.setAttribute('aria-expanded',o)"><span></span><span></span><span></span></button>
     <nav id="nav" class="nav">
       <div class="dd"><span class="dd-t">서비스</span><div class="dd-m">{svc_links}</div></div>
@@ -282,7 +282,7 @@ def footer():
 </main>
 <footer class="foot">
   <div class="wrap foot-in">
-    <a class="logo logo-w" href="index.html">{icon('bolt','logo-ic')}<span>{E(C['name'])}</span></a>
+    <a class="logo logo-w" href="index.html"><svg class="logo-mk" viewBox="0 0 100 120" aria-hidden="true"><defs><mask id="lmf"><rect width="100" height="120" fill="#fff"/><polygon points="92,6 38,66 57,64 18,116 80,50 61,52" fill="#000" stroke="#000" stroke-width="9" stroke-linejoin="round"/></mask></defs><path d="M84 21 H40 A19 19 0 0 0 40 59 H60 A20 20 0 0 1 60 99 H16" fill="none" stroke="#ffffff" stroke-width="22" mask="url(#lmf)"/><polygon points="92,6 38,66 57,64 18,116 80,50 61,52" fill="#ffc400"/></svg><span>{E(C['name'])}</span></a>
     <p>상호 {E(C['name'])}{(' · ' + E(C['owner'])) if C['owner'] else ''} · 사업자등록번호 {E(C['biz_no'])}</p>
     <p>주소 {E(C['address'])}</p>
     <p>대표 번호 <a class="fw" href="tel:{TEL}">{E(C['phone'])}</a> · {E(C['hours'])}</p>
