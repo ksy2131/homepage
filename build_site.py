@@ -264,6 +264,7 @@ def header(active=""):
     <nav id="nav" class="nav">
       <div class="dd"><span class="dd-t">서비스</span><div class="dd-m">{svc_links}</div></div>
       <div class="dd"><span class="dd-t">출동 지역</span><div class="dd-m">{reg_links}</div></div>
+      <a href="about.html">소개</a>
       <a href="cases.html">시공사례</a>
       <a href="guides.html">전기 상식</a>
       <a href="index.html#faq">자주 묻는 질문</a>
@@ -288,6 +289,7 @@ def footer():
     <p class="foot-links"><a class="fw" href="sms:{TEL}">문자 상담</a>{f' · <a class="fw" href="{E(C["kakao"])}" target="_blank" rel="noopener">카카오톡 상담</a>' if C.get("kakao") else ''}{f' · <a class="fw" href="{E(C["talk"])}" target="_blank" rel="noopener">네이버 톡톡</a>' if C.get("talk") else ''} · 블로그 <a class="fw" href="{E(C['blog'])}" target="_blank" rel="noopener">{E(C['blog'].split('://')[-1])}</a> · <a class="fw" href="{E(C['place'])}" target="_blank" rel="noopener">네이버 지도</a></p>
     <p class="fw">조달청 나라장터 정식 등록 업체 · KC 안전인증 정품 자재만 사용</p>
     <p>{E(C['owner_title'])} 대표 운영 · 아파트·주택·빌라·상가 전기수리 · 전기공사 · 분전반 · 화재복구</p>
+    <p class="foot-reg"><span>바로가기</span> · <a href="about.html">스마일일렉 소개</a> · <a href="cases.html">시공사례</a> · <a href="guides.html">전기 상식</a></p>
     <p class="foot-reg"><span>서비스</span>{''.join(f' · <a href="{s["slug"]}.html">{E(s["short"])}</a>' for s in SERVICES)}</p>
     <p class="foot-reg"><span>출동 지역</span>{''.join(f' · <a href="{r["slug"]}.html">{E(r["name"])} 전기수리</a>' for r in REGIONS)}</p>
     <p class="foot-reg"><span>지역별 홈페이지</span>{''.join(f' · <a href="https://{r["slug"]}.smile1128.com/">{E(r["name"])}전기수리</a>' for r in REGIONS)}</p>
@@ -360,11 +362,15 @@ def steps_html():
     return f'<section class="sec alt"><div class="wrap"><h2>작업 진행 순서</h2><ol class="steps">{li}</ol></div></section>'
 
 def features_html():
-    f=[("bolt","사전 견적 후 작업","원인과 비용을 먼저 설명드리고, 동의하신 뒤에 작업합니다."),
-       ("building","자격 갖춘 전기 전문","전기공사기술자(중급)·전기기능사 보유. 아파트 공용부 유지보수까지 맡는 업체라 주택·상가 전기도 꼼꼼하게 봅니다."),
-       ("pin","경기북부·서울 동북부 방문","양주에 있어 의정부·동두천·포천·남양주·구리·하남, 서울 노원·도봉·강북·성북까지 방문합니다.")]
-    li="".join(f'<li>{icon(i)}<div><h3>{E(t)}</h3><p>{E(d)}</p></div></li>' for i,t,d in f)
-    return f'<section class="feat"><div class="wrap"><ul class="feat-list">{li}</ul></div></section>'
+    chips=[("bolt","누전·차단기 수리","guide-breaker-trips.html"),("plug","콘센트·스위치 교체","home-repair.html"),("home","LED 전등 교체","guide-led-light.html"),
+           ("panel","분전반 교체","panel.html"),("store","상가·사무실 전기공사","commercial.html"),("building","아파트 공용부 관리","apartment-maintenance.html")]
+    ch="".join(f'<a class="pop-c" href="{h}">{icon(i)}<span>{E(t)}</span></a>' for i,t,h in chips)
+    years = datetime.date.today().year - 2018
+    tr=[(f"{years}년째","2018년부터 아파트 전기·소방 유지보수"),("나라장터","조달청 정식 등록 업체"),("KC 정품","안전인증 자재만 사용"),
+        ("비용 먼저","원인·비용 설명 후 작업"),("자격 보유","전기공사기술자 · 전기기능사"),("11개 지역","경기북부·서울 동북부 방문")]
+    tl="".join(f'<li><b>{E(a)}</b><span>{E(b)}</span></li>' for a,b in tr)
+    return f'''<section class="pop"><div class="wrap"><p class="pop-h">많이 찾는 전기수리</p><div class="pop-g">{ch}</div></div></section>
+<section class="trust"><div class="wrap"><h2>아파트 공용부를 맡아 온 기술자가 <br class="m">직접 방문합니다</h2><p class="sub">작은 콘센트 하나도 단지 설비를 다루는 기준으로 봅니다. <a href="about.html">스마일일렉 소개 →</a></p><ul class="trust-l">{tl}</ul></div></section>'''
 
 def marquee_html(prefix=""):
     words=["누전 수리","차단기 내려감","콘센트 교체","스위치 교체","LED 방등 교체","분전반 교체","전기 배선 공사","상가 전기공사","주택 전기수리","화재복구 전기공사","아파트 공용부 유지보수"]
@@ -611,9 +617,8 @@ def build_home():
     page = head(title, desc, "", kw, [website, business_schema(), faq_schema(faqs)]) + header() + f"""
 <section class="hs" aria-roledescription="carousel" aria-label="스마일일렉 소개">
   <div class="hs-s on" style="--bg:url(images/hero/slide-1.jpg);--bgm:url(images/hero/slide-1-m.jpg)"><div class="wrap hs-in">
-    <p class="eyebrow">{icon('pin')} 의정부 · 양주 · 동두천 · 포천 · 남양주 · 구리 · 하남 · 서울 노원 · 도봉 · 강북 · 성북</p>
-    <h1>경기북부·서울 <em>전기수리·전기공사</em></h1>
-    <p class="lead">아파트·주택·빌라·상가 누전, 차단기, 콘센트, 조명까지 <br class="pc">자격 갖춘 기술자가 직접 방문합니다.</p>
+    <h1><span class="hs-kw">{icon('pin')} 경기북부·서울 동북부 전기수리 · 전기공사</span>전기는 안전하게,<br><em>수리는 확실하게.</em></h1>
+    <p class="lead">누전·차단기부터 LED 전등, 상가 공사까지. <br class="pc">전기공사기술자가 직접 방문해 원인과 비용을 먼저 설명드립니다.</p>
     {HS_BTNS}
   </div></div>
   <div class="hs-s" style="--bg:url(images/hero/slide-2.jpg);--bgm:url(images/hero/slide-2-m.jpg)"><div class="wrap hs-in">
@@ -925,9 +930,58 @@ def build_post(pt):
 """ + footer()
     write(f"case-{pt['slug']}.html", page)
 
+# ───────────────── 소개 ─────────────────
+def build_about():
+    years = datetime.date.today().year - 2018
+    title = f"스마일일렉 소개 | 양주 전기공사업체 · 나라장터 등록 · 전기공사기술자 대표"
+    desc = f"2018년부터 아파트 전기·소방 유지보수를 해 온 전기공사기술자가 운영하는 스마일일렉. 조달청 나라장터 등록, KC 안전인증 자재 사용. 경기북부·서울 동북부 출장 전기수리."
+    kw = "스마일일렉, 양주 전기공사업체, 의정부 전기업체, 전기공사기술자, 나라장터 등록 전기업체, 아파트 전기 유지보수 업체"
+    reg = " · ".join(r["name"] for r in REGIONS)
+    hist = [("2018","공공임대·분양 아파트 전기·소방 유지보수 업무 시작"),("2022","스마일일렉 설립, 세대·상가 전기수리와 공사 시작"),
+            ("현재",f"아파트 공용부 유지보수와 세대·상가 전기수리 병행, 경기북부·서울 동북부 {len(REGIONS)}개 지역 출장")]
+    hl="".join(f'<li><b>{E(y)}</b><span>{E(t)}</span></li>' for y,t in hist)
+    rules=[("원인 먼저","무엇이 고장 났는지 먼저 찾고, 왜 그런지 설명드립니다."),("비용은 작업 전에","작업 범위와 비용을 먼저 말씀드리고, 동의하신 뒤에 시작합니다."),
+           ("정품 자재만","KC 안전인증 자재만 씁니다. 스위치·콘센트는 제일전기·진흥전기, 아파트 네트워크 스위치는 다산지앤지 클리오·제일전기 제품을 주로 씁니다."),
+           ("사진으로 보고","작업 전후 사진을 남기고, 관리사무소에는 결과를 정리해 드립니다.")]
+    rl="".join(f'<li>{icon("check")}<div><h3>{E(t)}</h3><p>{E(d)}</p></div></li>' for t,d in rules)
+    faqs=[("스마일일렉은 어떤 업체인가요?", f"양주에 있는 전기 업체로, 2018년부터 공공임대·분양 아파트 전기·소방 유지보수를 해 온 전기공사기술자가 대표로 운영합니다. 세대·상가 전기수리와 전기공사, 아파트 공용부 유지보수를 함께 합니다."),
+          ("관공서나 공공기관 일도 하나요?","조달청 나라장터에 정식 등록된 업체라 공공기관 견적과 계약도 진행할 수 있습니다."),
+          ("어떤 자재를 쓰나요?","모든 자재는 KC 안전인증을 받은 정품만 씁니다. 스위치·콘센트는 제일전기·진흥전기, 아파트 네트워크 스위치는 다산지앤지 클리오·제일전기 제품을 주로 씁니다."),
+          ("어디까지 출장하나요?", f"{reg}까지 출장합니다.")]
+    about_schema={"@context":"https://schema.org","@type":"AboutPage","name":title,"url":f'{C["domain"]}/about.html',"about":{"@type":"Electrician","name":C["name"]}}
+    page = head(title, desc, "about.html", kw, [about_schema, business_schema(), faq_schema(faqs)]) + header() + f"""
+<section class="hero sm"><div class="wrap hero-in">
+  <nav class="crumb"><a href="index.html">홈</a> › 소개</nav>
+  <h1>스마일일렉 <em>소개</em></h1>
+  <p class="lead">아파트 단지 설비를 맡아 온 기준으로, 집과 가게의 전기도 똑같이 꼼꼼하게 봅니다.</p>
+  {consult_btns()}
+</div></section>
+<section class="sec"><div class="wrap two">
+  <div><span class="ceo-t">대표 인사말</span><h2>안녕하세요, 스마일일렉 {E(C['owner'].replace('대표 ',''))}입니다</h2>
+  <p>2018년부터 공공임대·분양 아파트의 전기와 소방 설비를 유지보수해 왔습니다. 분전반, 동력반, 지하주차장 조명, 화재 수신기처럼 단지 전체가 쓰는 설비를 다루다 보니, 작은 고장도 원인을 끝까지 찾는 습관이 몸에 배었습니다.</p>
+  <p>2022년 스마일일렉을 세운 뒤로는 세대와 상가 전기도 같은 기준으로 봅니다. 차단기가 왜 떨어지는지, 콘센트가 왜 탔는지 먼저 설명드리고, 비용을 말씀드린 다음 작업합니다.</p>
+  <p>전기는 눈에 안 보여서 더 불안하실 겁니다. 무엇이 문제였고 무엇을 고쳤는지, 알아듣기 쉽게 말씀드리겠습니다.</p></div>
+  <div class="box"><h3>한눈에 보는 스마일일렉</h3><ul class="about-l">
+    <li><b>경력</b><span>2018년부터 {years}년째 아파트 전기·소방 유지보수</span></li>
+    <li><b>자격</b><span>{E(C['owner_title'])}</span></li>
+    <li><b>등록</b><span>조달청 나라장터 정식 등록 업체</span></li>
+    <li><b>자재</b><span>KC 안전인증 정품만 사용</span></li>
+    <li><b>분야</b><span>세대·상가 전기수리, 전기공사, 분전반, 화재복구, 아파트 공용부 유지보수</span></li>
+    <li><b>지역</b><span>{E(reg)}</span></li>
+    <li><b>사업자</b><span>{E(C['name'])} · {E(C['biz_no'])} · {E(C['address'])}</span></li>
+  </ul></div>
+</div></section>
+<section class="sec alt"><div class="wrap"><h2>걸어온 길</h2><ul class="hist">{hl}</ul></div></section>
+<section class="sec"><div class="wrap"><h2>일하는 원칙</h2><p class="sub">어떤 현장이든 이 네 가지는 지킵니다.</p><ul class="feat-list rules">{rl}</ul></div></section>
+{cases_html(limit=6, cls="cases")}
+{faq_html(faqs)}
+{cta("전기 고민, 편하게 물어보세요")}
+""" + footer()
+    write("about.html", page)
+
 # ───────────────── 부가 파일 ─────────────────
 def build_extras():
-    pages = [("", "1.0")] + [(f"{s['slug']}.html", "0.9") for s in SERVICES] + [(f"{r['slug']}.html", "0.8") for r in REGIONS] + [(f"{l['slug']}.html", "0.8") for l in LOCALS] + [("cases.html","0.8"),("guides.html","0.7")] + [(f"{g['slug']}.html","0.6") for g in GUIDES] + [(f"case-{x['slug']}.html","0.7") for x in POSTS] + SYMPTOM_PAGES
+    pages = [("", "1.0")] + [(f"{s['slug']}.html", "0.9") for s in SERVICES] + [(f"{r['slug']}.html", "0.8") for r in REGIONS] + [(f"{l['slug']}.html", "0.8") for l in LOCALS] + [("about.html","0.8"),("cases.html","0.8"),("guides.html","0.7")] + [(f"{g['slug']}.html","0.6") for g in GUIDES] + [(f"case-{x['slug']}.html","0.7") for x in POSTS] + SYMPTOM_PAGES
     urls = "".join(f"<url><loc>{C['domain']}/{p}</loc><lastmod>{TODAY}</lastmod><priority>{pr}</priority></url>\n" for p, pr in pages)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
     write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {C['domain']}/sitemap.xml\n\n# 다음(Daum) 웹마스터도구 소유 인증\n#DaumWebMasterTool:5e97232627d479a890acd3a3bf5f5d5d5e55fd99662e9e730568741acadc91d5:1T0ZRs6bn/unEVfM5aXupg==\n#DaumWebMasterTool:a999723e179b57c3a13a4b44307b5943e2dc7ea96ef5469887ec197d37746247:RXqVBM7XE5wroppTXsoV6g==\n")
@@ -944,6 +998,7 @@ if __name__ == "__main__":
     if os.path.exists(OUT): shutil.rmtree(OUT)
     shutil.copytree(os.path.join(BASE,"static"), OUT)
     build_home()
+    build_about()
     for s in SERVICES: build_service(s)
     for r in REGIONS: build_region(r)
     for lp in LOCALS: build_local(lp)
