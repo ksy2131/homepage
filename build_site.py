@@ -16,6 +16,8 @@ CONFIG = {
     "hours": "평일 08:00–19:00 · 긴급출동 상시 상담",
     "blog": "https://blog.naver.com/smileelectronic",
     "place": "https://naver.me/xPUHS2Mz",           # 네이버 플레이스(지도)
+    "kakao": "https://pf.kakao.com/_LpVxnG/chat",   # 카카오톡 채널 상담(채팅)
+    "talk": "https://talk.naver.com/ct/w4s604",                                   # 네이버 톡톡 주소 (talk.naver.com/…) — 비어 있으면 버튼 숨김
     "hours_short": "평일 08:00–19:00",
     "naver_verify": ["75f49b04581c32624dc86659c4af15b1d3194fa3", "dbabcf680f4c377553fea377bbf8ea66961d5ef7"],  # 네이버 서치어드바이저 인증코드 (예전 netlify.app, 새 smile1128.com)
     "google_verify": "zpQNlofCxZk2VsMZslXs9Cw0MMUJFJSGsrkLBoHlsgc",                     # 구글 서치콘솔 인증코드
@@ -183,6 +185,10 @@ _order={"home-repair":0,"commercial":1,"apartment-maintenance":2,"panel":3,"fire
 SERVICES.sort(key=lambda x:_order.get(x["slug"],9))
 
 ICONS = {
+    "kakao": '<path d="M12 4C7 4 3 7.1 3 11c0 2.5 1.7 4.7 4.2 6L6.5 20l3.6-2.3c.6.1 1.2.1 1.9.1 5 0 9-3.1 9-7s-4-6.8-9-6.8z" fill="currentColor" stroke="none"/>',
+    "naver": '<path d="M5 4h4.6l4.8 7V4H19v16h-4.6l-4.8-7v7H5z" fill="currentColor" stroke="none"/>',
+    "up": '<path d="M12 19V5M5 12l7-7 7 7"/>',
+    "msg": '<path d="M4 5h16v11H8l-4 4z"/>',
     "building": '<path d="M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16M15 9h4a1 1 0 0 1 1 1v11M3 21h18M8 8h3M8 12h3M8 16h3"/>',
     "plug": '<path d="M9 2v5M15 2v5M6 7h12v4a6 6 0 0 1-12 0V7zM12 17v5"/>',
     "panel": '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7v4M12 7v4M16 7v4M8 15h8"/>',
@@ -287,10 +293,20 @@ def footer():
   <div class="wrap copy">© {datetime.date.today().year} {E(C['name'])}. All rights reserved.</div>
 </footer>
 <div class="float" aria-label="빠른 상담">
-  <a class="fl fl-tel" href="tel:{TEL}">{icon('phone')}<span>전화</span></a>
-  <a class="fl fl-sms" href="sms:{TEL}">{icon('chat')}<span>문자</span></a>
-  <a class="fl fl-blog" href="{E(C['blog'])}" target="_blank" rel="noopener">{icon('blog')}<span>블로그</span></a>
+  <a class="fl fl-tel" href="tel:{TEL}">{icon('phone')}<span>전화상담</span></a>
+  <a class="fl fl-sms" href="sms:{TEL}">{icon('msg')}<span>문자상담</span></a>
+  {f'<a class="fl fl-talk" href="{E(C["talk"])}" target="_blank" rel="noopener">{icon("naver")}<span>톡톡상담</span></a>' if C.get("talk") else ''}
+  {f'<a class="fl fl-kakao" href="{E(C["kakao"])}" target="_blank" rel="noopener">{icon("kakao")}<span>카톡상담</span></a>' if C.get("kakao") else ''}
+  <button class="fl fl-top" type="button" onclick="window.scrollTo({{top:0,behavior:'smooth'}})" aria-label="맨 위로">{icon('up')}<span>TOP</span></button>
 </div>
+<script>
+(function(){{var h=document.querySelector('.hs');if(!h)return;var s=h.querySelectorAll('.hs-s'),d=h.querySelectorAll('.hs-dot'),i=0,t,n=s.length;
+function go(k){{s[i].classList.remove('on');d[i].classList.remove('on');d[i].setAttribute('aria-selected','false');i=(k+n)%n;s[i].classList.add('on');d[i].classList.add('on');d[i].setAttribute('aria-selected','true')}}
+function play(){{stop();if(!matchMedia('(prefers-reduced-motion: reduce)').matches)t=setInterval(function(){{go(i+1)}},5000)}}function stop(){{clearInterval(t)}}
+d.forEach(function(b,k){{b.onclick=function(){{go(k);play()}}}});h.querySelector('.hs-prev').onclick=function(){{go(i-1);play()}};h.querySelector('.hs-next').onclick=function(){{go(i+1);play()}};
+h.addEventListener('mouseenter',stop);h.addEventListener('mouseleave',play);var x0=null;h.addEventListener('touchstart',function(e){{x0=e.touches[0].clientX}},{{passive:true}});
+h.addEventListener('touchend',function(e){{if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40){{go(i+(dx<0?1:-1));play()}}x0=null}});play()}})();
+</script>
 </body>
 </html>"""
 
@@ -576,15 +592,43 @@ def build_home():
     # 구글 검색결과 위쪽 "사이트 이름"(netlify.app 대신 스마일일렉)으로 쓰라는 표시 — 홈페이지에만 넣음
     website = {"@context": "https://schema.org", "@type": "WebSite", "name": C["name"],
                "alternateName": ["스마일일렉 전기", "Smile Elec"], "url": f'{C["domain"]}/'}
+    HS_BTNS = f'<div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon("phone")} 전화상담</a>' + (f'<a class="btn btn-kakao" href="{E(C["kakao"])}" target="_blank" rel="noopener">{icon("kakao")} 카톡상담</a>' if C.get("kakao") else '') + (f'<a class="btn btn-talk" href="{E(C["talk"])}" target="_blank" rel="noopener">{icon("naver")} 톡톡상담</a>' if C.get("talk") else '') + '</div>'
+    QC_TALK = f'<a class="qc-b qc-talk" href="{E(C["talk"])}" target="_blank" rel="noopener">{icon("naver")}<span><b>네이버 톡톡</b><small>톡톡으로 상담</small></span></a>' if C.get("talk") else ''
+    QC_KAKAO = f'<a class="qc-b qc-kakao" href="{E(C["kakao"])}" target="_blank" rel="noopener">{icon("kakao")}<span><b>카톡상담</b><small>카카오톡 채널</small></span></a>' if C.get("kakao") else ''
     page = head(title, desc, "", kw, [website, business_schema(), faq_schema(faqs)]) + header() + f"""
-<section class="hero hero-main"><div class="wrap hero-in hero-c">
-  <p class="eyebrow">{icon('pin')} 의정부 · 양주 · 동두천 · 포천 · 남양주 · 구리 · 하남 · 서울 노원 · 도봉 · 강북 · 성북</p>
-  <h1>경기북부·서울 <em>전기수리·전기공사</em></h1>
-  <ul class="space"><li>{icon('building')}아파트</li><li>{icon('home')}주택·빌라</li><li>{icon('store')}상가·사무실</li></ul>
-  <p class="lead">누전·차단기 수리부터 매장 전기공사, 아파트 공용부 관리까지 <br class="pc">자격 갖춘 기술자가 직접 방문합니다.</p>
-  <a class="big-tel" href="tel:{TEL}">{icon('phone')}<span><small>전화 한 통이면 바로 상담</small>{E(C['phone'])}</span></a>
-  <div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} 지금 전화하기</a><a class="btn btn-o" href="sms:{TEL}">문자로 사진 보내기</a></div>
-  <ul class="badges"><li>{icon('check')} 방문 전 증상 상담</li><li>{icon('check')} 작업 전 원인·비용 설명</li><li>{icon('check')} 전기공사기술자 대표 운영</li></ul>
+<section class="hs" aria-roledescription="carousel" aria-label="스마일일렉 소개">
+  <div class="hs-s on" style="--bg:url(images/hero/slide-1.jpg);--bgm:url(images/hero/slide-1-m.jpg)"><div class="wrap hs-in">
+    <p class="eyebrow">{icon('pin')} 의정부 · 양주 · 동두천 · 포천 · 남양주 · 구리 · 하남 · 서울 노원 · 도봉 · 강북 · 성북</p>
+    <h1>경기북부·서울 <em>전기수리·전기공사</em></h1>
+    <p class="lead">아파트·주택·빌라·상가 누전, 차단기, 콘센트, 조명까지 <br class="pc">자격 갖춘 기술자가 직접 방문합니다.</p>
+    {HS_BTNS}
+  </div></div>
+  <div class="hs-s" style="--bg:url(images/hero/slide-2.jpg);--bgm:url(images/hero/slide-2-m.jpg)"><div class="wrap hs-in">
+    <p class="eyebrow">{icon('bolt')} 누전 · 차단기 수리</p>
+    <p class="hs-h">차단기가 자꾸 떨어진다면<br><em>원인부터 찾아 드립니다</em></p>
+    <p class="lead">회로별로 측정해서 누전인지 과부하인지 먼저 확인하고, <br class="pc">작업 전에 원인과 비용을 설명드립니다.</p>
+    {HS_BTNS}
+  </div></div>
+  <div class="hs-s" style="--bg:url(images/hero/slide-3.jpg);--bgm:url(images/hero/slide-3-m.jpg)"><div class="wrap hs-in">
+    <p class="eyebrow">{icon('home')} LED 전등 · 콘센트 · 스위치</p>
+    <p class="hs-h">깜빡이는 형광등,<br><em>LED로 밝고 깔끔하게</em></p>
+    <p class="lead">거실등·방등·주방등 교체부터 콘센트·스위치 증설까지 <br class="pc">한 번 방문으로 정리해 드립니다.</p>
+    {HS_BTNS}
+  </div></div>
+  <div class="hs-s" style="--bg:url(images/hero/slide-4.jpg);--bgm:url(images/hero/slide-4-m.jpg)"><div class="wrap hs-in">
+    <p class="eyebrow">{icon('building')} 관리사무소 · 상가 · 공용부</p>
+    <p class="hs-h">아파트 공용부·상가 전기<br><em>점검부터 공사까지</em></p>
+    <p class="lead">지하주차장 조명, 분전반·동력반, 발전기실, 매장 인테리어 전기.<br class="pc">점검 결과와 견적을 정리해 드립니다.</p>
+    {HS_BTNS}
+  </div></div>
+  <button class="hs-arr hs-prev" type="button" aria-label="이전 슬라이드">‹</button><button class="hs-arr hs-next" type="button" aria-label="다음 슬라이드">›</button>
+  <div class="hs-dots" role="tablist"><button class="hs-dot on" type="button" role="tab" aria-selected="true" aria-label="1번 슬라이드"></button><button class="hs-dot" type="button" role="tab" aria-selected="false" aria-label="2번 슬라이드"></button><button class="hs-dot" type="button" role="tab" aria-selected="false" aria-label="3번 슬라이드"></button><button class="hs-dot" type="button" role="tab" aria-selected="false" aria-label="4번 슬라이드"></button></div>
+</section>
+<section class="qc"><div class="wrap qc-in">
+  <a class="qc-b qc-tel" href="tel:{TEL}">{icon('phone')}<span><b>전화상담</b><small>{E(C['phone'])}</small></span></a>
+  <a class="qc-b qc-sms" href="sms:{TEL}">{icon('msg')}<span><b>문자상담</b><small>사진 보내고 상담</small></span></a>
+  {QC_TALK}
+  {QC_KAKAO}
 </div></section>
 {features_html()}
 {marquee_html()}

@@ -52,7 +52,7 @@ def sub_layout(r, title, desc, body, schema):
 <main>{body}</main>
 <footer class="foot"><div class="wrap"><p>상호 {E(C['name'])} · {E(C['owner'])} · 사업자등록번호 {E(C['biz_no'])}<br>{E(C['address'])} · 전화 <a href="tel:{TEL}">{E(C['phone'])}</a><br>
 <a href="{main}/">스마일일렉 홈페이지</a> · <a href="{E(C['blog'])}" rel="noopener">네이버 블로그</a> · <a href="{E(C['place'])}" rel="noopener">네이버 지도</a></p></div></footer>
-<div class="float"><a class="fl fl-tel" href="tel:{TEL}">{icon('phone')}<span>전화</span></a><a class="fl fl-sms" href="sms:{TEL}">{icon('chat')}<span>문자</span></a></div>
+<div class="float"><a class="fl fl-tel" href="tel:{TEL}">{icon('phone')}<span>전화상담</span></a><a class="fl fl-sms" href="sms:{TEL}">{icon('msg')}<span>문자상담</span></a><a class="fl fl-talk" href="{E(C['talk'])}" target="_blank" rel="noopener">{icon('naver')}<span>톡톡상담</span></a><a class="fl fl-kakao" href="{E(C['kakao'])}" target="_blank" rel="noopener">{icon('kakao')}<span>카톡상담</span></a></div>
 </body></html>"""
 
 def build_subsite(r):
