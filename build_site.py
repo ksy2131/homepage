@@ -262,9 +262,9 @@ def header(active=""):
     <a class="logo" href="index.html" aria-label="{E(C['name'])} 홈"><svg class="logo-mk" viewBox="0 0 100 120" aria-hidden="true"><defs><mask id="lmh"><rect width="100" height="120" fill="#fff"/><polygon points="92,6 38,66 57,64 18,116 80,50 61,52" fill="#000" stroke="#000" stroke-width="9" stroke-linejoin="round"/></mask></defs><path d="M84 21 H40 A19 19 0 0 0 40 59 H60 A20 20 0 0 1 60 99 H16" fill="none" stroke="#0f2355" stroke-width="22" mask="url(#lmh)"/><polygon points="92,6 38,66 57,64 18,116 80,50 61,52" fill="#ffc400"/></svg><span>{E(C['name'])}</span></a>
     <button class="menu-btn" aria-label="메뉴 열기" aria-expanded="false" onclick="var n=document.getElementById('nav');var o=n.classList.toggle('open');this.setAttribute('aria-expanded',o)"><span></span><span></span><span></span></button>
     <nav id="nav" class="nav">
+      <a href="about.html">소개</a>
       <div class="dd"><span class="dd-t">서비스</span><div class="dd-m">{svc_links}</div></div>
       <div class="dd"><span class="dd-t">출동 지역</span><div class="dd-m">{reg_links}</div></div>
-      <a href="about.html">소개</a>
       <a href="cases.html">시공사례</a>
       <a href="guides.html">전기 상식</a>
       <a href="index.html#faq">자주 묻는 질문</a>
