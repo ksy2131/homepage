@@ -411,3 +411,14 @@ a.case:hover{box-shadow:0 14px 34px rgba(15,61,145,.13);transform:translateY(-3p
 .g-body > h2:first-child{margin-top:0}
 @media (max-width:620px){.diag-in svg{min-width:640px}.diag-in::after{content:"← 옆으로 밀어서 보기 →";display:block;text-align:center;font-size:13px;color:var(--muted);margin-top:6px;position:sticky;left:0}}
 .g-body > h2:first-child{border-top:0;padding-top:0}
+
+/* 동네 페이지: 요약 카드·대표 이미지 */
+.sumc{background:#fff;border-bottom:1px solid var(--line);padding:22px 0}
+.sumc-l{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.sumc-l li{display:flex;gap:12px;align-items:flex-start;background:var(--alt,#f4f7fc);border-radius:14px;padding:16px}
+.sumc-l .ic{width:34px;height:34px;flex:none;color:var(--navy);background:#fff;border-radius:10px;padding:6px;box-shadow:0 2px 8px rgba(15,61,145,.08)}
+.sumc-l small{display:block;color:var(--muted);font-size:13px;margin-bottom:2px}
+.sumc-l b{display:block;color:var(--ink);font-size:15.5px;line-height:1.45;word-break:keep-all}
+.dong-thumb{margin:0 0 18px}.dong-thumb img{display:block;width:100%;height:auto;border-radius:var(--r);box-shadow:0 8px 24px rgba(15,61,145,.12)}
+@media (max-width:900px){.sumc-l{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.sumc-l{grid-template-columns:1fr}.sumc-l li{padding:12px}}

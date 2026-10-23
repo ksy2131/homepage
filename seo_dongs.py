@@ -117,11 +117,35 @@ TOPICS = {
            ["계단·주차장 등만 꺼짐", "공용 분전반", "건물 관리인·전기업체"]],
   "cap": "한전 고객센터는 국번 없이 123입니다.",
   "guide": "guide-power-out"},
+ "oneroom": {
+  "title": "{n} 원룸·다가구 전기, 한 세대만 자꾸 나갈 때",
+  "paras": ["{n}처럼 원룸·다가구 주택이 많은 동네는 세대마다 작은 분전반이 있고, 건물 계량기함과 공용 분전반이 따로 있습니다. 한 세대에서 전열기·에어컨·전기레인지를 동시에 쓰면 세대 차단기 용량을 넘기 쉽습니다.",
+            "같은 세대만 반복해서 전기가 나간다면 세대 차단기 노후, 계량기함 단자 풀림, 세대 안 가전 누전 가운데 무엇인지 측정으로 구분해야 합니다. 건물주라면 세대별로 한 번에 점검해 두는 편이 민원을 줄입니다."],
+  "head": ["증상", "의심 원인", "조치"],
+  "rows": [["전열기 켜면 세대 전기가 나감", "세대 차단기 용량 초과", "사용 분산, 필요 시 회로 조정"],
+           ["아무것도 안 했는데 나감", "차단기 노후, 단자 풀림", "차단기 교체, 단자 재체결"],
+           ["비 오는 날 나감", "창가·욕실 콘센트 습기", "방수형 교체, 절연 측정"],
+           ["복도·계단 등만 꺼짐", "공용 분전반·센서", "공용 회로 점검"]],
+  "cap": "",
+  "guide": "guide-power-out"},
+ "livestock": {
+  "title": "{n} 축사·농장 전기, 멈추면 안 되는 설비 점검하기",
+  "paras": ["{n}에는 축사와 농장 시설이 있어 환풍기, 보온등·히터, 급수 펌프처럼 쉬지 않고 돌아가는 설비가 많습니다. 이런 설비가 멈추면 가축 피해로 바로 이어지기 때문에 차단기 한 번 떨어지는 것도 큰일입니다.",
+            "축사는 먼지와 습기, 암모니아 가스 때문에 배선과 단자가 일반 건물보다 빨리 상하고, 쥐가 전선 피복을 갉는 일도 흔합니다. 계절이 바뀔 때 절연저항과 누전차단기 동작을 점검해 두면 갑작스러운 정전을 크게 줄일 수 있습니다."],
+  "head": ["설비", "자주 생기는 문제", "점검·조치"],
+  "rows": [["환풍기", "모터 누전, 먼지 과열", "모터 절연 측정, 청소"],
+           ["보온등·히터", "과부하, 피복 열화", "회로 분리, 내열 배선"],
+           ["급수·분뇨 펌프", "습기 누전", "방수 처리, 누전차단기 점검"],
+           ["분전반", "부식, 쥐 피해", "밀폐형 함체, 단자 정비"]],
+  "cap": "",
+  "guide": "guide-leakage-check"},
 }
+TOPIC_SHORT = {'panel_age': ('분전반·차단기 노후', '입주 25년, 분전반·차단기 점검 시기'), 'old_outlet': ('콘센트·스위치 노후', '헐거운 콘센트·스위치 교체'), 'fluorescent': ('형광등 → LED', '형광등·안정기 LED 교체'), 'new_circuit': ('가전 전용 회로', '인덕션·건조기 전용 회로 증설'), 'led_module': ('LED 방등 고장', 'LED 방등 모듈·컨버터 교체'), 'kitchen_leak': ('주방 콘센트 누전', '주방·아일랜드 콘센트 누전 수리'), 'shop': ('매장 차단기 과부하', '상가·매장 전기 증설·누전 수리'), 'rural': ('외부 배선 누전', '전원주택·창고 누전 수리'), 'factory': ('공장 3상 동력', '공장 3상 동력·분전반 점검'), 'villa': ('빌라 정전·차단기', '빌라·다세대 정전·차단기 수리'), 'oneroom': ('원룸 세대 정전', '원룸·다가구 정전·차단기 수리'), 'livestock': ('축사 설비 누전', '축사·농장 전기 설비 점검')}
 TOPIC_ALT = {'panel_age': ['분전반 문을 열었을 때 차단기 손잡이 색이 누렇게 바랬거나, 차단기 사이 단자 쪽이 검게 그을려 있다면 {n} 집의 분전반이 오래 일했다는 표시입니다. 이런 상태에서 에어컨·인덕션을 함께 쓰면 차단기가 떨어지거나 단자에서 열이 납니다.', '교체 여부는 겉모습만으로 정하지 않습니다. 누전차단기 시험버튼 동작, 회로별 절연저항, 사용 전류를 재 본 뒤 필요한 차단기만 바꿀지 분전반 전체를 바꿀지 말씀드립니다.'], 'old_outlet': ['{n}에서 콘센트 문의를 받고 가 보면, 플러그가 빠질 듯 헐겁게 꽂히는 콘센트가 한 집에 몇 개씩 있는 경우가 많습니다. 헐거운 콘센트는 접촉 부분이 좁아져 열이 나고, 오래 쓰면 커버가 변색되고 그을음이 생깁니다.', '스위치도 마찬가지로 안쪽 접점이 닳으면 여러 번 눌러야 켜지거나 딸깍 소리만 납니다. 문제가 보이는 것부터 바꾸되, 같은 시기에 단 것이 많다면 한 번에 정리하는 쪽이 출장비를 아낍니다.'], 'fluorescent': ['형광등 끝부분이 검게 변하거나 켤 때 한참 깜빡이다 켜진다면 램프보다 안정기가 지친 경우가 많습니다. {n}처럼 오래된 단지에서 자주 보는 증상입니다.', '형광등 자리에 LED 등기구를 달면 같은 밝기에 전기를 덜 쓰고, 안정기 고장도 사라집니다. 기존 천장 배선을 그대로 쓰는 경우가 많아 공사는 등기구 교체로 끝나는 편입니다.'], 'new_circuit': ['입주하고 나서 {n} 집에 인덕션, 식기세척기, 건조기, 의류관리기를 하나씩 들이다 보면 어느 날부터 주방이나 베란다 차단기가 떨어지기 시작합니다. 차단기 고장이 아니라 한 회로에 걸리는 전기가 한계를 넘은 것입니다.', '해결 방법은 큰 가전마다 길을 따로 내 주는 것, 즉 전용 회로입니다. 분전반 빈 자리에 차단기를 추가하고 맞는 굵기의 전선으로 콘센트까지 새로 연결합니다.'], 'led_module': ['LED 등은 형광등보다 오래 간다고 알려져 있지만, {n} 단지처럼 입주한 지 몇 년 지나면 고장이 하나둘 생깁니다. 특히 전원을 바꿔 주는 컨버터가 열에 약해 먼저 고장 나는 경우가 많습니다.', '모듈이나 컨버터만 교체하면 비용이 적게 들고, 등 전체를 바꾸면 밝기와 색이 새로 맞춰집니다. 다른 방 등도 같은 시기에 달렸다면 한 번에 바꾸는 쪽을 고르시는 분이 많습니다.'], 'kitchen_leak': ['{n} 단지에서 주방 차단기가 설거지할 때나 식기세척기를 돌릴 때만 떨어진다면 싱크대 아래쪽부터 확인합니다. 하부장 안 콘센트는 배수관과 가까워 습기가 차기 쉽습니다.', '물을 쓰는 가전(정수기·음식물처리기·식기세척기)을 하나씩 뽑아 보면 원인을 집에서도 어느 정도 좁힐 수 있습니다. 다 뽑아도 떨어지면 콘센트나 배선 쪽이라 측정이 필요합니다.'], 'shop': ['{n} 매장에서 차단기가 떨어지는 시간대를 보면 원인이 보이는 경우가 많습니다. 점심·저녁 피크에 떨어지면 과부하, 비 오는 날이나 청소 후에 떨어지면 누전 쪽을 먼저 의심합니다.', '업종 변경이나 인테리어 공사 때 분전반 회로를 새로 나누면 영업 중 정전을 크게 줄일 수 있습니다. 간판과 외부 조명은 따로 회로를 두어 외부 누전이 매장 안 전기를 끊지 않게 합니다.'], 'rural': ['{n}의 단독주택이나 창고는 계량기에서 집, 집에서 창고·마당까지 전선이 길게 이어집니다. 이 중 땅에 묻히거나 외벽에 노출된 구간이 비바람에 상하면 누전이 생깁니다.', '비 오는 날에만 차단기가 떨어진다면 집 안보다 집 밖 배선을 먼저 의심하세요. 외부 콘센트·조명, 지하수 모터, 보일러처럼 물과 가까운 설비가 흔한 원인입니다.'], 'factory': ['{n} 공장에서 갑자기 기계가 서면 생산이 멈추기 때문에 원인을 빨리 찾는 것이 중요합니다. 동력 차단기가 떨어졌는지, 접촉기만 붙지 않는지, 한 상이 끊겼는지를 측정기로 바로 구분합니다.', '기계를 늘릴 때마다 배선만 덧붙여 온 공장은 분전반 안이 복잡하고 단자 발열이 생기기 쉽습니다. 정기적으로 단자를 다시 조이고 절연을 재 두면 갑작스러운 정지를 크게 줄일 수 있습니다.'], 'villa': ['{n} 빌라에서 정전이 나면 먼저 우리 집만인지, 건물 전체인지부터 보세요. 그것만 알아도 어디를 확인할지, 누구에게 연락할지가 정해집니다.', '오래된 빌라는 계량기함 안 세대 차단기와 단자가 낡아 한 집만 전기가 끊기는 경우가 있고, 공용 계단 등은 공용 분전반에 따로 묶여 있습니다. 아래 표를 참고해 확인해 보세요.']}
-TOPIC_TYPE_NOTE = {"panel_age": "노후", "old_outlet": "노후", "fluorescent": "노후", "villa": "혼합", "shop": "혼합",
+TOPIC_TYPE_NOTE = {"oneroom": "혼합", "livestock": "노후", "panel_age": "노후", "old_outlet": "노후", "fluorescent": "노후", "villa": "혼합", "shop": "혼합",
                    "new_circuit": "신축", "led_module": "신축", "kitchen_leak": "신축", "rural": "노후", "factory": "혼합"}
 
+exec(open(os.path.join(BASE, "seo_visual.py"), encoding="utf-8").read())
 exec(open(os.path.join(BASE, "dong_data.py"), encoding="utf-8").read())
 
 # 기존 LOCALS와 합치기 (같은 slug는 새 데이터로 보강, 새 동네는 추가)
@@ -140,7 +164,9 @@ for _l in LOCALS:
         _l.setdefault("topics", ["led_module", "panel_age"]); _l.setdefault("near", [])
         _l.setdefault("lead", "덕정역·덕계역·회천중앙역 일대 회천지구 아파트와 빌라의 누전·차단기 수리, 전용 회로 증설, 분전반 교체를 직접 전기출장합니다.")
 
-REGION_LABEL = {"uijeongbu": "의정부", "yangju": "양주", "dongducheon": "동두천", "hanam": "하남"}
+REGION_LABEL = {"uijeongbu": "의정부", "yangju": "양주", "dongducheon": "동두천", "hanam": "하남", "namyangju": "남양주", "guri": "구리", "pocheon": "포천", "nowon": "노원구", "dobong": "도봉구", "gangbuk": "강북구", "seongbuk": "성북구"}
+SEOUL = {"nowon", "dobong", "gangbuk", "seongbuk"}
+FAR = SEOUL | {"hanam", "guri", "namyangju"}
 
 def _variants(kn, nm):
     v = [kn]
@@ -173,7 +199,7 @@ def topic_html(key, n, v=0):
     if len(rows) >= 4:
         o = v % len(rows); rows = (rows[o:] + rows[:o])[:len(rows) - 1]
     link = f'<p><a class="link" href="{g["slug"]}.html">더 자세히: {E(g["q"])} →</a></p>' if g else ""
-    return f'<h2>{E(t["title"].format(n=n))}</h2>{paras}{table_html(t["head"], rows, t.get("cap", ""))}{link}'
+    return f'<h2>{E(t["title"].format(n=n))}</h2>{paras}{topic_fig(key, n)}{table_html(t["head"], rows, t.get("cap", ""))}{link}'
 
 def inquiry_html(lp, n):
     """시공사례가 아직 없는 동네 — 문의를 부르는 안내"""
@@ -209,19 +235,19 @@ def choose_html(n, v=0):
     return f'<h2>{E(n)} 전기공사업체·전기업체 고를 때 확인할 것</h2><p>{E(intro)} 스마일일렉은 전기공사기술자(중급)·전기기능사가 직접 방문해 측정으로 원인을 확인한 뒤 작업합니다.</p>{table_html(["확인할 것", "이유"], rows)}'
 
 def glance_html(lp, n, rn):
-    rows = [["행정구역", f"경기도 {rn}시 {n}" + (f" (행정동: {', '.join(lp['admin'])})" if lp.get("admin") else "")]]
+    rows = [["행정구역", (f"서울 {rn} {n}" if lp["region"] in SEOUL else f"경기도 {rn}시 {n}") + (f" (행정동: {', '.join(lp['admin'])})" if lp.get("admin") else "")]]
     if lp.get("housing"): rows.append(["주거 형태", lp["housing"]])
     if lp.get("complexes"): rows.append(["대표 단지", ", ".join(lp["complexes"])])
     if lp.get("landmarks"): rows.append(["주요 장소", ", ".join(lp["landmarks"])])
     rows.append(["인근 출장", ", ".join(lp.get("near", []))])
     if lp.get("jobs"): rows.append(["자주 하는 작업", lp["jobs"]])
     th = "".join(f"<tr><th>{E(a)}</th><td>{E(b)}</td></tr>" for a, b in rows)
-    return f'<h2>{E(n)} 한눈에 보기</h2><div class="tbl-wrap"><table class="tbl"><tbody>{th}</tbody></table></div><p class="tbl-cap">단지명·입주연도는 공개 자료 기준이며 실제와 다를 수 있습니다.</p>'
+    return f'<h2>{E(n)} 한눈에 보기</h2><div class="tbl-wrap"><table class="tbl"><tbody>{th}</tbody></table></div><p class="tbl-cap">단지명·입주연도는 공개 자료 기준이며 실제와 다를 수 있습니다.</p>{timeline_fig(lp, n)}{near_map_fig(lp, n, rn)}'
 
 def build_local(lp):
     r = next(x for x in REGIONS if x["slug"] == lp["region"]); rn = r.get("alias") or r["name"]
     n = lp["kn"]; nm = lp["name"]
-    city = {"uijeongbu": "의정부", "yangju": "양주", "dongducheon": "동두천", "hanam": "하남"}.get(lp["region"], rn)
+    city = REGION_LABEL.get(lp["region"], rn)
     cases = local_cases(lp)
     title = f"{n} 전기수리·전기출장 | {city} {n} 전기공사업체 - {C['name']}"
     desc = lp.get("desc") or f"{city} {n} 전기수리·전기출장 스마일일렉. {n} 전기업체로 누전·차단기·콘센트·조명 수리와 전기공사까지 직접 출장합니다. {C['phone']}"
@@ -232,7 +258,9 @@ def build_local(lp):
     kw = ", ".join(dict.fromkeys(kws))
     faqs = list(lp.get("faqs", []))
     v = _v(lp["slug"], 12)
-    gen = [(f"{n} 전기업체 오늘 출장 되나요?", f"전화로 증상을 먼저 듣고 가능한 가장 빠른 시간으로 방문 일정을 잡습니다. 스마일일렉은 양주 광적면에 있어 {city} {n}까지 이동이 어렵지 않습니다. 타는 냄새가 나면 해당 차단기를 내려 두고 기다려 주세요."),
+    reach = (f"스마일일렉은 경기 북부와 서울 동북부를 매일 다니고 있어 {city} {n}도 일정을 맞춰 방문합니다." if lp["region"] in FAR
+             else f"스마일일렉은 양주 광적면에 있어 {city} {n}까지 이동이 어렵지 않습니다.")
+    gen = [(f"{n} 전기업체 오늘 출장 되나요?", f"전화로 증상을 먼저 듣고 가능한 가장 빠른 시간으로 방문 일정을 잡습니다. {reach} 타는 냄새가 나면 해당 차단기를 내려 두고 기다려 주세요."),
              (f"{n}에서 콘센트 하나, 등 하나 교체도 전기출장 오시나요?", "네. 작은 작업 한 건도 출장합니다. 사진을 먼저 보내 주시면 맞는 자재를 챙겨 한 번에 끝냅니다."),
              (f"{n} 전기공사 비용은 언제 알 수 있나요?", "전화나 사진으로 대략적인 방향을 먼저 안내하고, 현장에서 원인을 확인한 뒤 작업 전에 정확한 비용을 말씀드립니다. 동의하신 뒤에만 작업합니다.")]
     faqs.append(gen[v % 3])
@@ -248,16 +276,22 @@ def build_local(lp):
     others = "".join(f'<a class="chip" href="{o["slug"]}.html">{E(o["kn"])} 전기수리</a>' for o in LOCALS if o["region"] == lp["region"] and o is not lp)
     lead = lp.get("lead") or f"{city} {n} 아파트·주택·상가의 누전·차단기 수리, 콘센트·스위치·조명 교체, 분전반 공사까지 전기공사기술자가 직접 전기출장합니다."
     intro = lp.get("intro", "")
-    page = head(title, desc, f"{lp['slug']}.html", kw, [business_schema([f"{city} {n}"]), faq_schema(faqs), howto_schema(f"{n} 전기수리 진행 순서", STEPS), crumbs_schema(crumbs)]) + header() + f"""
+    thumb = f"images/dong/{lp['slug']}.jpg"
+    has_thumb = os.path.exists(os.path.join(BASE, "static", thumb))
+    og = f"{C['domain']}/{thumb}" if has_thumb else None
+    alt = f"{city} {n} 전기수리 전기출장 스마일일렉"
+    thumb_html = f'<figure class="dong-thumb"><img src="{thumb}" alt="{E(alt)}" width="1200" height="630"></figure>' if has_thumb else ""
+    page = head(title, desc, f"{lp['slug']}.html", kw, [business_schema([f"{city} {n}"]), faq_schema(faqs), howto_schema(f"{n} 전기수리 진행 순서", STEPS), crumbs_schema(crumbs)], og=og) + header() + f"""
 <section class="hero sm"><div class="wrap hero-in">
   <nav class="crumb"><a href="index.html">홈</a> › <a href="{r['slug']}.html">{E(r['name'])}</a> › {E(n)} 전기수리</nav>
   <h1><em>{E(n)}</em> 전기수리 · 전기공사</h1>
   <p class="lead">{E(lead)}</p>
   <div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} {E(n)} 전기출장 상담 {E(C['phone'])}</a></div>
 </div></section>
+{summary_cards(lp, n, city)}
 <section class="sec"><div class="wrap two">
   <div><h2>{E(city)} {E(n)}, 이런 동네입니다</h2><p>{E(intro)}</p>{f'<p>{E(lp["intro2"])}</p>' if lp.get("intro2") else ""}</div>
-  <div class="box"><h3>{E(n)}·인근 전기출장 지역</h3><ul class="areas">{"".join(f'<li>{icon("pin")}{E(a)}</li>' for a in [f"{city} {n}"] + lp.get('near', []))}</ul><p class="muted small">{E(n)} 전기수리 · {E(n)} 전기출장 · {E(n)} 전기공사업체 · {E(nm)}전기수리</p></div>
+  <div>{thumb_html}<div class="box"><h3>{E(n)}·인근 전기출장 지역</h3><ul class="areas">{"".join(f'<li>{icon("pin")}{E(a)}</li>' for a in [f"{city} {n}"] + lp.get('near', []))}</ul><p class="muted small">{E(n)} 전기수리 · {E(n)} 전기출장 · {E(n)} 전기공사업체 · {E(nm)}전기수리</p></div></div>
 </div></section>
 <section class="sec alt"><div class="wrap post"><div class="post-body g-body">
 {glance_html(lp, n, city)}

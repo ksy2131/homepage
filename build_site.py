@@ -203,7 +203,7 @@ C = CONFIG
 TEL = C["phone"].replace("-", "")
 
 # ───────────────── 공통 레이아웃 ─────────────────
-def head(title, desc, path, keywords, schema_list):
+def head(title, desc, path, keywords, schema_list, og=None):
     url = f'{C["domain"]}/{path}' if path else f'{C["domain"]}/'
     verify = ""
     nv = C["naver_verify"]
@@ -228,11 +228,11 @@ def head(title, desc, path, keywords, schema_list):
 <meta property="og:description" content="{E(desc)}">
 <meta property="og:url" content="{url}">
 <meta property="og:locale" content="ko_KR">
-<meta property="og:image" content="{C['domain']}/images/og-main.jpg">
+<meta property="og:image" content="{og or (C['domain'] + '/images/og-main.jpg')}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="{C['domain']}/images/og-main.jpg">
+<meta name="twitter:image" content="{og or (C['domain'] + '/images/og-main.jpg')}">
 <meta name="theme-color" content="#0f3d91">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">

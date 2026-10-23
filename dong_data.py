@@ -4,7 +4,8 @@
 # topics: seo_dongs.py의 TOPICS 키 (첫 번째가 동네 성격을 정함)
 
 def D(slug, kn, name, region, admin, intro, intro2, housing, complexes, landmarks, near, jobs, topics, faqs, lead="", match=None):
-    city = {"uijeongbu": "의정부", "yangju": "양주", "dongducheon": "동두천"}[region]
+    city = {"uijeongbu": "의정부", "yangju": "양주", "dongducheon": "동두천", "hanam": "하남", "namyangju": "남양주", "guri": "구리", "pocheon": "포천",
+            "nowon": "노원구", "dobong": "도봉구", "gangbuk": "강북구", "seongbuk": "성북구"}[region]
     return {"slug": slug, "kn": kn, "name": name, "region": region, "full": f"{city} {kn}", "admin": admin,
             "intro": intro, "intro2": intro2, "housing": housing, "complexes": complexes, "landmarks": landmarks,
             "near": near, "jobs": jobs, "topics": topics, "faqs": faqs, "lead": lead,
