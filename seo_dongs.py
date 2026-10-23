@@ -249,8 +249,10 @@ def build_local(lp):
     n = lp["kn"]; nm = lp["name"]
     city = REGION_LABEL.get(lp["region"], rn)
     cases = local_cases(lp)
-    title = f"{n} 전기수리·전기출장 | {city} {n} 전기공사업체 - {C['name']}"
-    desc = lp.get("desc") or f"{city} {n} 전기수리·전기출장 스마일일렉. {n} 전기업체로 누전·차단기·콘센트·조명 수리와 전기공사까지 직접 출장합니다. {C['phone']}"
+    title = f"{n}전기수리 {n}전기출장 | {city} {n} 전기공사업체 - {C['name']}"
+    spots = [re.sub(r"\s*\(.*?\)", "", x) for x in (lp.get("complexes", [])[:2] + lp.get("landmarks", [])[:1])]
+    desc = lp.get("desc") or (f"{city} {n} 전기수리·전기출장·전기공사업체 스마일일렉. {', '.join([n] + lp.get('near', [])[:4])} "
+                              f"{'·'.join(x.split('·')[0] for x in mix_names(lp, 1)[:3])} 누전·차단기·콘센트·조명 수리. {C['phone']}")
     kws = []
     for v in _variants(n, nm):
         kws += [f"{v} 전기수리", f"{v}전기수리", f"{v} 전기출장", f"{v} 전기공사", f"{v} 전기공사업체", f"{v} 전기업체"]

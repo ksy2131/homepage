@@ -662,8 +662,9 @@ def build_region(r):
     n = r["name"]
     nk = r.get("alias") or n
     dg = r.get("dongs") or r["areas"]
-    title = f"{nk}전기수리 {nk}전기공사 | {'·'.join(dg[:4])} 출장 - {C['name']}"
-    desc = f"{nk}전기수리, {nk}전기공사, {nk}전기출장, {nk}누전, {nk}차단기, {', '.join(dg)} 출장 전기수리. 아파트·주택·상가 누전·분전반·화재복구 {C['name']} {C['phone']}"
+    title = (f"{n}전기수리 {nk}전기수리 | {n} 전기공사 전기출장 전기업체 - {C['name']}" if r.get("alias")
+             else f"{nk}전기수리 {nk}전기공사 | {nk} 전기출장 전기업체 - {C['name']}")
+    desc = f"{nk} {'·'.join(dg[:8])} 전기수리·전기출장. 아파트·빌라·상가 누전·차단기·분전반·조명 수리 {C['name']} {C['phone']}"
     al = r.get("alias")
     kw = (f"{al} 전기수리, {al} 전기공사, {al} 누전, {al} 차단기, " if al else "") + f"{n} 전기수리, {n} 누전수리, {n} 차단기 수리, {n} 분전반 교체, {n} 아파트 전기, {n} 주택 전기수리, {n} 상가 전기공사, {n} 전기공사, {n} 화재복구, " + ", ".join(f"{a} 전기수리" for a in r["areas"]) + ", " + ", ".join(f"{a[:-1] if a.endswith('동') and len(a)>2 else a}전기수리, {a} 전기수리" for a in r.get("dongs", []))
     areas = "".join(f'<li>{icon("pin")}{E(a)}</li>' for a in r["areas"])
