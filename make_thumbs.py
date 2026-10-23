@@ -115,10 +115,11 @@ def make(lp):
     ImageDraw.Draw(tg).rounded_rectangle([60, 56, 60 + d.textlength(tag, font=F(FM, 24)) + 36, 98], 21, fill=(255, 255, 255, 46))
     im = Image.alpha_composite(im, tg); d = ImageDraw.Draw(im)
     d.text((78, 77), tag, font=F(FM, 24), fill="#ffffff", anchor="lm")
-    f1 = fit(d, f"{city} {n}", FB, 92, 620)
-    d.text((60, 120), f"{city} {n}", font=f1, fill="#ffc83d")
+    big = f"{city} {n}".strip()
+    f1 = fit(d, big, FB, 92, 620)
+    d.text((60, 120), big, font=f1, fill="#ffc83d")
     d.text((60, 240), "전기수리 · 전기출장", font=fit(d, "전기수리 · 전기출장", FB, 64, 620), fill="#ffffff")
-    head = TOPIC_SHORT.get(key, ("", "누전·차단기·조명 수리"))[1]
+    head = TOPIC_SHORT.get(key, ("", "누전·차단기·조명 수리"))[1] if n else "아파트·빌라·상가 누전·차단기 수리"
     d.rounded_rectangle([60, 350, 60 + d.textlength(head, font=fit(d, head, FB, 34, 600)) + 40, 410], 14, fill="#ffffff")
     d.text((80, 380), head, font=fit(d, head, FB, 34, 600), fill="#0a2a66", anchor="lm")
     d.rectangle([0, 530, W, H], fill="#ffffff")
@@ -138,5 +139,11 @@ if __name__ == "__main__":
         if only and lp["slug"] not in only: continue
         out = os.path.join(OUTD, f"{lp['slug']}.jpg")
         if os.path.exists(out) and not allm and not only: continue
+        make(lp); cnt += 1
+    # 지역(하위 주소) 대표 이미지
+    for r in G["REGIONS"]:
+        out = os.path.join(OUTD, f"region-{r['slug']}.jpg")
+        if os.path.exists(out) and not allm: continue
+        lp = {"slug": f"region-{r['slug']}", "kn": "", "region": r["slug"], "topics": ["new_circuit"], "match": ["@@"], "mix": (3, 2, 2, 1, 1)}
         make(lp); cnt += 1
     print("만든 이미지:", cnt)

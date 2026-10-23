@@ -539,6 +539,7 @@ def build_guides():
         write(f"{x['slug']}.html", page)
 
 def write(name, content):
+    os.makedirs(os.path.dirname(os.path.join(OUT, name)), exist_ok=True)
     with open(os.path.join(OUT, name), "w", encoding="utf-8") as f:
         f.write(content)
 
@@ -775,7 +776,7 @@ def build_local(lp):
     write(f"{lp['slug']}.html", page)
 
 # 도표·그림 부품, 증상별 페이지, 시공사례 보강 데이터 (별도 파일)
-for _f in ("seo_parts.py","seo_symptoms.py","seo_posts.py","seo_guides.py","seo_dongs.py"):
+for _f in ("seo_parts.py","seo_symptoms.py","seo_posts.py","seo_guides.py","seo_dongs.py","seo_subsites.py"):
     exec(open(os.path.join(BASE,_f),encoding="utf-8").read())
 
 # ───────────────── 시공사례 게시판 ─────────────────
@@ -905,4 +906,5 @@ if __name__ == "__main__":
     for pt in POSTS: build_post(pt)
     build_all_symptom_pages()
     build_extras()
+    build_subsites()
     print("완료:", sorted(os.listdir(OUT)))
