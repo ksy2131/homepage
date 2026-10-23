@@ -491,3 +491,20 @@ a.case:hover{box-shadow:0 14px 34px rgba(15,61,145,.13);transform:translateY(-3p
 @media (max-width:820px){.hs .hero-btns{display:none}.hs-s{padding-bottom:80px}.hs-dots{bottom:30px}}
 .hs-arr{display:none}
 @media (min-width:821px){.float{left:auto;right:22px}}
+@media (max-width:820px){.hs{height:auto;min-height:0}.hs-s{position:absolute;align-items:flex-start;padding:44px 0 70px;background:linear-gradient(180deg,rgba(6,22,56,.82) 0%,rgba(6,22,56,.6) 55%,rgba(6,22,56,.35) 100%),var(--bgm) center/cover no-repeat}.hs{height:520px}.hs .eyebrow{font-size:12.5px;padding:6px 12px}.hs h1,.hs-h{font-size:32px;margin:14px 0 14px}}
+/* 푸터 (한 줄씩 정보 나열형) */
+.foot{background:#111a33;color:#a9b3cc;padding:48px 0 28px;font-size:15px;line-height:1.75}
+.foot-in .logo{margin-bottom:18px}
+.foot-in p{margin:6px 0}
+.foot .fw{color:#fff;font-weight:600}
+.foot-reg{font-size:14px}
+.foot-reg span{color:#8792ad}
+.foot-reg a{color:#d6dcea;text-decoration:underline;text-underline-offset:3px}
+.foot-reg a:hover{color:#fff}
+.foot .copy{border-top:1px solid rgba(255,255,255,.08);margin-top:22px;padding-top:16px;font-size:13px;opacity:.7}
+.btn-blog{background:#fff;color:#03c75a;border:2px solid #03c75a}
+.hero-btns,.cta-btns{display:flex;flex-wrap:wrap;gap:10px}
+.cta-btns .btn{flex:0 0 auto}
+@media (max-width:820px){.hero.sm .hero-btns,.cta-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}.hero.sm .hero-btns .btn-y,.cta-btns .btn-y{grid-column:1/-1}.hero.sm .hero-btns .btn,.cta-btns .btn{width:auto;justify-content:center;padding:12px 8px;font-size:15px}}
+.fl-blog2{background:#fff;color:#03c75a;border:2px solid #03c75a}
+@media (max-width:820px){.fl-blog2{display:none}}

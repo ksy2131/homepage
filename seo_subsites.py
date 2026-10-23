@@ -92,7 +92,7 @@ def build_subsite(r):
 <section class="hero sm"><div class="wrap hero-in">
   <h1><em>{E(n)}</em>전기수리</h1>
   <p class="lead">{E(n)} {E('·'.join(dongs[:6]))} 아파트·빌라·상가 전기출장 · 전기공사업체 스마일일렉</p>
-  <div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} {E(n)}전기수리 상담 {E(C['phone'])}</a></div>
+  {consult_btns(f"{n}전기수리 상담 {C['phone']}")}
 </div></section>
 <section class="sec"><div class="wrap post"><div class="post-body g-body">
   <h2>{E(n)}전기수리, 동네마다 다릅니다</h2>

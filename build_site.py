@@ -255,7 +255,7 @@ def header(active=""):
     return f"""
 <div class="topbar"><div class="wrap topbar-in">
   <span>{icon('phone')} 상담 {E(C['hours_short'])} · <a href="tel:{TEL}"><b>{E(C['phone'])}</b></a></span>
-  <span class="tb-links"><a href="sms:{TEL}">문자로 사진 보내기</a><a href="{E(C['place'])}" target="_blank" rel="noopener">네이버 지도</a><a href="{E(C['blog'])}" target="_blank" rel="noopener">블로그</a></span>
+  <span class="tb-links"><a href="sms:{TEL}">문자상담</a>{f'<a href="{E(C["kakao"])}" target="_blank" rel="noopener">카톡상담</a>' if C.get("kakao") else ''}{f'<a href="{E(C["talk"])}" target="_blank" rel="noopener">톡톡상담</a>' if C.get("talk") else ''}<a href="{E(C['blog'])}" target="_blank" rel="noopener">블로그</a></span>
 </div></div>
 <header class="top">
   <div class="wrap top-in">
@@ -280,23 +280,25 @@ def footer():
     return f"""
 </main>
 <footer class="foot">
-  <div class="wrap foot-grid">
-    <div>
-      <a class="logo logo-w" href="index.html">{icon('bolt','logo-ic')}<span>{E(C['name'])}</span></a>
-      <p class="muted">경기북부·서울 동북부 아파트·주택·상가 전기수리 · 전기공사 · 분전반 · 화재복구</p>
-      <p>상호 {E(C['name'])}{(' · ' + E(C['owner'])) if C['owner'] else ''}<br>사업자등록번호 {E(C['biz_no'])}<br>{E(C['address'])}<br>전화 <a href="tel:{TEL}">{E(C['phone'])}</a><br>{E(C['hours'])}</p>
-      <p><a href="{E(C['place'])}" rel="noopener" target="_blank">네이버 지도에서 보기 →</a><br><a href="{E(C['blog'])}" rel="noopener" target="_blank">네이버 블로그 시공사례 보기 →</a></p>
-    </div>
-    <div><h3>서비스</h3><ul>{svc}</ul></div>
-    <div><h3>출동 지역</h3><ul>{reg}</ul></div>
+  <div class="wrap foot-in">
+    <a class="logo logo-w" href="index.html">{icon('bolt','logo-ic')}<span>{E(C['name'])}</span></a>
+    <p>상호 {E(C['name'])}{(' · ' + E(C['owner'])) if C['owner'] else ''} · 사업자등록번호 {E(C['biz_no'])}</p>
+    <p>주소 {E(C['address'])}</p>
+    <p>대표 번호 <a class="fw" href="tel:{TEL}">{E(C['phone'])}</a> · {E(C['hours'])}</p>
+    <p class="foot-links"><a class="fw" href="sms:{TEL}">문자 상담</a>{f' · <a class="fw" href="{E(C["kakao"])}" target="_blank" rel="noopener">카카오톡 상담</a>' if C.get("kakao") else ''}{f' · <a class="fw" href="{E(C["talk"])}" target="_blank" rel="noopener">네이버 톡톡</a>' if C.get("talk") else ''} · 블로그 <a class="fw" href="{E(C['blog'])}" target="_blank" rel="noopener">{E(C['blog'].split('://')[-1])}</a> · <a class="fw" href="{E(C['place'])}" target="_blank" rel="noopener">네이버 지도</a></p>
+    <p>{E(C['owner_title'])} 대표 운영 · 아파트·주택·빌라·상가 전기수리 · 전기공사 · 분전반 · 화재복구</p>
+    <p class="foot-reg"><span>서비스</span>{''.join(f' · <a href="{s["slug"]}.html">{E(s["short"])}</a>' for s in SERVICES)}</p>
+    <p class="foot-reg"><span>출동 지역</span>{''.join(f' · <a href="{r["slug"]}.html">{E(r["name"])} 전기수리</a>' for r in REGIONS)}</p>
+    <p class="foot-reg"><span>지역별 홈페이지</span>{''.join(f' · <a href="https://{r["slug"]}.smile1128.com/">{E(r["name"])}전기수리</a>' for r in REGIONS)}</p>
+    <p class="copy">© {datetime.date.today().year} {E(C['name'])}. All rights reserved.</p>
   </div>
-  <div class="wrap copy">© {datetime.date.today().year} {E(C['name'])}. All rights reserved.</div>
 </footer>
 <div class="float" aria-label="빠른 상담">
   <a class="fl fl-tel" href="tel:{TEL}">{icon('phone')}<span>전화상담</span></a>
   <a class="fl fl-sms" href="sms:{TEL}">{icon('msg')}<span>문자상담</span></a>
   {f'<a class="fl fl-talk" href="{E(C["talk"])}" target="_blank" rel="noopener">{icon("naver")}<span>톡톡상담</span></a>' if C.get("talk") else ''}
   {f'<a class="fl fl-kakao" href="{E(C["kakao"])}" target="_blank" rel="noopener">{icon("kakao")}<span>카톡상담</span></a>' if C.get("kakao") else ''}
+  <a class="fl fl-blog2" href="{E(C['blog'])}" target="_blank" rel="noopener">{icon('blog')}<span>블로그</span></a>
   <button class="fl fl-top" type="button" onclick="window.scrollTo({{top:0,behavior:'smooth'}})" aria-label="맨 위로">{icon('up')}<span>TOP</span></button>
 </div>
 <script>
@@ -336,10 +338,19 @@ def faq_html(faqs, title="자주 묻는 질문"):
     items = "".join(f'<details><summary>{E(q)}</summary><p>{E(a)}</p></details>' for q, a in faqs)
     return f'<section class="sec" id="faq"><div class="wrap narrow"><h2>{E(title)}</h2><div class="faq">{items}</div></div></section>'
 
+def consult_btns(tel_label=None, cls="hero-btns"):
+    """전화·문자·카톡·톡톡·블로그 상담 버튼 한 줄"""
+    t = tel_label or f"전화상담 {C['phone']}"
+    b = f'<a class="btn btn-y" href="tel:{TEL}">{icon("phone")} {E(t)}</a><a class="btn btn-sms" href="sms:{TEL}">{icon("msg")} 문자상담</a>'
+    if C.get("kakao"): b += f'<a class="btn btn-kakao" href="{E(C["kakao"])}" target="_blank" rel="noopener">{icon("kakao")} 카톡상담</a>'
+    if C.get("talk"): b += f'<a class="btn btn-talk" href="{E(C["talk"])}" target="_blank" rel="noopener">{icon("naver")} 톡톡상담</a>'
+    b += f'<a class="btn btn-blog" href="{E(C["blog"])}" target="_blank" rel="noopener">{icon("blog")} 블로그</a>'
+    return f'<div class="{cls}">{b}</div>'
+
 def cta(text="전기 문제, 지금 바로 상담하세요"):
     return f"""<section class="cta" id="contact"><div class="wrap cta-in">
   <div><h2>{E(text)}</h2><p>증상을 말씀해 주시면 원인과 예상 작업을 먼저 안내해 드립니다. 사진을 문자로 보내주시면 더 정확합니다.</p></div>
-  <div class="cta-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} {E(C['phone'])}</a><a class="btn btn-o" href="sms:{TEL}">문자로 사진 보내기</a><a class="btn btn-o" href="{E(C['place'])}" target="_blank" rel="noopener">{icon('pin')} 네이버 지도</a></div>
+  {consult_btns(cls="cta-btns")}
 </div></section>"""
 
 def steps_html():
@@ -675,7 +686,7 @@ def build_service(s):
   <nav class="crumb"><a href="index.html">홈</a> › {E(s['short'])}</nav>
   <h1>경기북부 <em>{E(s['short'])}</em></h1>
   <p class="lead">{E(s['summary'])}</p>
-  <div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} {E(C['phone'])}</a></div>
+  {consult_btns()}
 </div></section>
 <section class="sec"><div class="wrap two">
   <div><h2>{E(s['short'])}, 이렇게 합니다</h2><p>{E(s['intro'])}</p></div>
@@ -721,7 +732,7 @@ def build_region(r):
   <nav class="crumb"><a href="index.html">홈</a> › <a href="index.html#regions">출동 지역</a> › {E(n)}</nav>
   <h1><em>{E(n)}</em> 전기수리 · 전기공사</h1>
   <p class="lead">{E(n)} 아파트·주택·상가의 누전·차단기 수리, 분전반 공사, 매장 전기, 아파트 공용부 관리, 화재복구까지.</p>
-  <div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} {E(n)} 출동 상담 {E(C['phone'])}</a></div>
+  {consult_btns(f"{n} 출동 상담 {C['phone']}")}
 </div></section>
 {features_html()}
 {marquee_html(n)}
@@ -791,7 +802,7 @@ def build_local(lp):
   <nav class="crumb"><a href="index.html">홈</a> › <a href="{r['slug']}.html">{E(r['name'])}</a> › {E(nm)}</nav>
   <h1><em>{E(nm)}</em> 전기수리 · 전기공사</h1>
   <p class="lead">{E(lp['full'])} 아파트·주택·상가 누전·차단기 수리, 분전반 공사, 조명 교체, 아파트 공용부 유지보수까지 직접 출장합니다.</p>
-  <div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} {E(nm)} 출장 상담 {E(C['phone'])}</a></div>
+  {consult_btns(f"{nm} 출장 상담 {C['phone']}")}
 </div></section>
 <section class="sec"><div class="wrap two">
   <div><h2>{E(nm)} 지역 전기 문제, 이런 경우가 많습니다</h2><p>{E(lp['intro'])}</p></div>

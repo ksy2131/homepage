@@ -229,7 +229,7 @@ def build_symptom_page(base_slug, n_kw, full, crumbs, region, near, intro, scope
   <nav class="crumb">{crumb_html}</nav>
   <h1><em>{E(n_kw)}</em> {E(sym['name'])}</h1>
   <p class="lead">{E(sym_text(sym['lead'], n_kw))}</p>
-  <div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} {E(n_kw)} 출장 상담 {E(C['phone'])}</a><a class="btn btn-o" href="sms:{TEL}">문자로 사진 보내기</a></div>
+  {consult_btns(f"{n_kw} 출장 상담 {C['phone']}")}
 </div></section>
 <section class="sec"><div class="wrap post"><div class="post-body g-body">
   <h2>{E(n_kw)} {E(sym['name'])}, 현장에서 자주 보는 경우</h2>

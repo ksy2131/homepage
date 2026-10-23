@@ -299,7 +299,7 @@ def build_local(lp):
   <nav class="crumb"><a href="index.html">홈</a> › <a href="{r['slug']}.html">{E(r['name'])}</a> › {E(n)} 전기수리</nav>
   <h1><em>{E(n)}</em> 전기수리 · 전기공사</h1>
   <p class="lead">{E(lead)}</p>
-  <div class="hero-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} {E(n)} 전기출장 상담 {E(C['phone'])}</a></div>
+  {consult_btns(f"{n} 전기출장 상담 {C['phone']}")}
 </div></section>
 {summary_cards(lp, n, city)}
 <section class="sec"><div class="wrap two">
