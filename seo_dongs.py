@@ -244,6 +244,17 @@ def glance_html(lp, n, rn):
     th = "".join(f"<tr><th>{E(a)}</th><td>{E(b)}</td></tr>" for a, b in rows)
     return f'<h2>{E(n)} 한눈에 보기</h2><div class="tbl-wrap"><table class="tbl"><tbody>{th}</tbody></table></div>{building_table(lp, n)}{near_map_fig(lp, n, rn)}'
 
+def _eunneun(w):
+    c = w[-1]; return "은" if "가" <= c <= "힣" and (ord(c) - 0xAC00) % 28 else "는"
+DONG_POINTS = ["전화·문자·카톡·톡톡으로 증상과 사진 먼저 보내기", "방문 점검 → 원인·비용 설명 → 동의 후 작업", "작업 후 회로·차단기 정상 동작 함께 확인"]
+def dong_answer(lp, n, city):
+    mix = "·".join(x.split("·")[0] for x in mix_names(lp, 2)[:2]) or "아파트·주택"
+    tops = [TOPIC_SHORT.get(t, ("", ""))[0] for t in (lp.get("topics") or [])[:2]]
+    tops = "·".join(t for t in tops if t) or "누전·차단기"
+    near = "·".join(lp.get("near", [])[:2])
+    return (f"{city} {n}{_eunneun(n)} {mix} 비중이 높아 {tops} 문의가 많은 동네입니다. "
+            f"스마일일렉은 {n}{('과 ' + near) if near else ''}까지 전기공사기술자가 직접 출장해 측정으로 원인을 찾고, 작업 전에 비용을 먼저 안내합니다.")
+
 def build_local(lp):
     r = next(x for x in REGIONS if x["slug"] == lp["region"]); rn = r.get("alias") or r["name"]
     n = lp["kn"]; nm = lp["name"]
@@ -301,6 +312,7 @@ def build_local(lp):
   <p class="lead">{E(lead)}</p>
   {consult_btns(f"{n} 전기출장 상담 {C['phone']}")}
 </div></section>
+{answer_box(f"{n} 전기수리, 어디에 어떻게 맡기면 되나요?", dong_answer(lp, n, city), DONG_POINTS)}
 {summary_cards(lp, n, city)}
 <section class="sec"><div class="wrap two">
   <div><h2>{E(city)} {E(n)}, 이런 동네입니다</h2><p>{E(intro)}</p>{f'<p>{E(lp["intro2"])}</p>' if lp.get("intro2") else ""}</div>

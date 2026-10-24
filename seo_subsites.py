@@ -133,4 +133,4 @@ def build_subsites():
     # 본 주소에서 /sub/ 폴더는 검색 제외 (하위 주소에서만 노출)
     rp = os.path.join(OUT, "robots.txt")
     t = open(rp, encoding="utf-8").read()
-    open(rp, "w", encoding="utf-8").write(t.replace("Allow: /\n", "Allow: /\nDisallow: /sub/\n", 1))
+    open(rp, "w", encoding="utf-8").write(t.replace("Allow: /\n", "Allow: /\nDisallow: /sub/\n"))

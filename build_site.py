@@ -319,19 +319,45 @@ h.addEventListener('touchend',function(e){{if(x0===null)return;var dx=e.changedT
 </body>
 </html>"""
 
+AUTHOR = {"@type": "Person", "@id": "https://smile1128.com/about.html#ceo", "name": "김선용", "jobTitle": "스마일일렉 대표 · 전기공사기술자(중급)",
+          "url": "https://smile1128.com/about.html", "worksFor": {"@id": "https://smile1128.com/#business"},
+          "hasCredential": [{"@type": "EducationalOccupationalCredential", "name": "전기공사기술자 중급", "recognizedBy": {"@type": "Organization", "name": "한국전기공사협회"}},
+                            {"@type": "EducationalOccupationalCredential", "name": "전기기능사"},
+                            {"@type": "EducationalOccupationalCredential", "name": "전기안전교육(안전시공교육) 수료", "recognizedBy": {"@type": "Organization", "name": "한국전기공사협회"}}],
+          "award": "2025 경기도의회 의장 표창"}
+SAME_AS = ["https://blog.naver.com/smileelectronic", "https://naver.me/xPUHS2Mz", "https://pf.kakao.com/_LpVxnG", "https://talk.naver.com/ct/w4s604", "https://soomgo.com/profile/users/3799694"]
 def business_schema(area_names=None):
     return {
         "@context": "https://schema.org",
         "@type": "Electrician",
+        "@id": "https://smile1128.com/#business",
         "name": C["name"],
+        "alternateName": ["스마일일렉 전기수리", "Smile Elec"],
+        "description": "경기북부·서울 동북부 아파트·주택·빌라·상가 전기수리와 전기공사. 전기공사기술자가 직접 방문해 원인을 측정으로 찾고 작업 전 비용을 먼저 안내합니다. 조달청 나라장터 등록 업체.",
         "telephone": C["phone"],
         "url": C["domain"] + "/",
+        "logo": C["domain"] + "/images/logo-full.svg",
+        "image": C["domain"] + "/images/og-main-v2.jpg",
         "address": {"@type": "PostalAddress", "streetAddress": C["address"], "addressLocality": "양주시", "addressRegion": "경기도", "addressCountry": "KR"},
         "areaServed": [{"@type": "Place", "name": n} for n in (area_names or ALL_REGION_NAMES)],
-        "sameAs": [C["blog"], C["place"]],
+        "sameAs": SAME_AS,
         "openingHours": "Mo-Fr 08:00-19:00",
-        "founder": {"@type": "Person", "name": "김선용", "jobTitle": "전기공사기술자", "hasCredential": [{"@type": "EducationalOccupationalCredential", "name": "전기공사기술자 중급"}, {"@type": "EducationalOccupationalCredential", "name": "전기기능사"}]},
+        "award": "2025 경기도의회 의장 표창",
+        "knowsAbout": ["누전 점검", "차단기 수리", "분전반 교체", "콘센트·스위치 교체", "LED 조명 교체", "상가 전기공사", "화재복구 전기공사", "아파트 공용부 전기 유지보수", "전기차 충전기 점검", "원격검침"],
+        "founder": AUTHOR,
     }
+
+def answer_box(q, a, points=None, updated=None):
+    """GEO: 질문에 바로 답하는 요약 + 작성자 표시"""
+    li = "".join(f"<li>{icon('check')}{E(t)}</li>" for t in (points or []))
+    return f'''<section class="ans-sec"><div class="wrap"><div class="ans">
+  <p class="ans-k">핵심 요약</p><p class="ans-q">Q. {E(q)}</p><p class="ans-a">{E(a)}</p>{f'<ul class="ans-l">{li}</ul>' if li else ''}
+  <p class="ans-by"><a href="about.html">작성·검수 김선용</a> · 전기공사기술자(중급) · 스마일일렉 대표 · 업데이트 {updated or TODAY}</p>
+</div></div></section>'''
+
+def first_sent(t):
+    t = str(t).strip(); m = re.search(r"^(.+?[.!?다요])(\s|$)", t)
+    return (m.group(1) if m else t)[:140]
 
 def faq_schema(faqs):
     return {"@context": "https://schema.org", "@type": "FAQPage",
@@ -572,7 +598,7 @@ def build_guides():
         else:
             body="".join(f"<p>{E(t)}</p>" for t in x["body"])
         others = guides_list_html(exclude=x['slug'])
-        art={"@context":"https://schema.org","@type":"Article","headline":x["q"],"description":x["sum"],"author":{"@type":"Organization","name":C["name"]},"datePublished":x.get("date","2026-10-18")}
+        art={"@context":"https://schema.org","@type":"Article","headline":x["q"],"description":x["sum"],"author":AUTHOR,"publisher":{"@id":"https://smile1128.com/#business"},"datePublished":x.get("date","2026-10-18"),"dateModified":TODAY}
         sch=[art, business_schema()]
         if x.get("thumb"): art["image"]=[f'{C["domain"]}/{x["thumb"]}']
         if x.get("tags"): art["keywords"]=", ".join(x["tags"])
@@ -580,6 +606,7 @@ def build_guides():
         page = head(f"{x['q']} | {C['name']}", x["sum"], f"{x['slug']}.html", ", ".join(x.get("tags") or [x["q"]]), sch) + header() + f"""
 <section class="hero sm"><div class="wrap hero-in"><nav class="crumb"><a href="index.html">홈</a> › <a href="guides.html">전기 상식</a></nav>
 <h1>{E(x['q'])}</h1><p class="lead">{E(x['sum'])}</p></div></section>
+{answer_box(x['q'], first_sent(x['sum']), [first_sent(c) for c in (x.get('check') or [])[:3]])}
 <section class="sec"><div class="wrap post"><div class="post-body g-body">{body}</div>
 <div class="box" style="margin-top:28px"><h3>직접 확인이 어렵다면</h3><p>사진 2~3장을 문자로 보내주시면 필요한 작업을 먼저 안내해 드립니다.</p><div class="hero-btns" style="margin-top:14px"><a class="btn btn-n" href="tel:{TEL}">{icon('phone')} {E(C['phone'])}</a></div></div></div></section>
 <section class="sec alt"><div class="wrap narrow"><h2>다른 전기 상식</h2>{others}</div></section>
@@ -709,6 +736,7 @@ def build_service(s):
   <p class="lead">{E(s['summary'])}</p>
   {consult_btns()}
 </div></section>
+{answer_box(f"{s['short']}, 어떤 작업을 해 주나요?", first_sent(s['summary']), s['items'][:4])}
 <section class="sec"><div class="wrap two">
   <div><h2>{E(s['short'])}, 이렇게 합니다</h2><p>{E(s['intro'])}</p></div>
   <div class="box"><h3>이런 증상이 있다면 연락 주세요</h3><ul class="dots">{sym}</ul></div>
@@ -755,6 +783,7 @@ def build_region(r):
   <p class="lead">{E(n)} 아파트·주택·상가의 누전·차단기 수리, 분전반 공사, 매장 전기, 아파트 공용부 관리, 화재복구까지.</p>
   {consult_btns(f"{n} 출동 상담 {C['phone']}")}
 </div></section>
+{answer_box(f"{n} 전기수리, 어디까지 출장하나요?", f"{n} " + "·".join(r['areas'][:6]) + f" 등 {n} 전 지역에 출장합니다. 전기공사기술자가 직접 방문해 원인을 측정으로 찾고, 작업 전에 비용을 먼저 안내합니다.", ["아파트·주택·빌라 세대 전기수리", "상가·사무실 전기공사", "아파트 공용부 유지보수"])}
 {features_html()}
 {marquee_html(n)}
 <section class="sec"><div class="wrap two">
@@ -917,7 +946,7 @@ def build_post(pt):
     others = [x for x in POSTS if x is not pt][:3]
     more = f'<section class="sec alt"><div class="wrap"><h2>다른 시공사례</h2><div class="cases">{"".join(post_card(x) for x in others)}</div></div></section>' if others else ""
     art = {"@context": "https://schema.org", "@type": "Article", "headline": f"{n} {pt['title']}", "datePublished": pt["date"],
-           "author": {"@type": "Organization", "name": C["name"]}, "description": pt["summary"]}
+           "author": AUTHOR, "publisher": {"@id": "https://smile1128.com/#business"}, "dateModified": TODAY, "description": pt["summary"]}
     if pt.get("photos"): art["image"] = [f'{C["domain"]}/{x}' for x in pt["photos"]]
     art["keywords"] = ", ".join(tags); art["contentLocation"] = {"@type":"Place","name":loc}
     page = head(title, desc, f"case-{pt['slug']}.html", ", ".join(tags),
@@ -927,6 +956,7 @@ def build_post(pt):
   <h1>{E(full_title(pt))}</h1>
   <p class="lead">{E(pt['summary'])}</p>
 </div></section>
+{answer_box(f"{loc}, 어떤 문제였고 어떻게 해결했나요?", pt['summary'], updated=pt['date'])}
 <section class="sec"><div class="wrap post">
   <article>
     <ul class="post-info">{info_html}</ul>
@@ -996,12 +1026,49 @@ def build_about():
 """ + footer()
     write("about.html", page)
 
+def llms_txt():
+    d = C["domain"]; years = datetime.date.today().year - 2016
+    svc = "\n".join(f"- [{s['short']}]({d}/{s['slug']}.html): {s['summary']}" for s in SERVICES)
+    reg = "\n".join(f"- [{r['name']} 전기수리]({d}/{r['slug']}.html): " + ", ".join(r["areas"]) for r in REGIONS)
+    gd = "\n".join(f"- [{g['q']}]({d}/{g['slug']}.html)" for g in GUIDES)
+    cs = "\n".join(f"- [{x['region']} {x['title']}]({d}/case-{x['slug']}.html) ({x['date']})" for x in POSTS[:30])
+    return f"""# 스마일일렉 (Smile Elec)
+
+> 경기 양주에 있는 전기수리·전기공사 업체. 경기북부(의정부·양주·동두천·포천·남양주·구리·하남)와 서울 동북부(노원·도봉·강북·성북) 아파트·주택·빌라·상가에 출장합니다. 전기공사기술자(중급)인 대표 김선용이 직접 방문해 측정으로 원인을 찾고, 작업 전에 비용을 먼저 안내합니다.
+
+## 업체 정보
+- 상호: 스마일일렉 (대표 김선용)
+- 전화: {C['phone']} / 카카오톡 채널: https://pf.kakao.com/_LpVxnG / 네이버 톡톡: https://talk.naver.com/ct/w4s604
+- 주소: {C['address']}
+- 사업자등록번호: {C['biz_no']}
+- 경력: 전기 현장 {years}년, 2018년부터 공공임대·분양 아파트 전기·소방 유지보수
+- 자격·등록: 전기공사기술자 중급, 전기기능사, 한국전기공사협회 안전시공교육 수료, 조달청 나라장터 등록 업체
+- 수상: 2025 경기도의회 의장 표창
+- 자재: KC 안전인증·KS 인증·고효율 인증 정품 사용
+- 소개: {d}/about.html
+
+## 서비스
+{svc}
+
+## 출장 지역
+{reg}
+
+## 전기 상식
+{gd}
+
+## 시공사례
+{cs}
+"""
+
 # ───────────────── 부가 파일 ─────────────────
 def build_extras():
     pages = [("", "1.0")] + [(f"{s['slug']}.html", "0.9") for s in SERVICES] + [(f"{r['slug']}.html", "0.8") for r in REGIONS] + [(f"{l['slug']}.html", "0.8") for l in LOCALS] + [("about.html","0.8"),("cases.html","0.8"),("guides.html","0.7")] + [(f"{g['slug']}.html","0.6") for g in GUIDES] + [(f"case-{x['slug']}.html","0.7") for x in POSTS] + SYMPTOM_PAGES
-    urls = "".join(f"<url><loc>{C['domain']}/{p}</loc><lastmod>{TODAY}</lastmod><priority>{pr}</priority></url>\n" for p, pr in pages)
+    cdate = {f"case-{x['slug']}.html": x["date"] for x in POSTS}
+    urls = "".join(f"<url><loc>{C['domain']}/{p}</loc><lastmod>{cdate.get(p, TODAY)}</lastmod><priority>{pr}</priority></url>\n" for p, pr in pages)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
-    write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {C['domain']}/sitemap.xml\n\n# 다음(Daum) 웹마스터도구 소유 인증\n#DaumWebMasterTool:5e97232627d479a890acd3a3bf5f5d5d5e55fd99662e9e730568741acadc91d5:1T0ZRs6bn/unEVfM5aXupg==\n#DaumWebMasterTool:a999723e179b57c3a13a4b44307b5943e2dc7ea96ef5469887ec197d37746247:RXqVBM7XE5wroppTXsoV6g==\n")
+    ai_bots = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in ["Yeti", "Googlebot", "Google-Extended", "GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "PerplexityBot", "Bingbot"])
+    write("llms.txt", llms_txt())
+    write("robots.txt", ai_bots + f"User-agent: *\nAllow: /\n\nSitemap: {C['domain']}/sitemap.xml\n\n# 다음(Daum) 웹마스터도구 소유 인증\n#DaumWebMasterTool:5e97232627d479a890acd3a3bf5f5d5d5e55fd99662e9e730568741acadc91d5:1T0ZRs6bn/unEVfM5aXupg==\n#DaumWebMasterTool:a999723e179b57c3a13a4b44307b5943e2dc7ea96ef5469887ec197d37746247:RXqVBM7XE5wroppTXsoV6g==\n")
     write("favicon.svg", '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#0f3d91"/><path d="M18 4 7 18h8l-2 10 12-15h-8l1-9z" fill="#ffc83d"/></svg>')
     from email.utils import format_datetime
     def pub(d):

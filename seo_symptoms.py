@@ -231,6 +231,7 @@ def build_symptom_page(base_slug, n_kw, full, crumbs, region, near, intro, scope
   <p class="lead">{E(sym_text(sym['lead'], n_kw))}</p>
   {consult_btns(f"{n_kw} 출장 상담 {C['phone']}")}
 </div></section>
+{answer_box(f"{n_kw} {sym['name']}, 어떻게 하면 되나요?", first_sent(sym_text(sym['lead'], n_kw)), [first_sent(t) for t in sym['selfcheck'][:3]])}
 <section class="sec"><div class="wrap post"><div class="post-body g-body">
   <h2>{E(n_kw)} {E(sym['name'])}, 현장에서 자주 보는 경우</h2>
   <p>{E(sym_text(TYPE_NOTE[ty][sym['slug']], n_kw))}</p>
