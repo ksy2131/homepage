@@ -13,12 +13,12 @@ CONFIG = {
     "biz_no": "139-56-00663",                # 사업자등록번호
     "owner": "대표 김선용",
     "owner_title": "전기공사기술자(중급) · 전기기능사",
-    "hours": "평일 08:00–19:00 · 긴급출동 상시 상담",
+    "hours": "평일 08:00–19:00 · 주말·공휴일 긴급출동 상담",
     "blog": "https://blog.naver.com/smileelectronic",
     "place": "https://naver.me/xPUHS2Mz",           # 네이버 플레이스(지도)
     "kakao": "https://pf.kakao.com/_LpVxnG/chat",   # 카카오톡 채널 상담(채팅)
     "talk": "https://talk.naver.com/ct/w4s604",                                   # 네이버 톡톡 주소 (talk.naver.com/…) — 비어 있으면 버튼 숨김
-    "hours_short": "평일 08:00–19:00",
+    "hours_short": "평일 08:00–19:00 · 주말 긴급출동",
     "naver_verify": ["75f49b04581c32624dc86659c4af15b1d3194fa3", "dbabcf680f4c377553fea377bbf8ea66961d5ef7"],  # 네이버 서치어드바이저 인증코드 (예전 netlify.app, 새 smile1128.com)
     "google_verify": "zpQNlofCxZk2VsMZslXs9Cw0MMUJFJSGsrkLBoHlsgc",                     # 구글 서치콘솔 인증코드
 }
@@ -1038,6 +1038,7 @@ def llms_txt():
 
 ## 업체 정보
 - 상호: 스마일일렉 (대표 김선용)
+- 영업시간: 평일 08:00~19:00, 주말·공휴일은 긴급출동 상담
 - 전화: {C['phone']} / 카카오톡 채널: https://pf.kakao.com/_LpVxnG / 네이버 톡톡: https://talk.naver.com/ct/w4s604
 - 주소: {C['address']}
 - 사업자등록번호: {C['biz_no']}
