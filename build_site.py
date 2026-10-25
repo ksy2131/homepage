@@ -901,11 +901,12 @@ def post_tags(pt):
     loc = (pt.get("location") or "").replace(n,"").replace("아파트","").strip().split(" ")[0] if pt.get("location") else ""
     user = pt.get("tags") or []
     if isinstance(user,str): user=[t for t in re.split(r"[,#\s]+",user) if t]
+    # 태그는 글 내용에 맞게 직접 단 것(10~15개)만 사용. 직접 단 태그가 없을 때만 기본 태그로 채움
     auto = [f"{n}전기수리", f"{n}전기공사"] + ([f"{loc}전기수리"] if loc else []) + [f"{n}{t}" for t in SVC_TAGS.get(svc,[])[:2]] + SVC_TAGS.get(svc,[])
     out=[]
-    for t in [x.strip().lstrip("#") for x in user] + auto:
+    for t in ([x.strip().lstrip("#") for x in user] or auto):
         if t and t not in out: out.append(t)
-    return out[:30]
+    return out[:15]
 
 def full_title(pt):
     n=pt["region"]; loc=pt.get("location") or n; t=pt["title"]
