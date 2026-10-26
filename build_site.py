@@ -920,7 +920,8 @@ def build_post(pt):
     loc = pt.get("location") or n
     tags = post_tags(pt)
     title = f"{full_title(pt)} | {C['name']}"
-    desc = f"{loc} {pt['summary']} {C['name']} {C['phone']}"
+    desc = pt['summary'] if pt['summary'].startswith((loc, n)) else f"{loc} {pt['summary']}"
+    desc = f"{desc} {C['name']}"
     photos = "".join(f'<img src="{E(f)}" alt="{E(loc)} {E(pt["title"])} 현장 사진 {i+1}" loading="lazy">' for i, f in enumerate(pt.get("photos", [])))
     def blk(par):
         if par.startswith("## "): return f"<h2>{E(par[3:].strip())}</h2>"
@@ -946,8 +947,8 @@ def build_post(pt):
     tag_html = "".join(f'<span class="tag">#{E(t)}</span>' for t in tags)
     others = [x for x in POSTS if x is not pt][:3]
     more = f'<section class="sec alt"><div class="wrap"><h2>다른 시공사례</h2><div class="cases">{"".join(post_card(x) for x in others)}</div></div></section>' if others else ""
-    art = {"@context": "https://schema.org", "@type": "Article", "headline": f"{n} {pt['title']}", "datePublished": pt["date"],
-           "author": AUTHOR, "publisher": {"@id": "https://smile1128.com/#business"}, "dateModified": TODAY, "description": pt["summary"]}
+    art = {"@context": "https://schema.org", "@type": "Article", "headline": full_title(pt), "datePublished": pt["date"],
+           "author": AUTHOR, "publisher": {"@id": "https://smile1128.com/#business"}, "dateModified": pt.get("updated", pt["date"]), "description": pt["summary"]}
     if pt.get("photos"): art["image"] = [f'{C["domain"]}/{x}' for x in pt["photos"]]
     art["keywords"] = ", ".join(tags); art["contentLocation"] = {"@type":"Place","name":loc}
     page = head(title, desc, f"case-{pt['slug']}.html", ", ".join(tags),
@@ -1065,7 +1066,7 @@ def llms_txt():
 # ───────────────── 부가 파일 ─────────────────
 def build_extras():
     pages = [("", "1.0")] + [(f"{s['slug']}.html", "0.9") for s in SERVICES] + [(f"{r['slug']}.html", "0.8") for r in REGIONS] + [(f"{l['slug']}.html", "0.8") for l in LOCALS] + [("about.html","0.8"),("cases.html","0.8"),("guides.html","0.7")] + [(f"{g['slug']}.html","0.6") for g in GUIDES] + [(f"case-{x['slug']}.html","0.7") for x in POSTS] + SYMPTOM_PAGES
-    cdate = {f"case-{x['slug']}.html": x["date"] for x in POSTS}
+    cdate = {f"case-{x['slug']}.html": x.get("updated", x["date"]) for x in POSTS}
     urls = "".join(f"<url><loc>{C['domain']}/{p}</loc><lastmod>{cdate.get(p, TODAY)}</lastmod><priority>{pr}</priority></url>\n" for p, pr in pages)
     write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
     ai_bots = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in ["Yeti", "Googlebot", "Google-Extended", "GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "PerplexityBot", "Bingbot"])
