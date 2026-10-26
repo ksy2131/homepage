@@ -922,7 +922,8 @@ def build_post(pt):
     title = f"{full_title(pt)} | {C['name']}"
     desc = pt['summary'] if pt['summary'].startswith((loc, n)) else f"{loc} {pt['summary']}"
     desc = f"{desc} {C['name']}"
-    photos = "".join(f'<img src="{E(f)}" alt="{E(loc)} {E(pt["title"])} 현장 사진 {i+1}" loading="lazy">' for i, f in enumerate(pt.get("photos", [])))
+    alts = pt.get("photo_alts") or []
+    photos = "".join(f'<img src="{E(f)}" alt="{E(alts[i] if i < len(alts) else loc + " " + pt["title"] + " 현장 사진 " + str(i+1))}" loading="lazy">' for i, f in enumerate(pt.get("photos", [])))
     def blk(par):
         if par.startswith("## "): return f"<h2>{E(par[3:].strip())}</h2>"
         lines=[l for l in par.split("\n") if l.strip()]
