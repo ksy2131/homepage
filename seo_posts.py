@@ -171,6 +171,9 @@ POST_TOPIC = {
  "2026-10-19-yangju-okjeong-firedoor-closer": "fire_closer",
  "2026-09-30-uijeongbu-gosan-senior-leak": "leak", "2026-09-29-hanam-misa-corridor-sensor": "light",
  "2026-09-02-yangju-okjeong-elevator-outlet": "outlet",
+ "2026-10-07-uijeongbu-gosan-leak-rewire": "leak", "2026-10-07-hanam-misa-ats-breaker": "breaker",
+ "2026-10-06-hanam-gamil-elcb-replace": "breaker", "2026-10-07-uijeongbu-gosan-eps-breaker": "main_breaker",
+ "2026-10-07-hanam-gamil-gym-downlight": "light", "2026-10-13-hanam-misa-touch-switch": "light",
 }
 
 def post_extra(pt):
