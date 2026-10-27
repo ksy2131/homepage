@@ -174,6 +174,8 @@ POST_TOPIC = {
  "2026-10-07-uijeongbu-gosan-leak-rewire": "leak", "2026-10-07-hanam-misa-ats-breaker": "breaker",
  "2026-10-06-hanam-gamil-elcb-replace": "breaker", "2026-10-07-uijeongbu-gosan-eps-breaker": "main_breaker",
  "2026-10-07-hanam-gamil-gym-downlight": "light", "2026-10-13-hanam-misa-touch-switch": "light",
+ "2026-10-01-hanam-misa-remote-meter-server": "meter", "2026-10-06-hanam-misa-group-off-switch": "light",
+ "2026-10-06-yangju-okjeong-recycle-sensor-light": "light",
 }
 
 def post_extra(pt):
