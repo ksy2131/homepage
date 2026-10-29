@@ -689,7 +689,7 @@ def build_home():
 <section class="sec"><div class="wrap"><div class="ceo">
   <div class="ceo-ph"><img src="images/about/ceo.jpg" alt="스마일일렉 대표 김선용 전기공사기술자" loading="lazy"></div>
   <div><span class="ceo-t">믿을 수 있는 업체</span><h2>{E(C['owner'])}</h2><p class="ceo-sub">{E(C['owner_title'])}</p>
-  <p>대표와 경험 있는 기술자가 현장을 확인하고, 원인과 작업 방법을 먼저 설명드립니다.</p>
+  <p>경험 있는 기술자가 현장을 확인하고, 원인과 작업 방법을 먼저 설명드립니다.</p>
   <ul class="ceo-cred"><li>{icon('check')}<b>전기공사기술자 중급</b><small>한국전기공사협회 경력 인정</small></li><li>{icon('check')}<b>전기기능사</b><small>국가기술자격</small></li><li>{icon('check')}<b>나라장터 등록 업체</b><small>조달청 정식 등록</small></li><li>{icon('check')}<b>경기도의회 의장 표창</b><small>2025년 지역사회 발전 공로</small></li><li>{icon('check')}<b>KC·KS·고효율 인증 자재</b><small>스위치·콘센트 제일전기·진흥전기, 네트워크 스위치 다산지앤지 클리오·제일전기</small></li><li>{icon('check')}<b>네이버 인물정보 등록</b><small>"김선용 공학기술자" 검색</small></li></ul></div>
 </div></div></section>
 
@@ -1037,7 +1037,7 @@ def llms_txt():
     cs = "\n".join(f"- [{x['region']} {x['title']}]({d}/case-{x['slug']}.html) ({x['date']})" for x in POSTS[:30])
     return f"""# 스마일일렉 (Smile Elec)
 
-> 경기 양주에 있는 전기수리·전기공사 업체. 경기북부(의정부·양주·동두천·포천·남양주·구리·하남)와 서울 동북부(노원·도봉·강북·성북) 아파트·주택·빌라·상가에 출장합니다. 전기공사기술자(중급)인 대표 김선용이 직접 방문해 측정으로 원인을 찾고, 작업 전에 비용을 먼저 안내합니다.
+> 경기 양주에 있는 전기수리·전기공사 업체. 경기북부(의정부·양주·동두천·포천·남양주·구리·하남)와 서울 동북부(노원·도봉·강북·성북) 아파트·주택·빌라·상가에 출장합니다. 전기공사기술자(중급) 대표가 운영하며, 현장에서는 측정으로 원인을 찾고 작업 전에 비용을 먼저 안내합니다.
 
 ## 업체 정보
 - 상호: 스마일일렉 (대표 김선용)
