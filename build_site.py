@@ -578,8 +578,8 @@ def build_guides():
     write("guides.html", page)
     for x in GUIDES:
         if x.get("sections"):
-            fig=lambda src,alt: f'<figure class="g-fig"><img src="{src}" alt="{E(alt)}" loading="lazy"><figcaption>{E(alt)} (이해를 돕기 위한 이미지)</figcaption></figure>' if src else ""
-            b=[f'<figure class="g-fig g-top"><img src="{x["thumb"]}" alt="{E(x["q"])}"></figure>'] if x.get("thumb") else []
+            fig=lambda src,alt: f'<figure class="g-fig"><img src="{src}" alt="{E(alt)}" loading="lazy"><figcaption>{E(alt) if alt.startswith(("현장 사진","설명용 그림")) else E(alt) + " (이해를 돕기 위한 이미지)"}</figcaption></figure>' if src else ""
+            b=[f'<figure class="g-fig g-top"><img src="{x["thumb"]}" alt="{E(("설명용 그림: " if x.get("links") is not None else "") + x["q"])}">' + ('<figcaption>설명용 그림</figcaption>' if x.get("links") is not None else '') + '</figure>'] if x.get("thumb") else []
             b+=[f"<p>{E(t)}</p>" for t in x["intro"]]
             toc="".join(f'<li><a href="#s{i+1}">{E(sec["h"])}</a></li>' for i,sec in enumerate(x["sections"]))
             b.append(f'<nav class="g-toc"><b>목차</b><ol>{toc}<li><a href="#check">{E(x["check_h"])}</a></li><li><a href="#fix">{E(x["fix_h"])}</a></li></ol></nav>')
@@ -592,6 +592,10 @@ def build_guides():
             b.append(f'<h2 id="fix">{E(x["fix_h"])}</h2>'+fig(x.get("fix_img"),x.get("fix_alt",""))+"".join(f"<p>{E(t)}</p>" for t in x["fix"])+fig(x.get("fix_img2"),x.get("fix_alt2","")))
             if x.get("faq"):
                 b.append('<h2>자주 묻는 질문</h2><div class="faq">'+"".join(f'<details><summary>{E(q)}</summary><p>{E(a)}</p></details>' for q,a in x["faq"])+"</div>")
+            if x.get("links"):
+                b.append('<h2>관련 시공사례·안내</h2><div class="chips">'+"".join(f'<a class="chip" href="{E(h)}">{E(t)}</a>' for t, h in x["links"])+"</div>")
+            if x.get("links") is not None:
+                b.append(f'<p class="g-more"><a class="link" href="{E(x.get("blog") or C["blog"])}" target="_blank" rel="noopener">사진과 영상으로 더 자세히 보기 (네이버 블로그) →</a></p>')
             if x.get("tags"):
                 b.append('<div class="tags">'+"".join(f'<span class="tag">#{E(t)}</span>' for t in x["tags"])+"</div>")
             body="".join(b)
@@ -788,7 +792,7 @@ def build_region(r):
     locs, top, kinds = region_facts(r)
     rcases = [x for x in POSTS if x["region"] == n]
     # 동네별 표: 건물 구성 + 자주 하는 작업 (동네 조사 자료)
-    rows = "".join(f'<tr><th><a href="{l["slug"]}.html">{E(l["kn"])}</a></th><td>{E(_short(l.get("housing")))}</td><td>{E(_short(l.get("jobs"), 40))}</td></tr>' for l in locs if l.get("housing") or l.get("jobs"))
+    rows = "".join(f'<tr><th><a href="{l["slug"]}.html">{E(l["kn"])}</a></th><td>{E(_short(l["housing"]) if l.get("housing") else l.get("intro", "").split(". ")[0].rstrip(".") + ".")}</td><td>{E(_short(l.get("jobs") or " · ".join(TOPIC_SHORT[k][1] for k in (l.get("topics") or [])[:2] if k in TOPIC_SHORT), 40))}</td></tr>' for l in locs)
     dong_tbl = (f'<section class="sec"><div class="wrap post"><div class="post-body g-body"><h2>{E(nk)} 동네별 건물과 자주 필요한 작업</h2>'
                 f'<p>같은 {E(nk)}라도 동네마다 건물 나이와 종류가 달라 생기는 전기 고장도 다릅니다. 동네 이름을 누르면 자세한 안내로 넘어갑니다.</p>'
                 f'<div class="tbl-wrap"><table class="tbl"><thead><tr><th>동네</th><th>건물 구성</th><th>자주 필요한 작업</th></tr></thead><tbody>{rows}</tbody></table></div></div></div></section>') if rows else ""
@@ -887,7 +891,7 @@ def build_local(lp):
     write(f"{lp['slug']}.html", page)
 
 # 도표·그림 부품, 증상별 페이지, 시공사례 보강 데이터 (별도 파일)
-for _f in ("seo_parts.py","seo_symptoms.py","seo_posts.py","seo_guides.py","seo_dongs.py","seo_subsites.py"):
+for _f in ("seo_parts.py","seo_symptoms.py","seo_posts.py","seo_guides.py","seo_guides_info.py","seo_dongs.py","seo_subsites.py"):
     exec(open(os.path.join(BASE,_f),encoding="utf-8").read())
 
 # ───────────────── 시공사례 게시판 ─────────────────
