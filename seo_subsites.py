@@ -67,26 +67,23 @@ def build_subsite(r):
     for l in locs:
         tp = " · ".join(TOPIC_SHORT[k][0] for k in l.get("topics", [])[:2] if k in TOPIC_SHORT)
         mix = "·".join(x.split("·")[0] for x in mix_names(l, 2)[:3]) if l.get("mix") else ""
-        rows += f'<tr><th><a href="{main}/{l["slug"]}.html">{E(l["kn"])} 전기수리</a></th><td>{E(mix)}</td><td>{E(tp)}</td></tr>'
+        lm = "·".join((l.get("landmarks") or [])[:2])
+        rows += f'<tr><th><a href="{main}/{l["slug"]}.html">{E(l["kn"])} 전기수리</a></th><td>{E(lm)}</td><td>{E(mix)}</td><td>{E(tp)}</td></tr>'
     if not rows:
-        rows = "".join(f'<tr><th>{E(d)} 전기수리</th><td colspan="2">출장 가능</td></tr>' for d in dongs)
+        rows = "".join(f'<tr><th>{E(d)} 전기수리</th><td colspan="3">출장 가능</td></tr>' for d in dongs)
     cases = [x for x in POSTS if x["region"] == n][:6]
     case_html = ""
     if cases:
         cards = "".join(f'<a class="case" href="{main}/case-{x["slug"]}.html">' + (f'<img src="{main}/{E(x["photos"][0])}" alt="{E(n)} {E(x["title"])}" loading="lazy">' if x.get("photos") else "") +
-                        f'<div class="case-b"><span class="case-r">{E(x["region"])} · {E(x["date"])}</span><b>{E(x["title"])}</b><small>{E(x["summary"])}</small></div></a>' for x in cases)
+                        f'<div class="case-b"><span class="case-r">{E(x.get("location") or x["region"])} · {E(x["date"])}</span><b>{E(x["title"])}</b></div></a>' for x in cases)
         case_html = f'<section class="sec alt"><div class="wrap"><h2>{E(n)} 실제 시공 현장</h2><div class="cases">{cards}</div></div></section>'
-    checks = [("차단기가 떨어졌을 때", "떨어진 게 큰 누전차단기인지 작은 분기 차단기인지, 그 회로 플러그를 다 뽑고 한 번만 올려도 버티는지"),
-              ("타는 냄새가 날 때", "해당 차단기를 내리고 콘센트·분전반을 만지지 않기, 냄새 나는 위치 사진 찍기"),
-              ("일부만 전기가 안 될 때", "같은 방 다른 콘센트·전등은 되는지, 분전반에서 내려간 차단기가 있는지"),
-              ("빌라에서 우리 집만 꺼졌을 때", "집 안 분전반 메인 → 건물 계량기함 우리 집 차단기 순서로 확인"),
-              ("가게 영업 중 꺼졌을 때", "어떤 기기를 켰을 때 떨어졌는지, 떨어지는 시간대(점심·저녁 피크 등)")]
-    chk = "".join(f"<tr><th>{E(a)}</th><td>{E(b)}</td></tr>" for a, b in checks)
-    faqs = [(f"{n} 어느 동네까지 출장 오시나요?", f"{', '.join(dongs)} 등 {n} 전 지역에 출장합니다."),
-            (f"{n} 빌라나 상가도 전기출장 되나요?", "네. 아파트뿐 아니라 빌라·다세대, 단독주택, 상가·사무실, 공장·창고까지 방문합니다."),
-            (f"{n}에서 콘센트 하나 바꾸는 것도 와 주시나요?", "네. 작은 작업 한 건도 출장합니다. 사진을 문자로 먼저 보내 주시면 맞는 자재를 챙겨 갑니다."),
-            (f"{n} 전기공사업체로서 자격이 있나요?", f"대표가 전기공사기술자(중급)·전기기능사이며, 아파트 공용부 전기 유지보수를 해 온 업체입니다."),
-            ("비용은 언제 알 수 있나요?", "현장에서 원인을 확인하고 작업 전에 비용을 말씀드립니다. 동의하신 뒤에만 작업합니다.")]
+    _locs, _top, _kinds = region_facts(r)
+    picks = [l for l in locs if l.get("landmarks") and l.get("topics")][:4]
+    faqs = [(f"{n}전기수리, 출장 가능한 동네는 어디인가요?", f"{', '.join(dongs)}까지 출장합니다. 동네 이름을 누르면 본 홈페이지의 동네별 안내로 넘어갑니다.")]
+    if picks:
+        faqs.append((f"{n}{_jo(n,'은','는')} 동네마다 전기 고장이 다른가요?", "네, 건물 나이와 종류에 따라 다릅니다. " + " ".join(f"{l['kn']}({l['landmarks'][0]} 일대){_jo(l['kn'],'은','는')} {TOPIC_SHORT[l['topics'][0]][0]} 문의가 많은 편입니다." for l in picks if l['topics'][0] in TOPIC_SHORT)))
+    if cases:
+        faqs.append((f"{n}에서 실제로 작업한 곳이 있나요?", f"네. 최근 {n} 현장으로는 " + ", ".join(f"{x.get('location') or n} {x['title'].split(',')[0]}" for x in cases[:3]) + " 작업이 있습니다."))
     faq = "".join(f'<details><summary>{E(q)}</summary><p>{E(a)}</p></details>' for q, a in faqs)
     body = f"""
 <section class="hero sm"><div class="wrap hero-in">
@@ -97,13 +94,11 @@ def build_subsite(r):
 <section class="sec"><div class="wrap post"><div class="post-body g-body">
   <h2>{E(n)}전기수리, 동네마다 다릅니다</h2>
   <p>{E(SUB_TONE.get(r['slug'], r['intro']))} 아래 표에서 우리 동네를 누르면 그 동네 건물 구성, 자주 생기는 고장, 실제 사례를 자세히 볼 수 있습니다.</p>
-  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>동네</th><th>건물 구성</th><th>자주 생기는 고장</th></tr></thead><tbody>{rows}</tbody></table></div>
-  <h2>{E(n)} 전기출장 부르기 전, 전화로 알려주시면 좋은 것</h2>
-  <div class="tbl-wrap"><table class="tbl"><tbody>{chk}</tbody></table></div>
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>동네</th><th>가까운 곳</th><th>건물 구성</th><th>자주 생기는 고장</th></tr></thead><tbody>{rows}</tbody></table></div>
 </div></div></section>
 {case_html}
 <section class="sec" id="faq"><div class="wrap narrow"><h2>{E(n)}전기수리 자주 묻는 질문</h2><div class="faq">{faq}</div></div></section>
-<section class="cta"><div class="wrap cta-in"><div><h2>{E(n)} 전기 문제, 지금 상담하세요</h2><p>증상 사진을 문자로 보내 주시면 원인 방향을 먼저 안내해 드립니다.</p></div>
+<section class="cta"><div class="wrap cta-in"><div><h2>{E(n)} 전기 문제, 지금 상담하세요</h2><p>{E('·'.join(dongs[:4]))} 어디든 증상 사진을 문자로 보내 주시면 원인 방향을 먼저 안내해 드립니다.</p></div>
 <div class="cta-btns"><a class="btn btn-y" href="tel:{TEL}">{icon('phone')} {E(C['phone'])}</a><a class="btn btn-o" href="sms:{TEL}">문자로 사진 보내기</a><a class="btn btn-o" href="{main}/{r['slug']}.html">{E(n)} 전기수리 자세히</a></div></div></section>
 """
     host = sub_host(r)

@@ -157,7 +157,7 @@ def related_posts(sym, scope_match=None, region=None, limit=6):
     a = [x for x in POSTS if hit_scope(x) and hit_sym(x)]
     c = [x for x in POSTS if hit_scope(x) and x not in a]
     b = [x for x in POSTS if hit_sym(x) and x not in a and x not in c]
-    return (a + c + b)[:limit], len(a) + len(c)
+    return (a + b)[:limit], len(a)
 
 def case_story_html(posts, n_kw, sym, limit=2):
     """실제 시공사례 본문 일부를 '이 동네에서 실제로 있었던 일'로 보여줌 — 페이지마다 다른 실제 내용"""
@@ -191,6 +191,8 @@ def build_symptom_page(base_slug, n_kw, full, crumbs, region, near, intro, scope
     ty = AREA_TYPE.get(base_slug, "혼합")
     for sym in SYMPTOMS:
         slug = symptom_page_slug(base_slug, sym)
+        if not sym_ok(base_slug, sym):
+            SYM_SKIPPED.append((slug, base_slug)); continue
         h1 = f"{n_kw} {sym['name']}"
         posts, local_hits = related_posts(sym, scope_match, region)
         title = f"{n_kw} {sym['name']} | {full} {sym['kws'][1]}·{sym['kws'][2]} 출장 - {C['name']}"
@@ -199,11 +201,16 @@ def build_symptom_page(base_slug, n_kw, full, crumbs, region, near, intro, scope
         is_local = scope_match is not None
         base_faq = [(sym_text(q, n_kw), sym_text(a, n_kw)) for q, a in sym["faq"]]
         k = sum(map(ord, base_slug)) % len(base_faq)
-        faqs = [base_faq[0]] + ([base_faq[1 + k % (len(base_faq) - 1)]] if is_local else base_faq[1:])
-        for x in ([p for p in posts if any(m in (p.get("location") or "") + p["title"] for m in scope_match)][:3] if is_local else []):
+        faqs = ([base_faq[k]] if is_local else base_faq)
+        local_posts = sym_local_posts(base_slug, sym) if is_local else []
+        for x in local_posts[:2]:
             faqs.append((f"{n_kw}에서 '{x['title'].split(' – ')[0]}' 같은 경우도 해결하셨나요?",
-                         f"네. {x['date'][:7].replace('-', '년 ')}월 {x.get('location') or x['region']} 현장에서 직접 작업했습니다. {x['summary']}"))
-        faqs.append((f"{n_kw} 말고 근처 동네도 오시나요?", f"{', '.join(near)} 등 {region} 인근 어디든 출장합니다. 양주에 있어 경기 북부 이동이 빠릅니다."))
+                         f"네. {x['date'][:7].replace('-', '년 ')}월 {x.get('location') or x['region']} 현장에서 작업했습니다. 작업 내용은 아래 시공사례에 사진과 함께 정리해 두었습니다."))
+        faqs.append((f"{n_kw} 말고 근처 동네 {sym['name']}도 봐 주시나요?", f"네. {', '.join(near)} 등 {region} 인근의 {sym['kws'][1]} 문의도 출장합니다."))
+        lpd = next((l for l in LOCALS if l["slug"] == base_slug), {})
+        area_fact = (f'<p>{E(n_kw)} 건물은 {E(lpd["housing"])}입니다. 이런 건물에서 자주 필요한 작업은 {E(lpd["jobs"])}입니다.</p>' if lpd.get("housing") and lpd.get("jobs") and "아파트" in lpd["housing"] else "")
+        hero_lead = sym_text(sym['lead'], n_kw)
+        box_pts = ([f"{n_kw} 실제 사례 {len(local_posts)}건"] if local_posts else []) + [f"원인 {len(sym['causes'])}가지와 해결 방법 표", "사진을 보내 주시면 먼저 안내"]
         causes = table_html(["원인", "이런 경우", "해결 방법"], sym["causes"])
         diags = "".join(DIAGRAMS[d]() for d in sym["diags"])
         selfc = "".join(f"<li>{E(t)}</li>" for t in sym["selfcheck"])
@@ -214,8 +221,8 @@ def build_symptom_page(base_slug, n_kw, full, crumbs, region, near, intro, scope
         svc = SVC.get(sym["svc"])
         case_title = f"{n_kw} 근처 실제 시공사례" if local_hits else f"{region} 실제 시공사례"
         case_sec = (f'<section class="sec alt"><div class="wrap"><h2>{E(case_title)}</h2><p class="sub">스마일일렉이 직접 작업한 현장입니다.</p>'
-                    f'<div class="cases">{"".join(post_card(x) for x in posts)}</div></div></section>') if posts else ""
-        other_sym = "".join(f'<a class="chip" href="{symptom_page_slug(base_slug, s)}.html">{E(n_kw)} {E(s["name"])}</a>' for s in SYMPTOMS if s is not sym)
+                    f'<div class="cases">{"".join(post_card(x) for x in (local_posts + [p for p in posts if p not in local_posts][:max(0, 3 - len(local_posts))]))}</div></div></section>') if posts else ""
+        other_sym = "".join(f'<a class="chip" href="{symptom_page_slug(base_slug, s)}.html">{E(n_kw)} {E(s["name"])}</a>' for s in SYMPTOMS if s is not sym and sym_ok(base_slug, s))
         near_links = "".join(f'<a class="chip" href="{x[0]}.html">{E(x[1])} {E(sym["name"])}</a>' for x in near_pages(base_slug, sym))
         tags = "".join(f'<span class="tag">#{E((n_kw + k).replace(" ", ""))}</span>' for k in sym["kws"])
         crumb_html = " › ".join([f'<a href="index.html">홈</a>'] + [f'<a href="{p}">{E(t)}</a>' for t, p in crumbs] + [E(sym["name"])])
@@ -228,19 +235,19 @@ def build_symptom_page(base_slug, n_kw, full, crumbs, region, near, intro, scope
 <section class="hero sm"><div class="wrap hero-in">
   <nav class="crumb">{crumb_html}</nav>
   <h1><em>{E(n_kw)}</em> {E(sym['name'])}</h1>
-  <p class="lead">{E(sym_text(sym['lead'], n_kw))}</p>
+  <p class="lead">{E(hero_lead)}</p>
   {consult_btns(f"{n_kw} 출장 상담 {C['phone']}")}
 </div></section>
-{answer_box(f"{n_kw} {sym['name']}, 어떻게 하면 되나요?", first_sent(sym_text(sym['lead'], n_kw)), [first_sent(t) for t in sym['selfcheck'][:3]])}
+{answer_box(f"{n_kw} {sym['name']}, 어떻게 하면 되나요?", first_sent(sym_text(sym['lead'], n_kw)) , box_pts)}
 <section class="sec"><div class="wrap post"><div class="post-body g-body">
   <h2>{E(n_kw)} {E(sym['name'])}, 현장에서 자주 보는 경우</h2>
   <p>{E(sym_text(TYPE_NOTE[ty][sym['slug']], n_kw))}</p>
-  <p>{E(intro)}</p>
-  {f'<h2>{E(n_kw)}에서 실제로 있었던 일</h2>' + case_story_html(posts, n_kw, sym) if (posts and is_local) else ''}
+  {area_fact}
+  {f'<h2>{E(n_kw)}에서 실제로 있었던 일</h2>' + case_story_html(local_posts, n_kw, sym) if local_posts else ''}
   {'' if is_local else area_list_html(base_slug, n_kw, sym)}
   <h2>{E(sym['name'])} 원인과 해결 방법</h2>
   {causes}
-  {DIAGRAMS[sym['diags'][0]]() if sym['diags'] else ''}
+  {'' if is_local else (DIAGRAMS[sym['diags'][0]]() if sym['diags'] else '')}
   <h2>부르시기 전에 집에서 확인해 볼 것</h2>
   <ol class="g-list">{selfc}</ol>
   {'' if is_local else f'<div class="g-warn"><h3>이것만은 하지 마세요</h3><ul>{dont}</ul></div>'}
@@ -263,11 +270,29 @@ def near_pages(base_slug, sym):
         rg = next(x for x in REGIONS if x["slug"] == lp["region"])
         out = [(symptom_page_slug(o["slug"], sym), o.get("kn", o["name"])) for o in LOCALS if o["region"] == lp["region"] and o is not lp]
         out.append((symptom_page_slug(rg["slug"], sym), rg.get("alias") or rg["name"]))
-        return [o for o in out if sym_built(o[0][:-len(sym["slug"])-1])]
+        return [o for o in out if sym_ok(o[0][:-len(sym["slug"])-1], sym)]
     rg = next(x for x in REGIONS if x["slug"] == base_slug)
     out = [(symptom_page_slug(o["slug"], sym), o.get("kn", o["name"])) for o in LOCALS if o["region"] == base_slug]
     out += [(symptom_page_slug(o["slug"], sym), o.get("alias") or o["name"]) for o in REGIONS if o is not rg]
-    return [o for o in out if sym_built(o[0][:-len(sym["slug"])-1])]
+    return [o for o in out if sym_ok(o[0][:-len(sym["slug"])-1], sym)]
+
+_SYM_ASSIGN = {}
+def sym_local_posts(base_slug, sym):
+    """동네 시공사례를 증상 하나에만 배정 — 같은 사례가 여러 증상 페이지에 겹쳐 나오지 않게"""
+    if base_slug not in _SYM_ASSIGN:
+        lp = next((x for x in LOCALS if x["slug"] == base_slug), None)
+        asg = {x["slug"]: [] for x in SYMPTOMS}
+        for p in ([q for q in POSTS if any(m in (q.get("location") or "") + q["title"] for m in lp["match"])] if lp else []):
+            hit = [x for x in SYMPTOMS if any(m in p["title"] for m in x["match"])] or [x for x in SYMPTOMS if any(m in p["summary"] for m in x["match"])]
+            if hit: asg[min(hit, key=lambda x: len(asg[x["slug"]]))["slug"]].append(p)
+        _SYM_ASSIGN[base_slug] = asg
+    return _SYM_ASSIGN[base_slug][sym["slug"]]
+
+def sym_ok(base_slug, sym):
+    """그 동네에 그 증상 실제 사례가 있을 때만 증상 페이지를 만듦 (사례 없는 페이지는 다른 동네 페이지와 내용이 거의 같아짐)"""
+    return sym_built(base_slug) and bool(sym_local_posts(base_slug, sym))
+
+SYM_SKIPPED = []
 
 def sym_built(base_slug):
     lp = next((x for x in LOCALS if x["slug"] == base_slug), None)
@@ -280,7 +305,7 @@ def region_symptom_links_html(rg):
     cards = ""
     for sym in SYMPTOMS:
         g = next((x for x in GUIDES if x["slug"] == sym["guide"]), None)
-        sub = "".join(f'<a href="{symptom_page_slug(l["slug"], sym)}.html">{E(l["kn"])}</a>' for l in locs)
+        sub = "".join(f'<a href="{symptom_page_slug(l["slug"], sym)}.html">{E(l["kn"])}</a>' for l in locs if sym_ok(l["slug"], sym))
         cards += (f'<div class="sym-c"><b>{E(nk)} {E(sym["name"])}</b><small>{E(sym["kws"][1])} · {E(sym["kws"][2])}</small>'
                   + (f'<span class="sym-sub">{sub}</span>' if sub else "")
                   + (f'<a class="link" href="{g["slug"]}.html">원인·확인 방법 보기 →</a>' if g else "") + "</div>")
@@ -288,7 +313,7 @@ def region_symptom_links_html(rg):
 
 def symptom_links_html(base_slug, n_kw):
     if not sym_built(base_slug): return ""
-    li = "".join(f'<a class="sym-c" href="{symptom_page_slug(base_slug, s)}.html"><b>{E(n_kw)} {E(s["name"])}</b><small>{E(s["kws"][1])} · {E(s["kws"][2])}</small></a>' for s in SYMPTOMS)
+    li = "".join(f'<a class="sym-c" href="{symptom_page_slug(base_slug, s)}.html"><b>{E(n_kw)} {E(s["name"])}</b><small>{E(s["kws"][1])} · {E(s["kws"][2])}</small></a>' for s in SYMPTOMS if sym_ok(base_slug, s))
     return f'<section class="sec"><div class="wrap"><h2>{E(n_kw)} 증상별 안내</h2><p class="sub">증상을 누르면 원인, 집에서 확인할 것, 실제 사례를 볼 수 있습니다.</p><div class="sym-grid">{li}</div></div></section>'
 
 def has_cases(lp=None, rg=None):
@@ -300,4 +325,7 @@ def build_all_symptom_pages():
         rg = next(x for x in REGIONS if x["slug"] == lp["region"])
         build_symptom_page(lp["slug"], lp["kn"], lp["full"], [(f"{rg['name']} 전기수리", f"{rg['slug']}.html"), (f"{lp['name']} 전기수리", f"{lp['slug']}.html")],
                            rg["name"], lp["near"], lp["intro"], scope_match=lp["match"])
-    pass
+    # 사례 없는 증상 페이지는 만들지 않고 동네 페이지로 영구 이동
+    rp = os.path.join(OUT, "_redirects")
+    old = open(rp, encoding="utf-8").read() if os.path.exists(rp) else ""
+    open(rp, "w", encoding="utf-8").write(old.rstrip("\n") + "\n" + "".join(f"/{sl}.html  /{b}.html  301\n" for sl, b in SYM_SKIPPED))

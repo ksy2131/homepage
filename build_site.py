@@ -2,7 +2,7 @@
 """스마일일렉 SEO 홈페이지 생성기
 맨 위 CONFIG만 바꾸고 다시 실행하면 전체 페이지가 새로 만들어집니다.
 """
-import os, json, datetime, html, glob, shutil, re
+import collections, os, json, datetime, html, glob, shutil, re
 
 # ───────────────── CONFIG (실제 정보로 바꿀 곳) ─────────────────
 CONFIG = {
@@ -752,6 +752,27 @@ def build_service(s):
     write(f"{s['slug']}.html", page)
 
 # ───────────────── 지역 페이지 ─────────────────
+def _jo(w, a="이", b="가"):
+    c = w.strip()[-1]
+    return a if "가" <= c <= "힣" and (ord(c) - 0xAC00) % 28 else b
+
+def _short(t, lim=48):
+    t = (t or "").strip()
+    if len(t) <= lim: return t
+    cut = max(t.rfind(",", 0, lim), t.rfind("·", 0, lim), t.rfind(" ", 0, lim))
+    return t[:cut if cut > 15 else lim].rstrip(" ,·") + " 등"
+
+def region_facts(r):
+    """동네 자료(LOCALS)에서 지역 페이지에만 쓰는 사실 정리 — 지역마다 내용이 달라짐"""
+    locs = [l for l in LOCALS if l["region"] == r["slug"]]
+    tc = collections.Counter(l["topics"][0] for l in locs if l.get("topics"))
+    top = [(TOPIC_SHORT[k][0], c) for k, c in tc.most_common(3) if k in TOPIC_SHORT]
+    kinds = {}
+    for i, nm in enumerate(["아파트", "빌라·다세대", "상가·사무실", "단독·전원주택", "공장·창고"]):
+        ds = [l["kn"] for l in locs if l.get("mix") and l["mix"][i] >= 3]
+        if ds: kinds[nm] = ds
+    return locs, top, kinds
+
 def build_region(r):
     n = r["name"]
     nk = r.get("alias") or n
@@ -762,56 +783,52 @@ def build_region(r):
     al = r.get("alias")
     kw = (f"{al} 전기수리, {al} 전기공사, {al} 누전, {al} 차단기, " if al else "") + f"{n} 전기수리, {n} 누전수리, {n} 차단기 수리, {n} 분전반 교체, {n} 아파트 전기, {n} 주택 전기수리, {n} 상가 전기공사, {n} 전기공사, {n} 화재복구, " + ", ".join(f"{a} 전기수리" for a in r["areas"]) + ", " + ", ".join(f"{a[:-1] if a.endswith('동') and len(a)>2 else a}전기수리, {a} 전기수리" for a in r.get("dongs", []))
     areas = "".join(f'<li>{icon("pin")}{E(a)}</li>' for a in r["areas"])
-    svc = "".join(f"""<a class="card" href="{s['slug']}.html">{icon(s['icon'])}<h3>{E(n)} {E(s['short'])}</h3><p>{E(s['summary'])}</p><span class="more">자세히 보기 →</span></a>""" for s in SERVICES)
+    svc = "".join(f'<a class="chip" href="{s["slug"]}.html">{E(n)} {E(s["short"])}</a>' for s in SERVICES)
     near = "".join(f'<a class="chip" href="{o["slug"]}.html">{E(o["name"])} 전기수리</a>' for o in REGIONS if o is not r)
-    faqs = [
-        (f"{n} 어느 동네까지 출동하나요?", f"{', '.join(r['areas'])} 등 {n} 전 지역에 출동합니다."),
-        (f"{n} 주택이나 상가도 가능한가요?", f"네. {n} 지역 아파트뿐 아니라 빌라, 단독주택, 상가, 사무실 모두 방문합니다."),
-        (f"{n} 아파트 관리사무소 공용부 유지보수도 가능한가요?", f"네. {n} 지역 아파트 관리사무소와 공용부 조명, 분전반, 지하주차장 설비 정기점검·보수를 진행합니다."),
-        (f"{n}에서 누전 차단기가 자꾸 내려가면 어떻게 하나요?", "무리하게 계속 올리지 말고 전화 주세요. 증상을 먼저 듣고 방문해 누전 위치를 찾아 수리합니다."),
-        (f"{n} 출장은 얼마나 빨리 오나요?", "양주에 있어 경기 북부·서울 동북부는 이동이 빠릅니다. 전화로 증상을 듣고 가능한 가장 빠른 시간으로 일정을 잡습니다."),
-        (f"{n}에서 콘센트 하나, 전등 하나 같은 작은 작업도 오시나요?", "네. 콘센트·스위치 한 개, 방등 한 개 교체도 출장합니다."),
-        ("견적은 언제 알려주시나요?", "전화·사진으로 대략적인 작업 방향을 먼저 안내하고, 현장을 보고 작업 전에 정확한 비용을 말씀드립니다. 동의하신 뒤에만 작업합니다."),
-        ("인덕션·에어컨 전용 회로도 만들어 주시나요?", "네. 분전반에 전용 차단기를 추가하고 맞는 굵기의 전선으로 전용 콘센트까지 새로 연결합니다."),
-        ("분전반이 오래됐는데 꼭 바꿔야 하나요?", "차단기가 헐겁거나 변색됐거나, 정상 사용에도 자꾸 떨어지면 교체를 권합니다. 상태가 괜찮으면 문제 차단기만 바꿔도 됩니다."),
-        ("작업 후 문제가 다시 생기면요?", "같은 증상이 다시 생기면 연락 주세요. 작업 내용을 기록해 두어 원인을 빠르게 다시 확인합니다."),
-    ]
-    page = head(title, desc, f"{r['slug']}.html", kw, [business_schema([n]), faq_schema(faqs), crumbs_schema([("홈", ""), (f"{n} 전기수리", f"{r['slug']}.html")]), howto_schema(f"{n} 전기수리 진행 순서", STEPS)]) + header() + f"""
+    locs, top, kinds = region_facts(r)
+    rcases = [x for x in POSTS if x["region"] == n]
+    # 동네별 표: 건물 구성 + 자주 하는 작업 (동네 조사 자료)
+    rows = "".join(f'<tr><th><a href="{l["slug"]}.html">{E(l["kn"])}</a></th><td>{E(_short(l.get("housing")))}</td><td>{E(_short(l.get("jobs"), 40))}</td></tr>' for l in locs if l.get("housing") or l.get("jobs"))
+    dong_tbl = (f'<section class="sec"><div class="wrap post"><div class="post-body g-body"><h2>{E(nk)} 동네별 건물과 자주 필요한 작업</h2>'
+                f'<p>같은 {E(nk)}라도 동네마다 건물 나이와 종류가 달라 생기는 전기 고장도 다릅니다. 동네 이름을 누르면 자세한 안내로 넘어갑니다.</p>'
+                f'<div class="tbl-wrap"><table class="tbl"><thead><tr><th>동네</th><th>건물 구성</th><th>자주 필요한 작업</th></tr></thead><tbody>{rows}</tbody></table></div></div></div></section>') if rows else ""
+    # 지역마다 다른 질문과 답 (자료에서 셈)
+    faqs = [(f"{n} 어느 동네까지 출동하나요?", f"{', '.join(r['areas'])}까지 {n} 전 지역에 출동합니다.")]
+    if top:
+        faqs.append((f"{nk}에서는 어떤 전기 문의가 많나요?",
+                     f"{r['focus']} 작업이 많습니다. 동네 {len(locs)}곳 자료로 보면 " + ", ".join(f"{a}{_jo(a)} 대표 문제인 동네가 {c}곳" for a, c in top) + "입니다."))
+    if kinds:
+        ks = [(k, v) for k, v in kinds.items() if k != "아파트"][:3]
+        if ks:
+            faqs.append((f"{nk} 아파트 말고 빌라·상가·주택도 가나요?",
+                         "네, 건물 종류와 상관없이 갑니다. " + " ".join(f"{k}{_jo(k)} 많은 곳은 {', '.join(v[:4])}입니다." for k, v in ks)))
+    if rcases:
+        faqs.append((f"{n} 시공사례도 볼 수 있나요?",
+                     f"홈페이지에 {n} 시공사례 {len(rcases)}건을 올려 두었습니다. 최근 사례는 " + ", ".join(f"'{x.get('location') or n} {x['title']}'" for x in rcases[:2]) + "입니다."))
+    faqs.append(("견적은 언제 알려주시나요?", "전화·사진으로 작업 방향을 먼저 안내하고, 현장을 본 뒤 작업 전에 비용을 말씀드립니다. 동의하신 뒤에만 작업합니다."))
+    lead_txt = f"{n} " + "·".join(r['areas'][:6]) + f" 등 {n} 전 지역에 출장합니다. {nk}에서 많이 하는 작업은 {r['focus']}이고, 현장에서 측정으로 원인을 찾은 뒤 작업 전에 비용을 안내합니다."
+    page = head(title, desc, f"{r['slug']}.html", kw, [business_schema([n]), faq_schema(faqs), crumbs_schema([("홈", ""), (f"{n} 전기수리", f"{r['slug']}.html")])]) + header() + f"""
 <section class="hero sm"><div class="wrap hero-in">
   <nav class="crumb"><a href="index.html">홈</a> › <a href="index.html#regions">출동 지역</a> › {E(n)}</nav>
   <h1><em>{E(n)}</em> 전기수리 · 전기공사</h1>
-  <p class="lead">{E(n)} 아파트·주택·상가의 누전·차단기 수리, 분전반 공사, 매장 전기, 아파트 공용부 관리, 화재복구까지.</p>
+  <p class="lead">{E(r['intro'].split('. ')[0].rstrip('.'))}.</p>
   {consult_btns(f"{n} 출동 상담 {C['phone']}")}
 </div></section>
-{answer_box(f"{n} 전기수리, 어디까지 출장하나요?", f"{n} " + "·".join(r['areas'][:6]) + f" 등 {n} 전 지역에 출장합니다. 전기공사기술자가 직접 방문해 원인을 측정으로 찾고, 작업 전에 비용을 먼저 안내합니다.", ["아파트·주택·빌라 세대 전기수리", "상가·사무실 전기공사", "아파트 공용부 유지보수"])}
-{features_html()}
-{marquee_html(n)}
+{answer_box(f"{n} 전기수리, 어디까지 출장하나요?", lead_txt, [f"주요 작업: {r['focus']}", f"동네별 안내 {len(locs)}곳", f"{n} 시공사례 {len(rcases)}건" if rcases else "아파트·빌라·상가·주택 모두 방문"])}
 <section class="sec"><div class="wrap two">
   <div><h2>{E(n)} 지역 전기 문제, 이런 경우가 많습니다</h2><p>{E(r['intro'])}</p><p class="tag">주요 작업: {E(r['focus'])}</p></div>
-  <div class="box"><h3>{E(n)} 전 지역 출동 ({len(r['areas'])}개 {'읍·면·동' if any(a.endswith(('읍','면')) for a in r['areas']) else '동'})</h3><ul class="areas">{areas}</ul><p class="muted small">위 모든 지역에 출동합니다.</p></div>
+  <div class="box"><h3>{E(n)} 전 지역 출동 ({len(r['areas'])}개 {'읍·면·동' if any(a.endswith(('읍','면')) for a in r['areas']) else '동'})</h3><ul class="areas">{areas}</ul></div>
 </div></section>
-<section class="sec"><div class="wrap"><h2>{E(n)} 동네별 전기수리</h2><p>{E(", ".join(f"{d[:-1] if d.endswith('동') and len(d)>2 else d}전기수리" for d in r.get("dongs",[])))}</p><div class="chips">{"".join(f'<a class="chip" href="{lp["slug"]}.html">{E(lp["name"])} 전기수리</a>' for lp in LOCALS if lp["region"]==r["slug"])}</div></div></section>
+{dong_tbl}
+{cases_html(rcases, f"{n} 시공사례") if rcases else ""}
 {region_symptom_links_html(r)}
-<section class="sec alt"><div class="wrap"><h2>{E(n)} 전기 서비스</h2><div class="cards">{svc}</div></div></section>
-<section class="sec"><div class="wrap post"><div class="post-body g-body">
-  <h2>{E(n)} 집에 전기가 들어오는 길</h2>
-  <p>어디가 고장인지 알려면 전기가 어떤 순서로 들어오는지부터 알면 쉽습니다. 계량기까지는 한전이, 그 뒤 메인차단기와 집 안 분전반부터는 건물·세대가 관리하는 부분입니다. {E(n)}에서 받는 전기수리 문의 대부분이 이 뒤쪽에서 생깁니다.</p>
-  {diag_power_flow()}
-  <h2>차단기가 떨어졌을 때 문제 회로 찾기</h2>
-  <p>차단기가 떨어지면 아래 순서로 어느 회로가 문제인지 찾을 수 있습니다. 같은 차단기가 또 떨어지면 그 회로에 원인이 남아 있는 것이니 더 올리지 말고 연락 주세요.</p>
-  {diag_reset_steps()}
-  {urgency_table(n + ' ')}
-</div></div></section>
-{causes_html()}
-{jobs_html(n)}
-{cases_html([x for x in POSTS if x["region"]==n], f"{n} 시공사례") if any(x["region"]==n for x in POSTS) else ""}
-{steps_html()}
+<section class="sec alt"><div class="wrap"><h2>{E(n)} 전기 서비스</h2><div class="chips">{svc}</div></div></section>
+<section class="sec"><div class="wrap narrow"><h2>전기 고장, 먼저 읽어 보기</h2>{guides_list_html(limit=4)}</div></section>
 {faq_html(faqs, f"{n} 전기수리 자주 묻는 질문")}
 <section class="sec"><div class="wrap"><h2>인근 지역</h2><div class="chips">{near}</div></div></section>
 {cta(f"{n} 전기 문제, 지금 바로 상담하세요")}
 """ + footer()
     write(f"{r['slug']}.html", page)
-
 
 # ───────────────── 동네별 페이지 ─────────────────
 LOCALS = [
