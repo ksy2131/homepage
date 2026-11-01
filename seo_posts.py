@@ -180,6 +180,8 @@ POST_TOPIC = {
  "2026-10-08-yangju-okjeong-living-light-lamp": "light",
  "2026-10-01-uijeongbu-gosan-downlight-capacitor": "light", "2026-10-02-uijeongbu-gosan-basement-entrance-led": "light",
  "2026-10-12-hanam-misa-ballast-downlight": "light",
+ "2026-10-21-hanam-gamil-badminton-security-light": "light",
+ "2026-10-22-yangju-okjeong-elevator-room-light-breaker": "breaker", "2026-10-23-hanam-gamil-apu-breaker": "breaker",
 }
 
 def post_extra(pt):
