@@ -21,7 +21,7 @@ CONFIG = {
     "hours_short": "평일 08:00–19:00 · 주말·공휴일 긴급출동",
     "naver_verify": ["75f49b04581c32624dc86659c4af15b1d3194fa3", "dbabcf680f4c377553fea377bbf8ea66961d5ef7"],  # 네이버 서치어드바이저 인증코드 (예전 netlify.app, 새 smile1128.com)
     "google_verify": "zpQNlofCxZk2VsMZslXs9Cw0MMUJFJSGsrkLBoHlsgc",                     # 구글 서치콘솔 인증코드
-    "naver_analytics": "",  # 네이버 애널리틱스 사이트 ID (analytics.naver.com → 사이트 등록 후 받은 값). 비어 있으면 코드 안 넣음
+    "naver_analytics": "be9f8856256ff0",  # 네이버 애널리틱스 사이트 ID (analytics.naver.com → 사이트 등록 후 받은 값). 비어 있으면 코드 안 넣음
 }
 OUT = "dist"
 BASE = os.path.dirname(os.path.abspath(__file__))
