@@ -619,3 +619,6 @@ a.aw-c:hover{transform:translateY(-3px)}
 .cboard .cc[hidden],.gboard .gc[hidden]{display:none}
 @media (max-width:760px){.gboard{grid-template-columns:1fr;gap:10px}.gc a{padding:12px;gap:12px}.gc-th{width:92px}.gc-b b{font-size:15.5px}}
 @media (max-width:520px){.cboard{grid-template-columns:1fr 1fr;gap:10px}.cboard .case-b{padding:10px 11px}.cboard .case-b b{font-size:14.5px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.cboard .case-b small{display:none}.cboard .case-r{font-size:12px}}
+.tb-l{font-style:normal}
+@media (max-width:520px){.tb-l{display:none}}
+@media (max-width:374px){.topbar{font-size:12px}}

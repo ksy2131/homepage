@@ -152,7 +152,7 @@ def build_cases_board():
 <section class="hero sm"><div class="wrap hero-in">
   <nav class="crumb"><a href="index.html">홈</a> › 시공사례</nav>
   <h1><em>시공사례</em></h1>
-  <p class="lead">스마일일렉이 직접 작업한 경기 북부·서울 현장 기록입니다. 지역이나 작업을 눌러 골라 보세요.</p>
+  <p class="lead">스마일일렉이 직접 작업한 경기·서울 현장 기록입니다. 지역이나 작업을 눌러 골라 보세요.</p>
 </div></section>
 <section class="sec"><div class="wrap">{body}<div style="margin-top:32px">{blog_link_html()}</div></div></section>
 <section class="sec alt"><div class="wrap"><h2>지역별 보기</h2><div class="chips">{filt}</div></div></section>

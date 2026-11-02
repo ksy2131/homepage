@@ -236,7 +236,7 @@ def choose_html(n, v=0):
              f"{n} 전기공사업체를 고를 때 가격만큼 중요한 것이 있습니다.",
              f"같은 {n} 전기수리라도 업체마다 일하는 방식이 다릅니다. 이 정도는 물어보셔도 괜찮습니다.",
              f"{n}에서 전기출장을 부르기 전에 확인하면 좋은 것들입니다."][v % 4]
-    return f'<h2>{E(n)} 전기공사업체·전기업체 고를 때 확인할 것</h2><p>{E(intro)} 스마일일렉은 전기공사기술자(중급)·전기기능사가 직접 방문해 측정으로 원인을 확인한 뒤 작업합니다.</p>{table_html(["확인할 것", "이유"], rows)}'
+    return f'<h2>{E(n)} 전기공사업체·전기업체 고를 때 확인할 것</h2><p>{E(intro)} 스마일일렉은 전기 기술자가 방문해 측정으로 원인을 확인한 뒤 작업합니다.</p>{table_html(["확인할 것", "이유"], rows)}'
 
 def glance_html(lp, n, rn):
     rows = [["행정구역", (f"서울 {rn} {n}" if lp["region"] in SEOUL else f"경기도 {rn}시 {n}") + (f" (행정동: {', '.join(lp['admin'])})" if lp.get("admin") else "")]]
@@ -257,7 +257,7 @@ def dong_answer(lp, n, city):
     tops = "·".join(t for t in tops if t) or "누전·차단기"
     near = "·".join(lp.get("near", [])[:2])
     return (f"{city} {n}{_eunneun(n)} {mix} 비중이 높아 {tops} 문의가 많은 동네입니다. "
-            f"스마일일렉은 {n}{('과 ' + near) if near else ''}까지 전기공사기술자가 직접 출장해 측정으로 원인을 찾고, 작업 전에 비용을 먼저 안내합니다.")
+            f"스마일일렉은 {n}{('과 ' + near) if near else ''}까지 전기 기술자가 출장해 측정으로 원인을 찾고, 작업 전에 비용을 먼저 안내합니다.")
 
 def build_local(lp):
     r = next(x for x in REGIONS if x["slug"] == lp["region"]); rn = r.get("alias") or r["name"]
@@ -306,7 +306,7 @@ def build_local(lp):
         inq = inquiry_html(lp, n)
     _near = set(lp.get("near", []))
     others = "".join(f'<a class="chip" href="{o["slug"]}.html">{E(o["kn"])} 전기수리</a>' for o in LOCALS if o["region"] == lp["region"] and o is not lp and (o["kn"] in _near or o["name"] in _near))
-    lead = lp.get("lead") or f"{city} {n} 아파트·주택·상가의 누전·차단기 수리, 콘센트·스위치·조명 교체, 분전반 공사까지 전기공사기술자가 직접 전기출장합니다."
+    lead = lp.get("lead") or f"{city} {n} 아파트·주택·상가의 누전·차단기 수리, 콘센트·스위치·조명 교체, 분전반 공사까지 전기 기술자가 전기출장합니다."
     intro = lp.get("intro", "")
     thumb = f"images/dong/{lp['slug']}.jpg"
     has_thumb = os.path.exists(os.path.join(BASE, "static", thumb))

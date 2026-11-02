@@ -105,7 +105,7 @@ def build_subsite(r):
     schema = [business_schema([n]), faq_schema(faqs)]
     write(f"sub/{r['slug']}/index.html", sub_layout(r, title, desc, body, schema))
     write(f"sub/{r['slug']}/robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: https://{host}/sitemap.xml\n")
-    write(f"sub/{r['slug']}/sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<url><loc>https://{host}/</loc><lastmod>{TODAY}</lastmod><priority>1.0</priority></url>\n</urlset>\n')
+    # 하위 사이트 sitemap.xml은 build_site.py의 build_sitemaps()가 본문이 바뀐 날에 맞춰 씀
     return host
 
 def build_subsites():
