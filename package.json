@@ -1,0 +1,8 @@
+{
+  "name": "smile1128-homepage",
+  "private": true,
+  "description": "홈페이지 빌드는 python3 build_site.py. 이 파일은 조회수 함수(netlify/functions/views.mjs)용",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}

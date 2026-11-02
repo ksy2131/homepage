@@ -891,7 +891,7 @@ def build_local(lp):
     write(f"{lp['slug']}.html", page)
 
 # 도표·그림 부품, 증상별 페이지, 시공사례 보강 데이터 (별도 파일)
-for _f in ("seo_parts.py","seo_symptoms.py","seo_posts.py","seo_guides.py","seo_guides_info.py","seo_dongs.py","seo_subsites.py"):
+for _f in ("seo_parts.py","seo_symptoms.py","seo_posts.py","seo_guides.py","seo_guides_info.py","seo_dongs.py","seo_subsites.py","seo_listui.py"):
     exec(open(os.path.join(BASE,_f),encoding="utf-8").read())
 
 # ───────────────── 시공사례 게시판 ─────────────────
@@ -1111,7 +1111,7 @@ if __name__ == "__main__":
     for s in SERVICES: build_service(s)
     for r in REGIONS: build_region(r)
     for lp in LOCALS: build_local(lp)
-    build_cases_list()
+    build_cases_board()
     build_guides()
     for pt in POSTS: build_post(pt)
     build_all_symptom_pages()
