@@ -622,3 +622,35 @@ a.aw-c:hover{transform:translateY(-3px)}
 .tb-l{font-style:normal}
 @media (max-width:520px){.tb-l{display:none}}
 @media (max-width:374px){.topbar{font-size:12px}}
+/* 사진·설명 그림 크게 보기 (zoom.js) */
+.zm-on{cursor:zoom-in}
+.zm-on:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+.zm-lock,.zm-lock body{overflow:hidden}
+.zm{position:fixed;inset:0;z-index:1000;background:#0b0f19;display:flex;flex-direction:column;color:#fff;overscroll-behavior:contain}
+.zm[hidden]{display:none}
+.zm-top{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:10px 12px;flex:none}
+.zm-cnt{margin-right:auto;font-size:15px;font-weight:700;letter-spacing:.02em;padding-left:6px}
+.zm-btn{appearance:none;border:0;background:rgba(255,255,255,.14);color:#fff;width:44px;height:44px;border-radius:50%;font-size:26px;line-height:44px;text-align:center;cursor:pointer;padding:0;font-family:inherit}
+.zm-btn:hover{background:rgba(255,255,255,.26)}
+.zm-btn:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.zm-btn[hidden]{display:none}
+.zm-stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:0 64px;overflow:hidden;touch-action:pan-y pinch-zoom}
+.zm-media{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:6px;cursor:zoom-in;user-select:none;-webkit-user-select:none}
+.zm-svg{width:100%;max-width:1100px;background:#fff;padding:12px;border-radius:10px;overflow:auto}
+.zm-svg svg{display:block;width:100%;height:auto;font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.zm.is-zoom .zm-stage{display:block;overflow:auto;padding:0;touch-action:auto;-webkit-overflow-scrolling:touch}
+.zm.is-zoom .zm-media{max-width:none;max-height:none;width:200%;min-width:900px;margin:0 auto;cursor:zoom-out}
+.zm.is-zoom .zm-svg{overflow:visible}
+.zm.is-zoom img.zm-media{min-width:0;max-width:2000px}
+.zm-nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;line-height:46px;font-size:34px}
+.zm-prev{left:10px}.zm-next{right:10px}
+.zm.is-zoom .zm-nav{display:none}
+.zm-cap{flex:none;margin:0;padding:12px 16px 18px;text-align:center;font-size:15px;line-height:1.55;color:#e8ecf4;max-height:28vh;overflow:auto}
+.zm-cap[hidden]{display:none}
+@media (max-width:620px){
+ .zm-stage{padding:0 4px}
+ .zm-nav{top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);transform:none;background:rgba(255,255,255,.18)}
+ .zm-prev{left:12px}.zm-next{right:12px}
+ .zm-cap{padding:10px 70px calc(env(safe-area-inset-bottom,0px) + 18px);font-size:14px;min-height:72px}
+ .zm-svg{padding:6px}
+}

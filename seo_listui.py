@@ -128,9 +128,14 @@ var k='v:'+m[1];if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,'1'
 fetch('/api/views',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({p:m[1]}),keepalive:true}).catch(function(){})}catch(e){}})();
 </script>"""
 
+# 사진·설명 그림 크게 보기: 시공사례(case-*)·전기 상식(guide-*) 쪽에서만 static/zoom.js 를 불러옴 (<main> 밖이라 lastmod 지문에 영향 없음)
+ZOOM_JS = r"""<script>
+(function(){if(/\/(case|guide)-[\w-]+(\.html)?$/.test(location.pathname)&&document.querySelector('.post-photos img,.g-fig img,.diag')){var s=document.createElement('script');s.src='zoom.js?v=1';document.body.appendChild(s)}})();
+</script>"""
+
 _footer_base = footer
 def footer():
-    return _footer_base().replace("</body>", VIEW_JS + "\n</body>", 1)
+    return _footer_base().replace("</body>", VIEW_JS + "\n" + ZOOM_JS + "\n</body>", 1)
 
 _build_guides_base = build_guides
 def build_guides():
