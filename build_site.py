@@ -18,7 +18,7 @@ CONFIG = {
     "place": "https://naver.me/xPUHS2Mz",           # 네이버 플레이스(지도)
     "kakao": "https://pf.kakao.com/_LpVxnG/chat",   # 카카오톡 채널 상담(채팅)
     "talk": "https://talk.naver.com/ct/w4s604",                                   # 네이버 톡톡 주소 (talk.naver.com/…) — 비어 있으면 버튼 숨김
-    "hours_short": "평일 08:00–19:00 · 주말 긴급출동",
+    "hours_short": "평일 08:00–19:00 · 주말·공휴일 긴급출동",
     "naver_verify": ["75f49b04581c32624dc86659c4af15b1d3194fa3", "dbabcf680f4c377553fea377bbf8ea66961d5ef7"],  # 네이버 서치어드바이저 인증코드 (예전 netlify.app, 새 smile1128.com)
     "google_verify": "zpQNlofCxZk2VsMZslXs9Cw0MMUJFJSGsrkLBoHlsgc",                     # 구글 서치콘솔 인증코드
 }
@@ -27,6 +27,7 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 # Netlify가 빌드할 때 실제 사이트 주소를 알려줌 (도메인 연결하면 자동 반영)
 if os.environ.get("URL"): CONFIG["domain"] = os.environ["URL"].rstrip("/")
 TODAY = datetime.date.today().isoformat()
+LASTMOD_MARK = "@@LASTMOD@@"  # 쪽마다 실제로 바뀐 날짜로 빌드 끝에 바꿔 넣음 (build_sitemaps)
 # 시공사례 글: posts 폴더의 JSON 파일 하나 = 글 하나 (Pages CMS 글쓰기 화면에서 작성)
 SVC_LABEL = {"아파트 공용부 유지보수":"apartment-maintenance","세대 전기 수리":"home-repair","주거공간 전기수리":"home-repair","상업공간 전기공사":"commercial","분전반 공사":"panel","화재복구 전기공사":"fire-restoration"}
 def load_posts():
@@ -58,7 +59,7 @@ SERVICES = [
         "kw": "아파트 전기 유지보수",
         "icon": "building",
         "summary": "관리사무소와 함께하는 공용부 전기설비 정기점검·보수. 조명, 분전반, 동력설비, 지하주차장까지 한 업체에서 관리합니다.",
-        "intro": "아파트 공용부 전기설비는 고장 한 번이 수백 세대의 불편으로 이어집니다. 스마일일렉는 관리사무소 담당자와 직접 소통하며 계단·복도·지하주차장 조명, 공용 분전반, 동력반, 외등과 경관조명까지 정기적으로 점검하고, 문제가 생기면 빠르게 보수합니다.",
+        "intro": "아파트 공용부 전기설비는 고장 한 번이 수백 세대의 불편으로 이어집니다. 스마일일렉은 관리사무소 담당자와 직접 소통하며 계단·복도·지하주차장 조명, 공용 분전반, 동력반, 외등과 경관조명까지 정기적으로 점검하고, 문제가 생기면 빠르게 보수합니다.",
         "items": ["계단·복도·지하주차장 조명 교체 및 LED 전환", "공용 분전반·동력반 점검과 차단기 교체", "외등·보안등·경관조명 보수", "누전 차단기 동작 시험과 절연저항 측정", "정기점검 결과 보고와 보수 견적 제출", "입주민 민원 발생 시 신속 출동"],
         "symptoms": ["지하주차장 조명이 구역별로 꺼져 있다", "공용 차단기가 반복해서 떨어진다", "외등이 밤에 켜지지 않거나 깜빡인다", "노후 조명 교체 비용과 전기요금이 부담된다"],
         "faq": [
@@ -73,7 +74,7 @@ SERVICES = [
         "kw": "아파트·주택 전기수리",
         "icon": "plug",
         "summary": "아파트·빌라·단독주택·전원주택의 누전, 차단기 내려감, 스위치·콘센트 교체, LED 방등 교체까지 빠르게 해결합니다.",
-        "intro": "갑자기 차단기가 내려가거나 콘센트에서 탄 냄새가 난다면 원인부터 정확히 찾아야 합니다. 스마일일렉은 아파트는 물론 빌라, 단독주택, 전원주택까지 직접 방문해 누전 위치를 찾고, 스위치·콘센트·조명 교체까지 한 번에 처리합니다.",
+        "intro": "갑자기 차단기가 내려가거나 콘센트에서 탄 냄새가 난다면 원인부터 정확히 찾아야 합니다. 스마일일렉은 아파트는 물론 빌라, 단독주택, 전원주택까지 방문해 누전 위치를 찾고, 스위치·콘센트·조명 교체까지 한 번에 처리합니다.",
         "items": ["누전 점검과 누전 위치 탐색", "차단기 내려감·두꺼비집 수리", "스위치·콘센트 교체 (노후·파손·그을림)", "LED 방등·거실등·주방등 교체", "인덕션·에어컨 전용 회로 증설", "욕실·베란다 습기로 인한 전기 고장 수리"],
         "symptoms": ["누전 차단기가 자꾸 내려간다", "특정 방만 전기가 안 들어온다", "콘센트나 스위치가 뜨겁거나 그을렸다", "형광등을 LED로 바꾸고 싶다"],
         "faq": [
@@ -104,7 +105,7 @@ SERVICES = [
         "kw": "분전반 교체 공사",
         "icon": "panel",
         "summary": "노후 분전반 교체, 회로 분리, 차단기 증설. 주거공간과 상가·사무실 분전반 공사를 전문으로 합니다.",
-        "intro": "분전반은 집과 매장의 모든 전기가 지나가는 심장입니다. 오래된 분전반은 차단기 오작동, 과열, 화재 위험으로 이어질 수 있습니다. 스마일일렉는 사용 전력과 회로 구성을 확인해 안전한 용량으로 분전반을 교체하고 회로를 정리합니다.",
+        "intro": "분전반은 집과 매장의 모든 전기가 지나가는 심장입니다. 오래된 분전반은 차단기 오작동, 과열, 화재 위험으로 이어질 수 있습니다. 스마일일렉은 사용 전력과 회로 구성을 확인해 안전한 용량으로 분전반을 교체하고 회로를 정리합니다.",
         "items": ["노후 분전반 전체 교체", "회로 분리 및 차단기 증설", "주방·에어컨·인덕션 전용 회로 구성", "상가·사무실·매장 분전반 공사", "누전 차단기 교체 및 동작 시험", "공사 후 회로 표시(라벨링)", "용량이 부족할 때 한전 증설 신청과 공사 함께 진행"],
         "symptoms": ["분전반이 오래되어 차단기가 헐겁거나 변색됐다", "가전을 함께 쓰면 차단기가 떨어진다", "인덕션·에어컨 설치로 회로 증설이 필요하다", "어느 차단기가 어느 방인지 모른다"],
         "faq": [
@@ -120,7 +121,7 @@ SERVICES = [
         "kw": "화재복구 전기공사",
         "icon": "fire",
         "summary": "화재 후 손상된 배선·분전반·조명을 점검하고 안전하게 복구합니다. 주거공간과 상업공간 모두 가능합니다.",
-        "intro": "화재가 난 뒤에는 눈에 보이지 않는 벽 속 배선까지 손상됐을 수 있습니다. 겉만 고치고 전기를 다시 넣으면 2차 사고 위험이 있습니다. 스마일일렉는 손상 범위를 확인하고 배선, 분전반, 콘센트, 조명을 단계적으로 복구합니다.",
+        "intro": "화재가 난 뒤에는 눈에 보이지 않는 벽 속 배선까지 손상됐을 수 있습니다. 겉만 고치고 전기를 다시 넣으면 2차 사고 위험이 있습니다. 스마일일렉은 손상 범위를 확인하고 배선, 분전반, 콘센트, 조명을 단계적으로 복구합니다.",
         "items": ["화재 현장 전기설비 손상 점검", "그을린 배선 철거 및 신규 배선", "분전반·차단기 교체", "콘센트·스위치·조명 전체 복구", "절연저항 측정 후 안전하게 전원 재투입", "인테리어 복구 일정에 맞춘 공정 협의"],
         "symptoms": ["화재 후 전기를 다시 넣어도 되는지 모르겠다", "그을음 때문에 배선 상태를 알 수 없다", "인테리어 복구 전에 전기부터 정리해야 한다", "상가 화재로 영업 재개가 급하다"],
         "faq": [
@@ -254,7 +255,7 @@ def header(active=""):
     reg_links = "".join(f'<a href="{r["slug"]}.html">{E(r["name"])}</a>' for r in REGIONS)
     return f"""
 <div class="topbar"><div class="wrap topbar-in">
-  <span>{icon('phone')} 상담 {E(C['hours_short'])} · <a href="tel:{TEL}"><b>{E(C['phone'])}</b></a></span>
+  <span>{icon('phone')} <em class="tb-l">상담 </em>{E(C['hours_short'])} · <a href="tel:{TEL}"><b>{E(C['phone'])}</b></a></span>
   <span class="tb-links"><a href="{E(C['kakao'])}" target="_blank" rel="noopener">카톡상담</a><a href="sms:{TEL}">문자상담</a><a href="{E(C['talk'])}" target="_blank" rel="noopener">톡톡상담</a><a href="{E(C['blog'])}" target="_blank" rel="noopener">블로그</a></span>
 </div></div>
 <header class="top">
@@ -333,7 +334,7 @@ def business_schema(area_names=None):
         "@id": "https://smile1128.com/#business",
         "name": C["name"],
         "alternateName": ["스마일일렉 전기수리", "Smile Elec"],
-        "description": "경기북부·서울 동북부 아파트·주택·빌라·상가 전기수리와 전기공사. 전기공사기술자가 직접 방문해 원인을 측정으로 찾고 작업 전 비용을 먼저 안내합니다. 조달청 나라장터 등록 업체.",
+        "description": "경기북부·서울 동북부 아파트·주택·빌라·상가 전기수리와 전기공사. 전기 기술자가 방문해 원인을 측정으로 찾고 작업 전 비용을 먼저 안내합니다. 조달청 나라장터 등록 업체.",
         "telephone": C["phone"],
         "url": C["domain"] + "/",
         "logo": C["domain"] + "/images/logo-full.svg",
@@ -352,7 +353,7 @@ def answer_box(q, a, points=None, updated=None):
     li = "".join(f"<li>{icon('check')}{E(t)}</li>" for t in (points or []))
     return f'''<section class="ans-sec"><div class="wrap"><div class="ans">
   <p class="ans-k">핵심 요약</p><p class="ans-q">Q. {E(q)}</p><p class="ans-a">{E(a)}</p>{f'<ul class="ans-l">{li}</ul>' if li else ''}
-  <p class="ans-by"><a href="about.html">작성·검수 김선용</a> · 전기공사기술자(중급) · 스마일일렉 대표 · 업데이트 {updated or TODAY}</p>
+  <p class="ans-by"><a href="about.html">작성·검수 김선용</a> · 전기공사기술자(중급) · 스마일일렉 대표 · 업데이트 {updated or LASTMOD_MARK}</p>
 </div></div></section>'''
 
 def first_sent(t):
@@ -387,7 +388,7 @@ def cta(text="전기 문제, 지금 바로 상담하세요"):
 </div></section>"""
 
 def steps_html():
-    st = [("상담", "전화나 문자로 증상과 위치를 알려주세요."), ("방문 점검", "기술자가 직접 방문해 원인을 찾습니다."), ("설명·견적", "원인과 작업 범위, 비용을 먼저 설명드립니다."), ("시공·확인", "동의 후 시공하고 정상 동작을 함께 확인합니다.")]
+    st = [("상담", "전화나 문자로 증상과 위치를 알려주세요."), ("방문 점검", "기술자가 방문해 원인을 찾습니다."), ("설명·견적", "원인과 작업 범위, 비용을 먼저 설명드립니다."), ("시공·확인", "동의 후 시공하고 정상 동작을 함께 확인합니다.")]
     li = "".join(f'<li><b>{i+1:02d}</b><h3>{E(t)}</h3><p>{E(d)}</p></li>' for i, (t, d) in enumerate(st))
     return f'<section class="sec alt"><div class="wrap"><h2>작업 진행 순서</h2><ol class="steps">{li}</ol></div></section>'
 
@@ -602,7 +603,7 @@ def build_guides():
         else:
             body="".join(f"<p>{E(t)}</p>" for t in x["body"])
         others = guides_list_html(exclude=x['slug'])
-        art={"@context":"https://schema.org","@type":"Article","headline":x["q"],"description":x["sum"],"author":AUTHOR,"publisher":{"@id":"https://smile1128.com/#business"},"datePublished":x.get("date","2026-10-18"),"dateModified":TODAY}
+        art={"@context":"https://schema.org","@type":"Article","headline":x["q"],"description":x["sum"],"author":AUTHOR,"publisher":{"@id":"https://smile1128.com/#business"},"datePublished":x.get("date","2026-10-18"),"dateModified":LASTMOD_MARK}
         sch=[art, business_schema()]
         if x.get("thumb"): art["image"]=[f'{C["domain"]}/{x["thumb"]}']
         if x.get("tags"): art["keywords"]=", ".join(x["tags"])
@@ -662,7 +663,7 @@ def build_home():
 <section class="hs" aria-roledescription="carousel" aria-label="스마일일렉 소개">
   <div class="hs-s on" style="--bg:url(images/hero/slide-1.jpg);--bgm:url(images/hero/slide-1-m.jpg)"><div class="wrap hs-in">
     <h1><span class="hs-kw">{icon('pin')} 경기북부·서울 동북부 전기수리 · 전기공사</span>전기는 안전하게,<br><em>수리는 확실하게.</em></h1>
-    <p class="lead">누전·차단기부터 LED 전등, 상가 공사까지. <br class="pc">전기공사기술자가 직접 방문해 원인과 비용을 먼저 설명드립니다.</p>
+    <p class="lead">누전·차단기부터 LED 전등, 상가 공사까지. <br class="pc">전기 기술자가 방문해 원인과 비용을 먼저 설명드립니다.</p>
     {HS_BTNS}
   </div></div>
   <div class="hs-s" style="--bg:url(images/hero/slide-2.jpg);--bgm:url(images/hero/slide-2-m.jpg)"><div class="wrap hs-in">
@@ -733,7 +734,7 @@ def build_service(s):
     sym = "".join(f"<li>{E(i)}</li>" for i in s["symptoms"])
     reg_links = "".join(f'<a class="chip" href="{r["slug"]}.html">{E(r["name"])} {E(s["short"])}</a>' for r in REGIONS)
     others = "".join(f'<a class="card sm" href="{o["slug"]}.html">{icon(o["icon"])}<h3>{E(o["short"])}</h3></a>' for o in SERVICES if o is not s)
-    page = head(title, desc, f"{s['slug']}.html", kw, [business_schema(), faq_schema(s["faq"]), crumbs_schema([("홈", ""), (s["short"], f"{s['slug']}.html")])]) + header() + f"""
+    page = head(title, desc, f"{s['slug']}.html", kw, [business_schema(), faq_schema(service_faq(s)), crumbs_schema([("홈", ""), (s["short"], f"{s['slug']}.html")])]) + header() + f"""
 <section class="hero sm"><div class="wrap hero-in">
   <nav class="crumb"><a href="index.html">홈</a> › {E(s['short'])}</nav>
   <h1>경기북부 <em>{E(s['short'])}</em></h1>
@@ -746,10 +747,11 @@ def build_service(s):
   <div class="box"><h3>이런 증상이 있다면 연락 주세요</h3><ul class="dots">{sym}</ul></div>
 </div></section>
 <section class="sec alt"><div class="wrap"><h2>작업 범위</h2><ul class="checks">{items}</ul></div></section>
+{service_more_html(s)}
 {cases_html([x for x in POSTS if x.get("service")==s["slug"]], f"{s['short']} 시공사례") if any(x.get("service")==s["slug"] for x in POSTS) else ""}
 {steps_html()}
 <section class="sec"><div class="wrap"><h2>지역별 {E(s['short'])}</h2><p class="sub">경기 북부와 서울 동북부에 출동합니다.</p><div class="chips">{reg_links}</div></div></section>
-{faq_html(s['faq'], f"{s['short']} 자주 묻는 질문")}
+{faq_html(service_faq(s), f"{s['short']} 자주 묻는 질문")}
 <section class="sec alt"><div class="wrap"><h2>다른 서비스</h2><div class="cards three">{others}</div></div></section>
 {cta(f"{s['short']} 상담은 지금 바로")}
 """ + footer()
@@ -891,7 +893,7 @@ def build_local(lp):
     write(f"{lp['slug']}.html", page)
 
 # 도표·그림 부품, 증상별 페이지, 시공사례 보강 데이터 (별도 파일)
-for _f in ("seo_parts.py","seo_symptoms.py","seo_posts.py","seo_guides.py","seo_guides_info.py","seo_dongs.py","seo_subsites.py","seo_listui.py"):
+for _f in ("seo_parts.py","seo_symptoms.py","seo_posts.py","seo_guides.py","seo_guides_info.py","seo_dongs.py","seo_subsites.py","seo_listui.py","seo_services.py"):
     exec(open(os.path.join(BASE,_f),encoding="utf-8").read())
 
 # ───────────────── 시공사례 게시판 ─────────────────
@@ -907,7 +909,7 @@ def build_cases_list():
 <section class="hero sm"><div class="wrap hero-in">
   <nav class="crumb"><a href="index.html">홈</a> › 시공사례</nav>
   <h1><em>시공사례</em></h1>
-  <p class="lead">스마일일렉이 직접 작업한 경기 북부·서울 현장 기록입니다.</p>
+  <p class="lead">스마일일렉이 직접 작업한 경기·서울 현장 기록입니다.</p>
 </div></section>
 <section class="sec"><div class="wrap">{grid}<div style="margin-top:32px">{blog_link_html()}</div></div></section>
 <section class="sec alt"><div class="wrap"><h2>지역별 보기</h2><div class="chips">{filt}</div></div></section>
@@ -980,7 +982,7 @@ def build_post(pt):
   <h1>{E(full_title(pt))}</h1>
   <p class="lead">{E(pt['summary'])}</p>
 </div></section>
-{answer_box(f"{loc}, 어떤 문제였고 어떻게 해결했나요?", pt['summary'], updated=pt['date'])}
+{answer_box(f"{loc}, 어떤 문제였고 어떻게 해결했나요?", pt['summary'], updated=pt.get('updated', pt['date']))}
 <section class="sec"><div class="wrap post">
   <article>
     <ul class="post-info">{info_html}</ul>
@@ -1055,7 +1057,7 @@ def llms_txt():
     svc = "\n".join(f"- [{s['short']}]({d}/{s['slug']}.html): {s['summary']}" for s in SERVICES)
     reg = "\n".join(f"- [{r['name']} 전기수리]({d}/{r['slug']}.html): " + ", ".join(r["areas"]) for r in REGIONS)
     gd = "\n".join(f"- [{g['q']}]({d}/{g['slug']}.html)" for g in GUIDES)
-    cs = "\n".join(f"- [{x['region']} {x['title']}]({d}/case-{x['slug']}.html) ({x['date']})" for x in POSTS[:30])
+    cs = "\n".join(f"- [{x['region']} {x['title']}]({d}/case-{x['slug']}.html) ({x['date']})" for x in POSTS)  # 공개된 시공사례 전부 (늘어나면 빌드 때 자동 반영)
     return f"""# 스마일일렉 (Smile Elec)
 
 > 경기 양주에 있는 전기수리·전기공사 업체. 경기북부(의정부·양주·동두천·포천·남양주·구리·하남)와 서울 동북부(노원·도봉·강북·성북) 아파트·주택·빌라·상가에 출장합니다. 전기공사기술자(중급) 대표가 운영하며, 현장에서는 측정으로 원인을 찾고 작업 전에 비용을 먼저 안내합니다.
@@ -1088,9 +1090,7 @@ def llms_txt():
 # ───────────────── 부가 파일 ─────────────────
 def build_extras():
     pages = [("", "1.0")] + [(f"{s['slug']}.html", "0.9") for s in SERVICES] + [(f"{r['slug']}.html", "0.8") for r in REGIONS] + [(f"{l['slug']}.html", "0.8") for l in LOCALS] + [("about.html","0.8"),("cases.html","0.8"),("guides.html","0.7")] + [(f"{g['slug']}.html","0.6") for g in GUIDES] + [(f"case-{x['slug']}.html","0.7") for x in POSTS] + SYMPTOM_PAGES
-    cdate = {f"case-{x['slug']}.html": x.get("updated", x["date"]) for x in POSTS}
-    urls = "".join(f"<url><loc>{C['domain']}/{p}</loc><lastmod>{cdate.get(p, TODAY)}</lastmod><priority>{pr}</priority></url>\n" for p, pr in pages)
-    write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
+    SITEMAP_PAGES[:] = pages  # sitemap.xml은 하위 사이트까지 다 만든 뒤 build_sitemaps()에서 씀
     ai_bots = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in ["Yeti", "Googlebot", "Google-Extended", "GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "PerplexityBot", "Bingbot"])
     write("llms.txt", llms_txt())
     write("robots.txt", ai_bots + f"User-agent: *\nAllow: /\n\nSitemap: {C['domain']}/sitemap.xml\n\n# 다음(Daum) 웹마스터도구 소유 인증\n#DaumWebMasterTool:5e97232627d479a890acd3a3bf5f5d5d5e55fd99662e9e730568741acadc91d5:1T0ZRs6bn/unEVfM5aXupg==\n#DaumWebMasterTool:a999723e179b57c3a13a4b44307b5943e2dc7ea96ef5469887ec197d37746247:RXqVBM7XE5wroppTXsoV6g==\n")
@@ -1102,6 +1102,52 @@ def build_extras():
     feed = "".join(f"<item><title>{E(full_title(x))}</title><link>{C['domain']}/case-{x['slug']}.html</link><guid>{C['domain']}/case-{x['slug']}.html</guid><pubDate>{pub(x['date'])}</pubDate><description>{E(x['summary'])}</description>{''.join(f'<category>{E(t)}</category>' for t in post_tags(x))}</item>" for x in POSTS)
     feed += "".join(f"<item><title>{E(g['q'])}</title><link>{C['domain']}/{g['slug']}.html</link><guid>{C['domain']}/{g['slug']}.html</guid><description>{E(g['sum'])}</description></item>" for g in GUIDES)
     write("rss.xml", f'<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>{E(C["name"])}</title><link>{C["domain"]}/</link><description>경기 북부 아파트·주택·상가 전기수리·전기공사</description>{feed}</channel></rss>')
+
+# ───────────────── 사이트맵 날짜(lastmod) ─────────────────
+# 배포 때마다 모든 쪽이 오늘 날짜가 되지 않도록, 쪽마다 '본문 지문(해시)'과 날짜를 lastmod.json에 적어 둔다.
+# 지문은 제목·설명·<main> 본문만으로 만든다(맨 위 띠·메뉴·푸터 같은 공통 틀이 바뀐 건 본문 변경으로 치지 않음).
+# 지문이 그대로면 적어 둔 날짜, 바뀌었으면 오늘 날짜. 시공사례는 글의 수정일(updated) 또는 작성일(date).
+# git 기록을 쓰지 않으므로 Netlify(얕은 clone)에서도 같은 결과가 나온다. 빌드 후 lastmod.json도 같이 커밋할 것.
+SITEMAP_PAGES = []
+LASTMOD_FILE = os.path.join(BASE, "lastmod.json")
+def page_fingerprint(rel):
+    import hashlib
+    fp = os.path.join(OUT, rel or "index.html")
+    if not os.path.exists(fp): return None
+    t = open(fp, encoding="utf-8").read()
+    parts = re.findall(r"<title>.*?</title>", t, re.S) + re.findall(r'<meta name="description"[^>]*>', t)
+    m = re.search(r"<main>(.*)</main>", t, re.S)
+    parts.append(m.group(1) if m else t)
+    return hashlib.sha1("\n".join(parts).encode("utf-8")).hexdigest()[:16]
+
+def build_sitemaps():
+    try: old = json.load(open(LASTMOD_FILE, encoding="utf-8"))
+    except Exception: old = {}
+    new = {}
+    def lm(rel, fixed=None):
+        key = rel or "index.html"; h = page_fingerprint(rel)
+        o = old.get(key) or {}
+        d = fixed or (o["d"] if o.get("h") == h and o.get("d") else TODAY)
+        new[key] = {"h": h, "d": d}
+        fp = os.path.join(OUT, key)
+        t = open(fp, encoding="utf-8").read() if os.path.exists(fp) else ""
+        if LASTMOD_MARK in t:
+            with open(fp, "w", encoding="utf-8") as f: f.write(t.replace(LASTMOD_MARK, d))
+        return d
+    cdate = {f"case-{x['slug']}.html": str(x.get("updated") or x["date"])[:10] for x in POSTS}
+    urls = "".join(f"<url><loc>{C['domain']}/{p}</loc><lastmod>{lm(p, cdate.get(p))}</lastmod><priority>{pr}</priority></url>\n" for p, pr in SITEMAP_PAGES)
+    write("sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
+    if SUB_ON:
+        for r in REGIONS:
+            d = lm(f"sub/{r['slug']}/index.html")
+            write(f"sub/{r['slug']}/sitemap.xml", f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<url><loc>https://{sub_host(r)}/</loc><lastmod>{d}</lastmod><priority>1.0</priority></url>\n</urlset>\n')
+    for fp in glob.glob(os.path.join(OUT, "**", "*.html"), recursive=True):  # 사이트맵에 없는 쪽은 오늘 날짜
+        t = open(fp, encoding="utf-8").read()
+        if LASTMOD_MARK in t:
+            with open(fp, "w", encoding="utf-8") as f: f.write(t.replace(LASTMOD_MARK, TODAY))
+    if new != old:
+        with open(LASTMOD_FILE, "w", encoding="utf-8") as f:
+            json.dump(new, f, ensure_ascii=False, indent=0, sort_keys=True); f.write("\n")
 
 if __name__ == "__main__":
     if os.path.exists(OUT): shutil.rmtree(OUT)
@@ -1117,4 +1163,5 @@ if __name__ == "__main__":
     build_all_symptom_pages()
     build_extras()
     build_subsites()
+    build_sitemaps()
     print("완료:", sorted(os.listdir(OUT)))
