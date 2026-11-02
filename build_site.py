@@ -21,6 +21,7 @@ CONFIG = {
     "hours_short": "평일 08:00–19:00 · 주말·공휴일 긴급출동",
     "naver_verify": ["75f49b04581c32624dc86659c4af15b1d3194fa3", "dbabcf680f4c377553fea377bbf8ea66961d5ef7"],  # 네이버 서치어드바이저 인증코드 (예전 netlify.app, 새 smile1128.com)
     "google_verify": "zpQNlofCxZk2VsMZslXs9Cw0MMUJFJSGsrkLBoHlsgc",                     # 구글 서치콘솔 인증코드
+    "naver_analytics": "",  # 네이버 애널리틱스 사이트 ID (analytics.naver.com → 사이트 등록 후 받은 값). 비어 있으면 코드 안 넣음
 }
 OUT = "dist"
 BASE = os.path.dirname(os.path.abspath(__file__))
@@ -211,6 +212,13 @@ C = CONFIG
 TEL = C["phone"].replace("-", "")
 
 # ───────────────── 공통 레이아웃 ─────────────────
+def analytics_tag():
+    """네이버 애널리틱스 방문자 통계 (ID가 있을 때만)"""
+    wa = C.get("naver_analytics", "").strip()
+    if not wa: return ""
+    return ('<script src="https://wcs.pstatic.net/wcslog.js"></script>\n'
+            f'<script>if(!window.wcs_add)window.wcs_add={{}};wcs_add["wa"]={json.dumps(wa)};if(window.wcs)wcs_do();</script>\n')
+
 def head(title, desc, path, keywords, schema_list, og=None):
     url = f'{C["domain"]}/{path}' if path else f'{C["domain"]}/'
     verify = ""
@@ -247,7 +255,7 @@ def head(title, desc, path, keywords, schema_list, og=None):
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="style.css">
 {schemas}
-</head>
+{analytics_tag()}</head>
 <body>"""
 
 def header(active=""):

@@ -46,7 +46,7 @@ def sub_layout(r, title, desc, body, schema):
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="{main}/style.css">
 {sch}
-</head><body>
+{analytics_tag()}</head><body>
 <header class="top"><div class="wrap top-in"><a class="logo" href="{main}/"><svg class="logo-mk" viewBox="0 0 100 120" aria-hidden="true"><defs><mask id="lms"><rect width="100" height="120" fill="#fff"/><polygon points="92,6 38,66 57,64 18,116 80,50 61,52" fill="#000" stroke="#000" stroke-width="9" stroke-linejoin="round"/></mask></defs><path d="M84 21 H40 A19 19 0 0 0 40 59 H60 A20 20 0 0 1 60 99 H16" fill="none" stroke="#0f2355" stroke-width="22" mask="url(#lms)"/><polygon points="92,6 38,66 57,64 18,116 80,50 61,52" fill="#ffc400"/></svg><span>{E(C['name'])}</span></a>
 <nav class="nav" style="display:flex"><a href="{main}/">본 홈페이지</a><a href="{main}/cases.html">시공사례</a><a class="nav-call" href="tel:{TEL}">{icon('phone')} {E(C['phone'])}</a></nav></div></header>
 <main>{body}</main>
