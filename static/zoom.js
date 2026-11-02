@@ -15,7 +15,7 @@ function build(){
  box.setAttribute('role','dialog');box.setAttribute('aria-modal','true');box.setAttribute('aria-label','사진 크게 보기');
  box.innerHTML='<div class="zm-top"><span class="zm-cnt" aria-live="polite"></span>'+
   '<button type="button" class="zm-btn zm-zoom" aria-label="사진 더 크게 보기" aria-pressed="false">＋</button>'+
-  '<button type="button" class="zm-btn zm-x" aria-label="크게 보기 닫기">×</button></div>'+
+  '<button type="button" class="zm-btn zm-x" aria-label="크게 보기 닫기">닫기 ✕</button></div>'+
   '<div class="zm-stage"></div>'+
   '<button type="button" class="zm-btn zm-nav zm-prev" aria-label="이전 사진">‹</button>'+
   '<button type="button" class="zm-btn zm-nav zm-next" aria-label="다음 사진">›</button>'+
@@ -38,11 +38,12 @@ function build(){
    else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus();}}});
  var x0=null,y0=null; // 손가락으로 밀어 넘기기
  stage.addEventListener('touchstart',function(e){if(zoomed||e.touches.length>1){x0=null;return}x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
- stage.addEventListener('touchend',function(e){if(x0===null)return;var t=e.changedTouches[0],dx=t.clientX-x0,dy=t.clientY-y0;x0=null;
+ stage.addEventListener('touchend',function(e){if(x0===null)return;var t=e.changedTouches[0],dx=t.clientX-x0,dy=t.clientY-y0;x0=null;if(Math.abs(dx)>30)swipedAt=Date.now();
   if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.3)go(cur+(dx<0?1:-1));},{passive:true});
  window.addEventListener('popstate',function(){if(skipPop){skipPop=false;return;}if(cur>=0){pushed=false;close(true);}});
 }
 
+var swipedAt=0;
 function setZoom(z){zoomed=z;box.classList.toggle('is-zoom',z);bZoom.setAttribute('aria-pressed',z?'true':'false');
  bZoom.textContent=z?'－':'＋';bZoom.setAttribute('aria-label',z?'화면에 맞춰 보기':'사진 더 크게 보기');stage.scrollTop=0;stage.scrollLeft=0;}
 
@@ -55,7 +56,7 @@ function show(i){
   sv.innerHTML=sv.innerHTML.replace(/url\(#/g,'url(#zm-').replace(/href="#/g,'href="#zm-');
   node=document.createElement('div');node.appendChild(sv);}
  node.setAttribute('class','zm-media'+(el.tagName==='IMG'?'':' zm-svg'));
- node.addEventListener('dblclick',function(){setZoom(!zoomed)});
+ node.addEventListener('click',function(e){e.stopPropagation();if(Date.now()-swipedAt<400)return;if(zoomed)setZoom(false);else close();});
  stage.appendChild(node);
  cap.textContent=capOf(el);cap.hidden=!cap.textContent;
  var many=items.length>1;bPrev.hidden=bNext.hidden=!many;

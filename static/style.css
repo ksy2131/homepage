@@ -634,8 +634,11 @@ a.aw-c:hover{transform:translateY(-3px)}
 .zm-btn:hover{background:rgba(255,255,255,.26)}
 .zm-btn:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
 .zm-btn[hidden]{display:none}
+.zm-x{width:auto;height:48px;line-height:48px;border-radius:999px;padding:0 20px;font-size:18px;font-weight:800;background:var(--yellow,#ffc83d);color:#111}
+.zm-x:hover{background:#ffd866}
+.zm-hint{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);font-size:13px;color:#cfd6e4;background:rgba(0,0,0,.45);padding:4px 12px;border-radius:999px;pointer-events:none}
 .zm-stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:0 64px;overflow:hidden;touch-action:pan-y pinch-zoom}
-.zm-media{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:6px;cursor:zoom-in;user-select:none;-webkit-user-select:none}
+.zm-media{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:6px;cursor:zoom-out;user-select:none;-webkit-user-select:none}
 .zm-svg{width:100%;max-width:1100px;background:#fff;padding:12px;border-radius:10px;overflow:auto}
 .zm-svg svg{display:block;width:100%;height:auto;font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
 .zm.is-zoom .zm-stage{display:block;overflow:auto;padding:0;touch-action:auto;-webkit-overflow-scrolling:touch}
