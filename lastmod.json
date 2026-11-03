@@ -1,219 +1,227 @@
 {
 "about.html": {
-"d": "2026-11-03",
-"h": "31b010ed99bdb1ff"
+"d": "2026-11-04",
+"h": "a8bef12cd8e181bf"
 },
 "apartment-maintenance.html": {
-"d": "2026-11-03",
-"h": "cb63b5a86cdffa6f"
+"d": "2026-11-04",
+"h": "ef1188c8ff5191dd"
 },
 "case-2024-01-15-pocheon-cafe.html": {
 "d": "2026-10-29",
-"h": "bd778e207a76bf77"
+"h": "3483c6afbfb9848a"
 },
 "case-2024-01-15-seongnam-sign.html": {
 "d": "2026-10-29",
-"h": "a3144819f26e9b33"
+"h": "7e82fce41130d207"
 },
 "case-2024-01-15-uijeongbu-jewelry-fire.html": {
 "d": "2026-10-29",
-"h": "f997998e25f2b900"
+"h": "71b3ff1a02932859"
 },
 "case-2024-01-15-uijeongbu-sushi.html": {
 "d": "2026-10-29",
-"h": "f23476e8e24f38e2"
+"h": "e580656a8dcaa2ab"
 },
 "case-2025-06-03-uijeongbu-cafe.html": {
 "d": "2026-11-02",
-"h": "88070137c6980676"
+"h": "82b7cfea25396b7a"
 },
 "case-2025-06-19-uijeongbu-tunnel.html": {
 "d": "2026-10-29",
-"h": "52ef793932ded069"
+"h": "dde8aae26700d98c"
 },
 "case-2026-03-26-yangju-firecheck.html": {
 "d": "2026-10-29",
-"h": "70382f049473dc28"
+"h": "b0d409e110b66aac"
 },
 "case-2026-08-03-yangju-streetlight.html": {
 "d": "2026-10-29",
-"h": "66947b58bf2875c0"
+"h": "4c408e9159b07e2a"
 },
 "case-2026-08-04-hanam-pump.html": {
 "d": "2026-10-29",
-"h": "d21b931eec5bbb77"
+"h": "98d68a8edd21dc4c"
 },
 "case-2026-08-11-uijeongbu-pumpbrk.html": {
 "d": "2026-10-29",
-"h": "8d155686b001dc53"
+"h": "28e177fa25459fc4"
 },
 "case-2026-08-12-uijeongbu-evauth.html": {
 "d": "2026-10-29",
-"h": "95d4d6c709c96b0e"
+"h": "241de8921c0b11cc"
 },
 "case-2026-09-01-uijeongbu-fire.html": {
 "d": "2026-10-26",
-"h": "31a7c4d6397d3f92"
+"h": "5f683d95b0936050"
 },
 "case-2026-09-02-yangju-okjeong-elevator-outlet.html": {
 "d": "2026-10-29",
-"h": "3217af18913e0c74"
+"h": "dd84ff49289c0d27"
 },
 "case-2026-09-03-yangju-leaklamp.html": {
 "d": "2026-10-29",
-"h": "36adad444d915670"
+"h": "bbe4360a902392d6"
 },
 "case-2026-09-04-uijeongbu-kitchenbrk.html": {
 "d": "2026-10-29",
-"h": "f1d540ede0364353"
+"h": "54bd23294237edf5"
 },
 "case-2026-09-10-hanam-smartsw.html": {
 "d": "2026-11-02",
-"h": "ff479d4590a50c62"
+"h": "e4ac0f3f2857b661"
 },
 "case-2026-09-10-yangju-island.html": {
 "d": "2026-11-02",
-"h": "d33b4d6398df41b3"
+"h": "00af508a3eada05f"
 },
 "case-2026-09-14-uijeongbu-elb.html": {
 "d": "2026-11-02",
-"h": "18489658a68e9a13"
+"h": "6472e5aa6f67233b"
 },
 "case-2026-09-14-yangju-solar.html": {
 "d": "2026-11-02",
-"h": "e9327ea2c665b964"
+"h": "74d631083a153f7f"
 },
 "case-2026-09-22-hanam-genbat.html": {
 "d": "2026-11-02",
-"h": "a6e059b1bf448f2f"
+"h": "0d599d54c16ae3fa"
 },
 "case-2026-09-29-hanam-misa-corridor-sensor.html": {
 "d": "2026-11-02",
-"h": "2de8ad87544db62a"
+"h": "ab3b02064b97f1b6"
 },
 "case-2026-09-30-uijeongbu-gosan-senior-leak.html": {
 "d": "2026-11-02",
-"h": "c570655681d86a66"
+"h": "1b99e7c6fbc8fb91"
 },
 "case-2026-10-01-hanam-misa-remote-meter-server.html": {
 "d": "2026-11-02",
-"h": "09d3279fce547033"
+"h": "a00ba6e02be7f3d5"
 },
 "case-2026-10-01-uijeongbu-gosan-downlight-capacitor.html": {
 "d": "2026-11-02",
-"h": "fa677b526010ea99"
+"h": "7098023e7cf28c13"
 },
 "case-2026-10-02-uijeongbu-gosan-basement-entrance-led.html": {
 "d": "2026-11-02",
-"h": "c79b2fca798c07f0"
+"h": "6a239dc71f72f3eb"
 },
 "case-2026-10-02-uijeongbu-minrak-pump-room-eld.html": {
 "d": "2026-10-02",
-"h": "77551c96d9143363"
+"h": "c9db18502ee5c0df"
 },
 "case-2026-10-06-hanam-gamil-elcb-replace.html": {
 "d": "2026-11-02",
-"h": "c418ec79730beccb"
+"h": "2ad452bdb82f9a11"
 },
 "case-2026-10-06-hanam-misa-group-off-switch.html": {
 "d": "2026-11-02",
-"h": "87e42aa622ace3f4"
+"h": "4b18aa166fee9dc3"
 },
 "case-2026-10-06-uijeongbu-minrak-wallpaper-light-detach.html": {
 "d": "2026-11-02",
-"h": "76a6550a61b1022f"
+"h": "bcd0c420899cf22c"
 },
 "case-2026-10-06-yangju-okjeong-recycle-sensor-light.html": {
 "d": "2026-11-02",
-"h": "040490982fc5a82a"
+"h": "3e39f21a996fc480"
 },
 "case-2026-10-07-hanam-gamil-gym-downlight.html": {
 "d": "2026-11-02",
-"h": "9a4aa0b8a7421408"
+"h": "f6624d6daf0bce60"
 },
 "case-2026-10-07-hanam-misa-ats-breaker.html": {
 "d": "2026-11-02",
-"h": "e5976fd21210a42a"
+"h": "e981a6bb09c89d19"
 },
 "case-2026-10-07-uijeongbu-gosan-eps-breaker.html": {
 "d": "2026-11-02",
-"h": "892b5f3a1f817822"
+"h": "2c73640f453fb426"
 },
 "case-2026-10-07-uijeongbu-gosan-leak-rewire.html": {
 "d": "2026-11-02",
-"h": "4506e479c012399e"
+"h": "b4a331eae85b82ae"
 },
 "case-2026-10-08-uijeongbu-minrak-outlet-switch.html": {
 "d": "2026-11-02",
-"h": "667268a302110987"
+"h": "dd80d1e0b9696356"
 },
 "case-2026-10-08-yangju-okjeong-living-light-lamp.html": {
 "d": "2026-11-02",
-"h": "3fbd3ea674aa72d6"
+"h": "fc6a9a14766da347"
 },
 "case-2026-10-12-hanam-gamil-bedroom-led.html": {
 "d": "2026-11-02",
-"h": "9c746c66a0080ca7"
+"h": "5a636c29937111ea"
 },
 "case-2026-10-12-hanam-misa-ballast-downlight.html": {
 "d": "2026-11-02",
-"h": "a050a1ebad0ee753"
+"h": "0e103026f5d30dcd"
 },
 "case-2026-10-13-hanam-misa-touch-switch.html": {
 "d": "2026-11-02",
-"h": "3ee75ce49fb7c6dd"
+"h": "63d34e87449a3aa9"
 },
 "case-2026-10-13-yangju-leakline.html": {
 "d": "2026-11-02",
-"h": "c8fbe668a0b61420"
+"h": "53ca823dff86d8e8"
 },
 "case-2026-10-14-yangju-mainbrk.html": {
 "d": "2026-11-02",
-"h": "90e721a7bf7ef37e"
+"h": "7cd2086ac6126f2e"
 },
 "case-2026-10-16-hanam-meter.html": {
 "d": "2026-11-02",
-"h": "5371c98b8e58cb2f"
+"h": "f9d7324256eef879"
 },
 "case-2026-10-16-hanam-windowcloser.html": {
 "d": "2026-11-02",
-"h": "9c7f77fb779aff56"
+"h": "5fe9dedec8736d8d"
 },
 "case-2026-10-16-uijeongbu-genoil.html": {
 "d": "2026-11-02",
-"h": "611c1126670ae1a8"
+"h": "8e2ed8bd10d977b5"
 },
 "case-2026-10-16-yangju-okjeong-main-breaker.html": {
 "d": "2026-11-02",
-"h": "7b8ad5e1da558b8f"
+"h": "769e1682ddea5431"
 },
 "case-2026-10-19-uijeongbu-gosan-bedroom-led.html": {
 "d": "2026-11-02",
-"h": "c843bf9a95bbad3b"
+"h": "59926ebe877ad832"
 },
 "case-2026-10-19-yangju-okjeong-firedoor-closer.html": {
 "d": "2026-10-29",
-"h": "cd0eaf4fd414d173"
+"h": "5965b4596cd7f31e"
 },
 "case-2026-10-21-hanam-gamil-badminton-security-light.html": {
 "d": "2026-11-02",
-"h": "deba5133127c8e95"
+"h": "3c61a365330e2fe7"
 },
 "case-2026-10-21-hanam-gamil-dining-pendant.html": {
 "d": "2026-10-21",
-"h": "dd51b7ae3647673c"
+"h": "161e9a1ed3e1a810"
 },
 "case-2026-10-22-yangju-okjeong-elevator-room-light-breaker.html": {
 "d": "2026-11-02",
-"h": "db512f654f6b269f"
+"h": "6a9f99315cd573a3"
 },
 "case-2026-10-23-hanam-gamil-apu-breaker.html": {
 "d": "2026-11-02",
-"h": "07ce1feb0fbea1cf"
+"h": "42e791fa879fb04a"
+},
+"case-2026-11-02-yangju-okjeong-emergency-power-battery.html": {
+"d": "2026-11-02",
+"h": "0c118b6fc4aadcc4"
+},
+"case-2026-11-02-yangju-okjeong-eps-outlet-circuit.html": {
+"d": "2026-11-02",
+"h": "b3af6d9c65bcca61"
 },
 "cases.html": {
-"d": "2026-11-03",
-"h": "46abeccab5a28817"
+"d": "2026-11-04",
+"h": "11a24aefb38ae28a"
 },
 "commercial.html": {
 "d": "2026-11-02",
@@ -336,84 +344,100 @@
 "h": "3b5894a23e4ab223"
 },
 "guide-aircon-breaker.html": {
-"d": "2026-11-03",
-"h": "a3a47158a81c747f"
+"d": "2026-11-04",
+"h": "d0a1ee81a739c6d0"
+},
+"guide-backup-battery.html": {
+"d": "2026-11-04",
+"h": "9f3e135a3ef4a7a1"
 },
 "guide-bath-fan.html": {
-"d": "2026-11-03",
-"h": "9701531dc5f9c66f"
+"d": "2026-11-04",
+"h": "d9b3d34e73b2199f"
 },
 "guide-breaker-instant-trip.html": {
-"d": "2026-11-03",
-"h": "4568b712bac9b540"
+"d": "2026-11-04",
+"h": "212a4859897c32cc"
 },
 "guide-breaker-trips.html": {
-"d": "2026-11-03",
-"h": "dd318cf805875089"
+"d": "2026-11-04",
+"h": "374c77570f38dc3e"
 },
 "guide-detector-beep.html": {
-"d": "2026-11-03",
-"h": "1a5ad3e99889665d"
+"d": "2026-11-04",
+"h": "98a837a8b81729ac"
 },
 "guide-elcb-test.html": {
-"d": "2026-11-03",
-"h": "e2cb10a0e5487dcf"
+"d": "2026-11-04",
+"h": "7021c66f24e6c1c8"
+},
+"guide-eps-room.html": {
+"d": "2026-11-04",
+"h": "77a5602a85ffb2e8"
 },
 "guide-fire-repeater.html": {
-"d": "2026-11-03",
-"h": "776f83e75360d840"
+"d": "2026-11-04",
+"h": "e867321c9f1d082b"
 },
 "guide-kitchen-heat-detector.html": {
-"d": "2026-11-03",
-"h": "93198747778ee1c6"
+"d": "2026-11-04",
+"h": "bd4bdf0303109556"
 },
 "guide-leakage-check.html": {
-"d": "2026-11-03",
-"h": "ceabc1b155abb0f2"
+"d": "2026-11-04",
+"h": "d988c1d46556f76a"
+},
+"guide-led-delay.html": {
+"d": "2026-11-04",
+"h": "cf6b61aa9ac77d1e"
 },
 "guide-led-light.html": {
-"d": "2026-11-03",
-"h": "5b97475f0abc27ca"
+"d": "2026-11-04",
+"h": "0a5c0316ad008ce5"
 },
 "guide-light-cover.html": {
-"d": "2026-11-03",
-"h": "b1c6aea41842808a"
+"d": "2026-11-04",
+"h": "17e94a2b9ccb6add"
 },
 "guide-outdoor-light.html": {
-"d": "2026-11-03",
-"h": "22002467141e77d6"
+"d": "2026-11-04",
+"h": "80f5197ac3b1bf17"
 },
 "guide-outlet-burn.html": {
-"d": "2026-11-03",
-"h": "8ab99b8b43c9886b"
+"d": "2026-11-04",
+"h": "32822b96b1e50a31"
 },
 "guide-panel-label.html": {
-"d": "2026-11-03",
-"h": "d291b4bdf7921298"
+"d": "2026-11-04",
+"h": "e7c36009e8f5a635"
 },
 "guide-panel-replace.html": {
-"d": "2026-11-03",
-"h": "dcc5b092879e54d7"
+"d": "2026-11-04",
+"h": "d2d4564812fcf4a5"
 },
 "guide-power-out.html": {
-"d": "2026-11-03",
-"h": "cc1eb1cee7585ecc"
+"d": "2026-11-04",
+"h": "50f3658206706dbd"
 },
 "guide-standby-power-switch.html": {
-"d": "2026-11-03",
-"h": "def353d0bf353924"
+"d": "2026-11-04",
+"h": "798bad3ed6799218"
+},
+"guide-switch-warm.html": {
+"d": "2026-11-04",
+"h": "9dcc7c2da19b03bd"
 },
 "guide-underground-cable.html": {
-"d": "2026-11-03",
-"h": "a34536f217faa445"
+"d": "2026-11-04",
+"h": "346afa9b3e88301b"
 },
 "guide-wallpaper-light.html": {
-"d": "2026-11-03",
-"h": "385d400adee71b88"
+"d": "2026-11-04",
+"h": "39a0bae8754f7952"
 },
 "guides.html": {
-"d": "2026-11-03",
-"h": "ee72e253826e1307"
+"d": "2026-11-04",
+"h": "9037fd1d19c3ccc0"
 },
 "guri-acheon.html": {
 "d": "2026-11-02",
@@ -480,8 +504,8 @@
 "h": "e97b982433ce6879"
 },
 "hanam-gamil-leak.html": {
-"d": "2026-11-02",
-"h": "93fb31f280d8faca"
+"d": "2026-11-04",
+"h": "4d8c861afb0b2b57"
 },
 "hanam-gamil-light.html": {
 "d": "2026-11-03",
@@ -540,8 +564,8 @@
 "h": "6af1726db31ae340"
 },
 "index.html": {
-"d": "2026-11-03",
-"h": "6025740bcda3ee65"
+"d": "2026-11-04",
+"h": "39b8237b4230efcc"
 },
 "namyangju-byeollae.html": {
 "d": "2026-11-02",
@@ -804,8 +828,8 @@
 "h": "fe4668246fa944db"
 },
 "sub/yangju/index.html": {
-"d": "2026-11-02",
-"h": "602d5bceb758e1e0"
+"d": "2026-11-04",
+"h": "71c6337f3041a8bd"
 },
 "uijeongbu-ganeung.html": {
 "d": "2026-11-02",
@@ -864,8 +888,8 @@
 "h": "86c148f1f69ded28"
 },
 "uijeongbu-minrak-outlet.html": {
-"d": "2026-11-03",
-"h": "455674c14b0982c2"
+"d": "2026-11-04",
+"h": "2df0f62083907a73"
 },
 "uijeongbu-minrak-panel.html": {
 "d": "2026-11-03",
@@ -904,123 +928,123 @@
 "h": "093b82e601f4376c"
 },
 "yangju-baekseok.html": {
-"d": "2026-11-02",
-"h": "7a9f495abc65a91c"
+"d": "2026-11-04",
+"h": "289c980b4bd66718"
 },
 "yangju-bongyang.html": {
-"d": "2026-11-02",
-"h": "80cfd9801749d837"
+"d": "2026-11-04",
+"h": "cf5caf91a4f56a27"
 },
 "yangju-deokgye.html": {
-"d": "2026-11-02",
-"h": "e63930898a031e5c"
+"d": "2026-11-04",
+"h": "f2780e1951ab1c19"
 },
 "yangju-deokjeong.html": {
-"d": "2026-11-02",
-"h": "bf1e6198cb601e3e"
+"d": "2026-11-04",
+"h": "6c461488b604285e"
 },
 "yangju-eodun.html": {
-"d": "2026-11-02",
-"h": "690ce13d0000b8d2"
+"d": "2026-11-04",
+"h": "5e2ca0a71a5e9382"
 },
 "yangju-eunhyeon.html": {
-"d": "2026-11-02",
-"h": "ccddad9a011676e7"
+"d": "2026-11-04",
+"h": "fd83df0fc4eec003"
 },
 "yangju-goam.html": {
-"d": "2026-11-02",
-"h": "7d1256470fbb0c70"
+"d": "2026-11-04",
+"h": "ef0e81c572b330c6"
 },
 "yangju-goeup.html": {
-"d": "2026-11-02",
-"h": "925cb32029842b3f"
+"d": "2026-11-04",
+"h": "28e363d7b71d82a4"
 },
 "yangju-gwangjeok.html": {
-"d": "2026-11-02",
-"h": "86757f6acde80063"
+"d": "2026-11-04",
+"h": "c7efd8224a10345f"
 },
 "yangju-gwangsa.html": {
-"d": "2026-11-02",
-"h": "99de766eacd2846a"
+"d": "2026-11-04",
+"h": "b318d0ad497c3cc0"
 },
 "yangju-hoeam.html": {
-"d": "2026-11-02",
-"h": "9c9224caf77747b5"
+"d": "2026-11-04",
+"h": "96141e1decf9f799"
 },
 "yangju-hoecheon.html": {
-"d": "2026-11-02",
-"h": "f1cbb32ac05362a0"
+"d": "2026-11-04",
+"h": "3628ade558a556f9"
 },
 "yangju-hoejeong.html": {
-"d": "2026-11-02",
-"h": "a4a7a8f22ae9b622"
+"d": "2026-11-04",
+"h": "0561a7eea08afda9"
 },
 "yangju-jangheung.html": {
-"d": "2026-11-02",
-"h": "228dcda5af1e5893"
+"d": "2026-11-04",
+"h": "d808720710d5c63a"
 },
 "yangju-majeon.html": {
-"d": "2026-11-02",
-"h": "bced40ab00496622"
+"d": "2026-11-04",
+"h": "492bb4ccf15b035d"
 },
 "yangju-mansong.html": {
-"d": "2026-11-02",
-"h": "17ccec29b46f9dc3"
+"d": "2026-11-04",
+"h": "e6f28e99af948b29"
 },
 "yangju-nambang.html": {
-"d": "2026-11-02",
-"h": "3b486882e97cb3d1"
+"d": "2026-11-04",
+"h": "2c0043fa3ca0f8eb"
 },
 "yangju-nammyeon.html": {
-"d": "2026-11-02",
-"h": "9feda22ba647b722"
+"d": "2026-11-04",
+"h": "6db5ca4a657e7fa0"
 },
 "yangju-okjeong-breaker.html": {
-"d": "2026-11-02",
-"h": "41fbec8a1558da86"
+"d": "2026-11-04",
+"h": "1bad9a648e830589"
 },
 "yangju-okjeong-leak.html": {
-"d": "2026-11-02",
-"h": "dee1519a07703a83"
+"d": "2026-11-04",
+"h": "b0f6dbdec30723ef"
 },
 "yangju-okjeong-light.html": {
-"d": "2026-11-02",
-"h": "2ab7d43bdef6e51c"
+"d": "2026-11-04",
+"h": "6f69e526491cbdb8"
 },
 "yangju-okjeong-outage.html": {
-"d": "2026-11-02",
-"h": "27c8ebb1af699b00"
+"d": "2026-11-04",
+"h": "48426e97c44e3708"
 },
 "yangju-okjeong-outlet.html": {
-"d": "2026-11-02",
-"h": "aad92b1b31b2b95b"
+"d": "2026-11-04",
+"h": "4fae7fec238123f0"
 },
 "yangju-okjeong-panel.html": {
-"d": "2026-11-02",
-"h": "7ded38303326a7a2"
+"d": "2026-11-04",
+"h": "266b9bd08c97f1d0"
 },
 "yangju-okjeong.html": {
-"d": "2026-11-02",
-"h": "6df62079fbd0ac9f"
+"d": "2026-11-04",
+"h": "00888215b6cf278b"
 },
 "yangju-samsung.html": {
-"d": "2026-11-02",
-"h": "4d883cc463c59aec"
+"d": "2026-11-04",
+"h": "f6eb30d88bed9dad"
 },
 "yangju-sanbuk.html": {
-"d": "2026-11-02",
-"h": "16c4ef351a6983b8"
+"d": "2026-11-04",
+"h": "85208ac04f39cade"
 },
 "yangju-yuljeong.html": {
-"d": "2026-11-02",
-"h": "8fbe96545278cf0c"
+"d": "2026-11-04",
+"h": "4d6e967ec0a7d5d9"
 },
 "yangju-yuyang.html": {
-"d": "2026-11-02",
-"h": "e8eeb1477e65b71e"
+"d": "2026-11-04",
+"h": "fc752979531f148c"
 },
 "yangju.html": {
-"d": "2026-11-02",
-"h": "9f23859428a15fa2"
+"d": "2026-11-04",
+"h": "829f88ccdaf02da6"
 }
 }
