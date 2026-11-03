@@ -1,3 +1,5 @@
 [build]
   command = "python3 build_site.py"
   publish = "dist"
+  # 손님이 보는 main 만 빌드. 대기용(pending-cases) 등 다른 가지는 빌드하지 않아 크레딧을 아낌 (11/3)
+  ignore = "test \"$BRANCH\" != \"main\""
