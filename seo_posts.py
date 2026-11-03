@@ -182,6 +182,7 @@ POST_TOPIC = {
  "2026-10-12-hanam-misa-ballast-downlight": "light",
  "2026-10-21-hanam-gamil-badminton-security-light": "light",
  "2026-10-22-yangju-okjeong-elevator-room-light-breaker": "breaker", "2026-10-23-hanam-gamil-apu-breaker": "breaker",
+ "2026-10-02-uijeongbu-minrak-pump-room-eld": "leak", "2026-10-21-hanam-gamil-dining-pendant": "light",
 }
 
 def post_extra(pt):
