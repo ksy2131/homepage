@@ -12,7 +12,7 @@ GUIDE_CATS = [
 GUIDE_CAT_OF = {
     "guide-aircon-breaker": ["breaker"], "guide-breaker-trips": ["breaker"], "guide-breaker-instant-trip": ["breaker"],
     "guide-elcb-test": ["breaker"], "guide-leakage-check": ["breaker"], "guide-power-out": ["breaker", "panelwire"],
-    "guide-led-light": ["light"], "guide-light-cover": ["light"], "guide-wallpaper-light": ["light"],
+    "guide-led-light": ["light"], "guide-light-cover": ["light"],
     "guide-outdoor-light": ["light", "apt"], "guide-outlet-burn": ["outlet"], "guide-standby-power-switch": ["outlet"],
     "guide-panel-replace": ["panelwire"], "guide-underground-cable": ["panelwire"], "guide-fire-repeater": ["apt"],
 }
