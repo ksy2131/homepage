@@ -185,6 +185,8 @@ POST_TOPIC = {
  "2026-10-02-uijeongbu-minrak-pump-room-eld": "leak", "2026-10-21-hanam-gamil-dining-pendant": "light",
  "2026-11-02-yangju-okjeong-eps-outlet-circuit": "breaker",
  "2026-11-04-hanam-misa-garden-light": "light", "2026-11-03-uijeongbu-gosan-stair-sensor-light": "light",
+ "2026-11-02-uijeongbu-minrak-parking-auto-control": "breaker", "2026-11-04-hanam-misa-b1-elevator-hall-light": "light",
+ "2026-11-04-uijeongbu-gosan-outlet-circuit-leak": "leak", "2026-11-03-yangju-okjeong-corridor-sensor-light": "light",
 }
 
 def post_extra(pt):
