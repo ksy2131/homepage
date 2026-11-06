@@ -176,7 +176,7 @@ POST_TOPIC = {
  "2026-10-07-hanam-gamil-gym-downlight": "light", "2026-10-13-hanam-misa-touch-switch": "light",
  "2026-10-01-hanam-misa-remote-meter-server": "meter", "2026-10-06-hanam-misa-group-off-switch": "light",
  "2026-10-06-yangju-okjeong-recycle-sensor-light": "light",
- "2026-10-06-uijeongbu-minrak-wallpaper-light-detach": "light", "2026-10-08-uijeongbu-minrak-outlet-switch": "outlet",
+ "2026-10-08-uijeongbu-minrak-outlet-switch": "outlet",
  "2026-10-08-yangju-okjeong-living-light-lamp": "light",
  "2026-10-01-uijeongbu-gosan-downlight-capacitor": "light", "2026-10-02-uijeongbu-gosan-basement-entrance-led": "light",
  "2026-10-12-hanam-misa-ballast-downlight": "light",
