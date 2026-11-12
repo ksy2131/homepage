@@ -438,6 +438,8 @@ def post_card(pt):
     img = f'<img src="{E(pt["photos"][0])}" alt="{E(pt["region"])} {E(pt["title"])}" loading="lazy">' if pt.get("photos") else f'<div class="noimg">{icon("bolt")}</div>'
     return f'<a class="case" href="case-{pt["slug"]}.html">{img}<div class="case-b"><span class="case-r">{E(pt["region"])} · {E(pt["date"])}</span><b>{E(pt["title"])}</b><small>{E(pt["summary"])}</small></div></a>'
 
+BLOGBOX_SKIP = set(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "blogbox_skip.txt"), encoding="utf-8").read().split()) if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "blogbox_skip.txt")) else set()
+
 def blog_link_html():
     # 11/12 사장님 "어차피 더 많은 사례는 블로그에서 볼수 있잔아" — 목록·시공사례 글 끝에 블로그 안내
     bid = C["blog"].rstrip("/").split("/")[-1]
@@ -975,6 +977,8 @@ def build_post(pt):
     faq_sec = faq_html(faqs, f"{n} {pt['title']} 자주 묻는 질문") if faqs else ""
     info = [("작업 위치", pt.get("location", n)), ("작업 내용", svc["short"] if svc else "전기공사"), ("작업일", pt["date"])]
     info_html = "".join(f"<li><span>{E(a)}</span><b>{E(b)}</b></li>" for a, b in info)
+    # 블로그 안내 상자는 새 글에만(11/12 사장님 "이미 업로드 되어있는 것들은 … 그대로") — 그 전 공개 58편은 blogbox_skip.txt
+    blogbox = "" if pt["slug"] in BLOGBOX_SKIP else f'<div style="margin:28px 0">{blog_link_html()}</div>'
     blog = f'<p><a class="link" href="{E(pt["blog_url"])}" target="_blank" rel="noopener">네이버 블로그에서 자세히 보기 →</a></p>' if pt.get("blog_url") else ""
     links = f'<a class="chip" href="{REGION_SLUG[n]}.html">{E(n)} 전기수리</a>' if n in REGION_SLUG else ""
     for lp in LOCALS:
@@ -1002,7 +1006,7 @@ def build_post(pt):
     <div class="post-body">{body}</div>
     <div class="post-body g-body">{extra_html}</div>
     {blog}
-    <div style="margin:28px 0">{blog_link_html()}</div>
+    {blogbox}
     <div class="tags">{tag_html}</div>
     <div class="chips" style="margin-top:20px">{links}</div>
   </article>
