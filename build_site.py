@@ -439,7 +439,11 @@ def post_card(pt):
     return f'<a class="case" href="case-{pt["slug"]}.html">{img}<div class="case-b"><span class="case-r">{E(pt["region"])} · {E(pt["date"])}</span><b>{E(pt["title"])}</b><small>{E(pt["summary"])}</small></div></a>'
 
 def blog_link_html():
-    return f'<a class="case-blog" href="{E(C["blog"])}" target="_blank" rel="noopener">{icon("check")}<div><b>더 많은 현장 기록은 네이버 블로그에서</b><small>분전반 교체, 화재복구, 누전 수리 등 실제 작업 기록</small></div><span class="more">블로그 보기 →</span></a>'
+    # 11/12 사장님 "어차피 더 많은 사례는 블로그에서 볼수 있잔아" — 목록·시공사례 글 끝에 블로그 안내
+    bid = C["blog"].rstrip("/").split("/")[-1]
+    cats = [("주거공간", 6), ("상업공간", 7), ("분전반공사", 8), ("화재복구공사", 9)]
+    chips = "".join(f'<a class="chip" href="https://blog.naver.com/PostList.naver?blogId={bid}&amp;categoryNo={no}" target="_blank" rel="noopener">{nm} 사례</a>' for nm, no in cats)
+    return f'<a class="case-blog" href="{E(C["blog"])}" target="_blank" rel="noopener">{icon("check")}<div><b>더 많은 시공사례는 네이버 블로그에서</b><small>홈페이지엔 대표 사례만 올리고, 다른 현장 기록은 블로그에 사진과 함께 있습니다</small></div><span class="more">블로그 보기 →</span></a><div class="chips" style="margin-top:12px">{chips}</div>'
 
 def cases_html(posts=None, title="시공사례", limit=6, cls="cases"):
     posts = POSTS if posts is None else posts
@@ -998,6 +1002,7 @@ def build_post(pt):
     <div class="post-body">{body}</div>
     <div class="post-body g-body">{extra_html}</div>
     {blog}
+    <div style="margin:28px 0">{blog_link_html()}</div>
     <div class="tags">{tag_html}</div>
     <div class="chips" style="margin-top:20px">{links}</div>
   </article>
