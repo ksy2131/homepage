@@ -657,3 +657,6 @@ a.aw-c:hover{transform:translateY(-3px)}
  .zm-cap{padding:10px 70px calc(env(safe-area-inset-bottom,0px) + 18px);font-size:14px;min-height:72px}
  .zm-svg{padding:6px}
 }
+.post-video{margin:0 auto 28px;max-width:360px}
+.post-video video{width:100%;aspect-ratio:9/16;border-radius:12px;background:#000;display:block}
+.post-video figcaption{font-size:.85rem;color:#666;text-align:center;margin-top:6px}

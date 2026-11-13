@@ -582,6 +582,15 @@ def guides_list_html(limit=None, exclude=None):
     li="".join(f'<li><a href="{x["slug"]}.html" class="{"has-th" if x.get("thumb") else ""}">{(f'<img src="{x["thumb"]}" alt="{E(x["q"])}" loading="lazy">') if x.get("thumb") else ""}<span><b>Q. {E(x["q"])}</b><small>{E(x["sum"])}</small></span></a></li>' for x in g)
     return f'<ul class="guides">{li}</ul>'
 
+def video_html(src, title="", poster=""):
+    """글 속 세로 영상 자리(11/13): 글 데이터에 "video": "videos/<파일>.mp4" (static/videos/ 에 둠), 선택 "video_poster": "images/....jpg".
+    영상이 없으면 아무것도 안 그림. 소리는 사용자가 켜고, 처음엔 주소만 불러오고(preload=metadata) 재생 때 내려받음."""
+    if not src: return ""
+    p = f' poster="{E(poster)}"' if poster else ""
+    t = E(title) if title else "설명 영상"
+    return (f'<figure class="post-video"><video controls playsinline preload="metadata"{p} aria-label="{t}">'
+            f'<source src="{E(src)}" type="video/mp4"></video><figcaption>{t}</figcaption></figure>')
+
 def build_guides():
     page = head(f"전기 상식 | 누전·차단기·분전반 궁금증 - {C['name']}", "차단기가 내려가는 이유, 누전 확인 방법, 분전반 교체 시기 등 생활 전기 궁금증을 정리했습니다.", "guides.html",
                 "차단기 내려감, 누전 확인, 분전반 교체 시기, 콘센트 그을림, 방등 교체", [business_schema()]) + header() + f"""
@@ -612,6 +621,7 @@ def build_guides():
                 b.append(f'<p class="g-more"><a class="link" href="{E(x.get("blog") or C["blog"])}" target="_blank" rel="noopener">사진과 영상으로 더 자세히 보기 (네이버 블로그) →</a></p>')
             if x.get("tags"):
                 b.append('<div class="tags">'+"".join(f'<span class="tag">#{E(t)}</span>' for t in x["tags"])+"</div>")
+            if x.get("video"): b.insert(0, video_html(x["video"], x["q"], x.get("video_poster", "")))
             body="".join(b)
         else:
             body="".join(f"<p>{E(t)}</p>" for t in x["body"])
@@ -999,6 +1009,7 @@ def build_post(pt):
 <section class="sec"><div class="wrap post">
   <article>
     <ul class="post-info">{info_html}</ul>
+    {video_html(pt.get('video'), full_title(pt), pt.get('video_poster', ''))}
     <div class="post-photos">{photos}</div>
     <div class="post-body">{body}</div>
     <div class="post-body g-body">{extra_html}</div>
