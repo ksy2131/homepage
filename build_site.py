@@ -216,8 +216,14 @@ def analytics_tag():
     """네이버 애널리틱스 방문자 통계 (ID가 있을 때만)"""
     wa = C.get("naver_analytics", "").strip()
     if not wa: return ""
+    # 전환 세기(11/13): 전화(tel:)=call, 카톡 채널·문자=inquiry. 네이버 공식 wcs.trans 방식(naver.github.io/conversion-tracking)
+    host = C["domain"].split("://")[-1].strip("/")
+    conv = ('(function(){document.addEventListener("click",function(e){var a=e.target&&e.target.closest?e.target.closest("a[href]"):null;'
+            'if(!a||!window.wcs||!wcs.trans)return;var h=a.getAttribute("href")||"",t="";'
+            'if(h.indexOf("tel:")==0)t="call";else if(h.indexOf("pf.kakao.com")>-1||h.indexOf("sms:")==0)t="inquiry";'
+            'if(t){try{wcs.trans({type:t})}catch(x){}}},true)})();')
     return ('<script src="https://wcs.pstatic.net/wcslog.js"></script>\n'
-            f'<script>if(!window.wcs_add)window.wcs_add={{}};wcs_add["wa"]={json.dumps(wa)};if(window.wcs)wcs_do();</script>\n')
+            f'<script>if(!window.wcs_add)window.wcs_add={{}};wcs_add["wa"]={json.dumps(wa)};if(window.wcs){{wcs.inflow({json.dumps(host)});wcs_do();}}{conv}</script>\n')
 
 def head(title, desc, path, keywords, schema_list, og=None):
     url = f'{C["domain"]}/{path}' if path else f'{C["domain"]}/'
