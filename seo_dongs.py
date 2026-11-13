@@ -250,7 +250,7 @@ def glance_html(lp, n, rn):
 
 def _eunneun(w):
     c = w[-1]; return "은" if "가" <= c <= "힣" and (ord(c) - 0xAC00) % 28 else "는"
-DONG_POINTS = ["전화·문자·카톡·톡톡으로 증상과 사진 먼저 보내기", "방문 점검 → 원인·비용 설명 → 동의 후 작업", "작업 후 회로·차단기 정상 동작 함께 확인"]
+DONG_POINTS = ["전화·문자·카카오톡 채널로 증상과 사진 먼저 보내기", "방문 점검 → 원인·비용 설명 → 동의 후 작업", "작업 후 회로·차단기 정상 동작 함께 확인"]
 def dong_answer(lp, n, city):
     mix = "·".join(x.split("·")[0] for x in mix_names(lp, 2)[:2]) or "아파트·주택"
     tops = [TOPIC_SHORT.get(t, ("", ""))[0] for t in (lp.get("topics") or [])[:2]]

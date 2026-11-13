@@ -333,7 +333,7 @@ AUTHOR = {"@type": "Person", "@id": "https://smile1128.com/about.html#ceo", "nam
                             {"@type": "EducationalOccupationalCredential", "name": "전기기능사"},
                             {"@type": "EducationalOccupationalCredential", "name": "전기안전교육(안전시공교육) 수료", "recognizedBy": {"@type": "Organization", "name": "한국전기공사협회"}}],
           "award": "2025 경기도의회 의장 표창"}
-SAME_AS = ["https://blog.naver.com/smileelectronic", "https://naver.me/xPUHS2Mz", "https://pf.kakao.com/_LpVxnG", "https://talk.naver.com/ct/w4s604", "https://soomgo.com/profile/users/3799694"]
+SAME_AS = ["https://blog.naver.com/smileelectronic", "https://naver.me/xPUHS2Mz", "https://pf.kakao.com/_LpVxnG", "https://soomgo.com/profile/users/3799694"]
 def business_schema(area_names=None):
     return {
         "@context": "https://schema.org",
