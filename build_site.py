@@ -17,7 +17,7 @@ CONFIG = {
     "blog": "https://blog.naver.com/smileelectronic",
     "place": "https://naver.me/xPUHS2Mz",           # 네이버 플레이스(지도)
     "kakao": "https://pf.kakao.com/_LpVxnG/chat",   # 카카오톡 채널 상담(채팅)
-    "talk": "https://talk.naver.com/ct/w4s604",                                   # 네이버 톡톡 주소 (talk.naver.com/…) — 비어 있으면 버튼 숨김
+    "talk": "",                                   # 네이버 톡톡 주소 — 11/13 사장님 "바꿔": 카카오톡 채널로 바뀌어 비움(비어 있으면 버튼 숨김)
     "hours_short": "평일 08:00–19:00 · 주말·공휴일 긴급출동",
     "naver_verify": ["75f49b04581c32624dc86659c4af15b1d3194fa3", "dbabcf680f4c377553fea377bbf8ea66961d5ef7"],  # 네이버 서치어드바이저 인증코드 (예전 netlify.app, 새 smile1128.com)
     "google_verify": "zpQNlofCxZk2VsMZslXs9Cw0MMUJFJSGsrkLBoHlsgc",                     # 구글 서치콘솔 인증코드
@@ -264,7 +264,7 @@ def header(active=""):
     return f"""
 <div class="topbar"><div class="wrap topbar-in">
   <span>{icon('phone')} <em class="tb-l">상담 </em>{E(C['hours_short'])} · <a href="tel:{TEL}"><b>{E(C['phone'])}</b></a></span>
-  <span class="tb-links"><a href="{E(C['kakao'])}" target="_blank" rel="noopener">카톡상담</a><a href="sms:{TEL}">문자상담</a><a href="{E(C['talk'])}" target="_blank" rel="noopener">톡톡상담</a><a href="{E(C['blog'])}" target="_blank" rel="noopener">블로그</a></span>
+  <span class="tb-links"><a href="{E(C['kakao'])}" target="_blank" rel="noopener">카톡상담</a><a href="sms:{TEL}">문자상담</a><a href="{E(C['blog'])}" target="_blank" rel="noopener">블로그</a></span>
 </div></div>
 <header class="top">
   <div class="wrap top-in">
@@ -281,7 +281,6 @@ def header(active=""):
         <a class="hb-b hb-tel" href="tel:{TEL}">{icon('phone')}<span>{E(C['phone'])}</span></a>
         <a class="hb-b hb-kakao" href="{E(C['kakao'])}" target="_blank" rel="noopener" aria-label="카톡상담">{icon('kakao')}<span>카톡</span></a>
         <a class="hb-b hb-sms" href="sms:{TEL}" aria-label="문자상담">{icon('msg')}<span>문자</span></a>
-        <a class="hb-b hb-talk" href="{E(C['talk'])}" target="_blank" rel="noopener" aria-label="톡톡상담">{icon('naver')}<span>톡톡</span></a>
       </span>
     </nav>
   </div>
@@ -1082,7 +1081,7 @@ def llms_txt():
 ## 업체 정보
 - 상호: 스마일일렉 (대표 김선용)
 - 영업시간: 평일 08:00~19:00, 주말·공휴일은 긴급출동 상담
-- 전화: {C['phone']} / 카카오톡 채널: https://pf.kakao.com/_LpVxnG / 네이버 톡톡: https://talk.naver.com/ct/w4s604
+- 전화: {C['phone']} / 카카오톡 채널: https://pf.kakao.com/_LpVxnG
 - 주소: {C['address']}
 - 사업자등록번호: {C['biz_no']}
 - 경력: 전기 현장 {years}년, 2018년부터 공공임대·분양 아파트 전기·소방 유지보수
