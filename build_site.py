@@ -13,12 +13,12 @@ CONFIG = {
     "biz_no": "139-56-00663",                # 사업자등록번호
     "owner": "대표 김선용",
     "owner_title": "전기공사기술자(중급) · 전기기능사",
-    "hours": "평일 08:00–19:00 · 주말·공휴일 긴급출동 상담",
+    "hours": "매일 08:00–20:00",
     "blog": "https://blog.naver.com/smileelectronic",
     "place": "https://naver.me/xPUHS2Mz",           # 네이버 플레이스(지도)
     "kakao": "https://pf.kakao.com/_LpVxnG/chat",   # 카카오톡 채널 상담(채팅)
     "talk": "",                                   # 네이버 톡톡 주소 — 11/13 사장님 "바꿔": 카카오톡 채널로 바뀌어 비움(비어 있으면 버튼 숨김)
-    "hours_short": "평일 08:00–19:00 · 주말·공휴일 긴급출동",
+    "hours_short": "매일 08:00–20:00",
     "naver_verify": ["75f49b04581c32624dc86659c4af15b1d3194fa3", "dbabcf680f4c377553fea377bbf8ea66961d5ef7"],  # 네이버 서치어드바이저 인증코드 (예전 netlify.app, 새 smile1128.com)
     "google_verify": "zpQNlofCxZk2VsMZslXs9Cw0MMUJFJSGsrkLBoHlsgc",                     # 구글 서치콘솔 인증코드
     "naver_analytics": "be9f8856256ff0",  # 네이버 애널리틱스 사이트 ID (analytics.naver.com → 사이트 등록 후 받은 값). 비어 있으면 코드 안 넣음
@@ -355,7 +355,7 @@ def business_schema(area_names=None):
         "address": {"@type": "PostalAddress", "streetAddress": C["address"], "addressLocality": "양주시", "addressRegion": "경기도", "addressCountry": "KR"},
         "areaServed": [{"@type": "Place", "name": n} for n in (area_names or ALL_REGION_NAMES)],
         "sameAs": SAME_AS,
-        "openingHours": "Mo-Fr 08:00-19:00",
+        "openingHours": "Mo-Su 08:00-20:00",
         "award": "2025 경기도의회 의장 표창",
         "knowsAbout": ["누전 점검", "차단기 수리", "분전반 교체", "콘센트·스위치 교체", "LED 조명 교체", "상가 전기공사", "화재복구 전기공사", "아파트 공용부 전기 유지보수", "전기차 충전기 점검", "원격검침"],
         "founder": AUTHOR,
@@ -1093,15 +1093,14 @@ def llms_txt():
     cs = "\n".join(f"- [{x['region']} {x['title']}]({d}/case-{x['slug']}.html) ({x['date']})" for x in POSTS)  # 공개된 시공사례 전부 (늘어나면 빌드 때 자동 반영)
     return f"""# 스마일일렉 (Smile Elec)
 
-> 경기 양주에 있는 전기수리·전기공사 업체. 경기북부(의정부·양주·동두천·포천·남양주·구리·하남)와 서울 동북부(노원·도봉·강북·성북) 아파트·주택·빌라·상가에 출장합니다. 전기공사기술자(중급) 대표가 운영하며, 현장에서는 측정으로 원인을 찾고 작업 전에 비용을 먼저 안내합니다.
+> 경기 양주에 있는 전기수리·전기공사 업체. 하남(미사·감일)·의정부·양주·동두천·포천·구리·남양주와 서울북부(노원·도봉·강북·성북·중랑) 아파트·주택·빌라·상가에 출장합니다. 현장에서는 측정으로 원인을 찾고 작업 전에 비용을 먼저 안내합니다.
 
 ## 업체 정보
 - 상호: 스마일일렉 (대표 김선용)
-- 영업시간: 평일 08:00~19:00, 주말·공휴일은 긴급출동 상담
 - 전화: {C['phone']} / 카카오톡 채널: https://pf.kakao.com/_LpVxnG
+- 영업시간: 매일 08:00~20:00
 - 주소: {C['address']}
 - 사업자등록번호: {C['biz_no']}
-- 경력: 전기 현장 {years}년, 2018년부터 공공임대·분양 아파트 전기·소방 유지보수
 - 자격·등록: 전기공사기술자 중급, 전기기능사, 한국전기공사협회 안전시공교육 수료, 조달청 나라장터 등록 업체
 - 수상: 2025 경기도의회 의장 표창
 - 자재: KC 안전인증·KS 인증·고효율 인증 정품 사용
