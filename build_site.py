@@ -359,7 +359,14 @@ def business_schema(area_names=None):
         "award": "2025 경기도의회 의장 표창",
         "knowsAbout": ["누전 점검", "차단기 수리", "분전반 교체", "콘센트·스위치 교체", "LED 조명 교체", "상가 전기공사", "화재복구 전기공사", "아파트 공용부 전기 유지보수", "전기차 충전기 점검", "원격검침"],
         "founder": AUTHOR,
+        # 11/27 검색·AI 인용 기준: 화면에 있는 문의 창구(전화·카톡 채널)를 그대로 적음. 가격은 넣지 않음
+        "contactPoint": [{"@type": "ContactPoint", "contactType": "customer service", "telephone": C["phone"], "areaServed": "KR", "availableLanguage": "Korean"}]
+                        + ([{"@type": "ContactPoint", "contactType": "customer service", "url": C["kakao"], "name": "카카오톡 채널 상담", "availableLanguage": "Korean"}] if C.get("kakao") else []),
+        "hasMap": C["place"],
     }
+# 사례 글처럼 business_schema 를 같이 싣지 않는 쪽에서 publisher 가 빈 @id 만 가리키지 않게(11/27)
+PUBLISHER = {"@type": "Electrician", "@id": "https://smile1128.com/#business", "name": C["name"], "url": C["domain"] + "/",
+             "logo": {"@type": "ImageObject", "url": C["domain"] + "/images/logo-full.svg"}}
 
 def answer_box(q, a, points=None, updated=None):
     """GEO: 질문에 바로 답하는 요약 + 작성자 표시"""
@@ -632,7 +639,7 @@ def build_guides():
         else:
             body="".join(f"<p>{E(t)}</p>" for t in x["body"])
         others = guides_list_html(exclude=x['slug'])
-        art={"@context":"https://schema.org","@type":"Article","headline":x["q"],"description":x["sum"],"author":AUTHOR,"publisher":{"@id":"https://smile1128.com/#business"},"datePublished":x.get("date","2026-10-18"),"dateModified":LASTMOD_MARK}
+        art={"@context":"https://schema.org","@type":"Article","headline":x["q"],"description":x["sum"],"author":AUTHOR,"publisher":PUBLISHER,"datePublished":x.get("date","2026-10-18"),"dateModified":LASTMOD_MARK}
         sch=[art, business_schema()]
         if x.get("thumb"): art["image"]=[f'{C["domain"]}/{x["thumb"]}']
         if x.get("tags"): art["keywords"]=", ".join(x["tags"])
@@ -1003,7 +1010,8 @@ def build_post(pt):
     others = [x for x in POSTS if x is not pt][:3]
     more = f'<section class="sec alt"><div class="wrap"><h2>다른 시공사례</h2><div class="cases">{"".join(post_card(x) for x in others)}</div></div></section>' if others else ""
     art = {"@context": "https://schema.org", "@type": "Article", "headline": full_title(pt), "datePublished": pt["date"],
-           "author": AUTHOR, "publisher": {"@id": "https://smile1128.com/#business"}, "dateModified": pt.get("updated", pt["date"]), "description": pt["summary"]}
+           "author": AUTHOR, "publisher": PUBLISHER, "dateModified": pt.get("updated", pt["date"]), "description": pt["summary"],
+           "url": f'{C["domain"]}/case-{pt["slug"]}.html', "mainEntityOfPage": f'{C["domain"]}/case-{pt["slug"]}.html'}
     if pt.get("photos"): art["image"] = [f'{C["domain"]}/{x}' for x in pt["photos"]]
     art["keywords"] = ", ".join(tags); art["contentLocation"] = {"@type":"Place","name":loc}
     page = head(title, desc, f"case-{pt['slug']}.html", ", ".join(tags),
