@@ -660,3 +660,29 @@ a.aw-c:hover{transform:translateY(-3px)}
 .post-video{margin:0 auto 28px;max-width:360px}
 .post-video video{width:100%;aspect-ratio:9/16;border-radius:12px;background:#000;display:block}
 .post-video figcaption{font-size:.85rem;color:#666;text-align:center;margin-top:6px}
+
+/* ── 11/27 움직임 시안(design/motion-1127): 라이브러리 없이 CSS만. 첫 화면 로고·제목 등장 + 카톡 버튼 누를 때 튕김 ── */
+/* 1) 첫 화면(index)만: 로고 마크가 살짝 내려앉고 번개가 한 번 반짝 */
+body:has(.hs) .top .logo-mk{animation:mvLogo .6s cubic-bezier(.2,.9,.3,1.25) both}
+body:has(.hs) .top .logo-mk>polygon{animation:mvBolt 1s .45s ease-out both}
+body:has(.hs) .top .logo span{animation:mvFade .5s .15s ease-out both}
+@keyframes mvLogo{from{opacity:0;transform:translateY(-10px) scale(.85)}to{opacity:1;transform:none}}
+@keyframes mvBolt{0%,100%{fill:#ffc400}35%{fill:#fff3b0}}
+@keyframes mvFade{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+/* 2) 첫 장 제목 노란 글자 밑에 형광펜 줄이 한 번 그어짐 */
+.hs-s.on h1 em{background:linear-gradient(transparent 72%,rgba(255,196,0,.38) 72%) no-repeat 0 0/0 100%;animation:mvMark .7s .55s ease-out forwards}
+@keyframes mvMark{to{background-size:100% 100%}}
+/* 3) 카톡 버튼: 누를 때 꾹 눌렸다 튕김 */
+.btn-kakao,.hb-kakao,.fl-kakao,.qc-kakao{transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.btn-kakao:active,.hb-kakao:active,.fl-kakao:active,.qc-kakao:active{transform:scale(.92);transition-duration:.08s}
+@media (hover:hover){.btn-kakao:hover{transform:translateY(-2px)}}
+/* 4) 아래 떠 있는 카톡 버튼: 들어온 뒤 2.5초에 한 번만 살짝 통 튀어 눈에 띔 */
+.fl-kakao{animation:mvNudge .7s 2.5s ease-out 1}
+@keyframes mvNudge{0%,100%{transform:none}30%{transform:translateY(-6px)}55%{transform:translateY(0)}75%{transform:translateY(-2px)}}
+/* 움직임 줄이기를 켠 휴대폰·PC는 모두 멈춤 */
+@media (prefers-reduced-motion:reduce){
+  body:has(.hs) .top .logo-mk,body:has(.hs) .top .logo-mk>polygon,body:has(.hs) .top .logo span,.fl-kakao{animation:none}
+  .hs-s.on h1 em{animation:none;background-size:100% 100%}
+  .btn-kakao,.hb-kakao,.fl-kakao,.qc-kakao{transition:none}
+  .btn-kakao:active,.hb-kakao:active,.fl-kakao:active,.qc-kakao:active,.btn-kakao:hover{transform:none}
+}
