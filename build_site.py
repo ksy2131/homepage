@@ -307,7 +307,7 @@ def footer():
     <p class="foot-links"><a class="fw" href="sms:{TEL}">문자 상담</a>{f' · <a class="fw" href="{E(C["kakao"])}" target="_blank" rel="noopener">카카오톡 상담</a>' if C.get("kakao") else ''}{f' · <a class="fw" href="{E(C["talk"])}" target="_blank" rel="noopener">네이버 톡톡</a>' if C.get("talk") else ''} · 블로그 <a class="fw" href="{E(C['blog'])}" target="_blank" rel="noopener">{E(C['blog'].split('://')[-1])}</a> · <a class="fw" href="{E(C['place'])}" target="_blank" rel="noopener">네이버 지도</a></p>
     <p class="fw">조달청 나라장터 정식 등록 업체 · KC 안전인증·KS 인증·고효율 인증 정품 자재 사용</p>
     <p>{E(C['owner_title'])} 대표 운영 · 아파트·주택·빌라·상가 전기수리 · 전기공사 · 분전반 · 화재복구</p>
-    <p class="foot-reg"><span>바로가기</span> · <a href="about.html">스마일일렉 소개</a> · <a href="cases.html">시공사례</a> · <a href="guides.html">전기 상식</a></p>
+    <p class="foot-reg"><span>바로가기</span> · <a href="about.html">스마일일렉 소개</a> · <a href="cases.html">시공사례</a> · <a href="guides.html">전기 상식</a> · <a href="privacy.html">개인정보처리방침</a></p>
     <p class="foot-reg"><span>서비스</span>{''.join(f' · <a href="{s["slug"]}.html">{E(s["short"])}</a>' for s in SERVICES)}</p>
     <p class="foot-reg"><span>출동 지역</span>{''.join(f' · <a href="{r["slug"]}.html">{E(r["name"])} 전기수리</a>' for r in REGIONS)}</p>
     <p class="foot-reg"><span>지역별 홈페이지</span>{''.join(f' · <a href="https://{r["slug"]}.smile1128.com/">{E(r["name"])}전기수리</a>' for r in REGIONS)}</p>
@@ -1085,6 +1085,37 @@ def build_about():
 """ + footer()
     write("about.html", page)
 
+# ───────────────── 개인정보처리방침 ─────────────────
+def build_privacy():
+    # 11/27 사장님 지시: 구글 OAuth 앱 게시에 필요한 개인정보처리방침 주소. 사실만, 쉬운 말.
+    title = f"개인정보처리방침 | {C['name']}"
+    desc = f"{C['name']} 개인정보처리방침. 상담 때 받은 이름·연락처·사진을 상담에만 쓰고, 상담이 끝나면 지체 없이 파기합니다."
+    secs = [
+        ("1. 운영자", [f"{C['name']}({C['owner']}) · 사업자등록번호 {C['biz_no']}", f"주소 {C['address']}"]),
+        ("2. 모으는 정보와 쓰는 곳", ["홈페이지에는 회원가입이나 입력 양식이 없습니다.",
+            "전화·문자·카카오톡으로 문의하실 때 손님이 직접 남기신 이름·연락처·사진만 받습니다.",
+            "받은 정보는 상담과 방문 일정 안내, 작업 안내에만 씁니다."]),
+        ("3. 보관과 파기", ["상담이 끝나면 지체 없이 파기합니다.",
+            "다만 법에서 보관하라고 정한 기록은 정한 기간 동안만 보관한 뒤 파기합니다."]),
+        ("4. 다른 곳에 주지 않음", ["손님의 개인정보를 다른 사람이나 회사에 주지 않습니다(법에 따른 요청은 예외)."]),
+        ("5. 자동 연결 도구", ["스마일일렉은 구글·유튜브·인스타그램·쓰레드의 공식 연결 기능(API)을 씁니다.",
+            "이 기능은 스마일일렉 자기 계정의 게시물을 올리고 관리하는 데에만 쓰며, 이용자의 개인정보를 모으지 않습니다."]),
+        ("6. 방문 통계", ["홈페이지는 방문 수를 보려고 네이버 애널리틱스를 씁니다. 이름·연락처처럼 사람을 알아보는 정보는 받지 않습니다."]),
+        ("7. 손님의 권리", ["손님은 남기신 정보를 보거나 고치거나 지워 달라고 언제든 요청하실 수 있습니다."]),
+        ("8. 문의처", [f"카카오톡 채널 '{C['name']}'으로 문의해 주세요." , f"개인정보 보호책임자: {C['owner']}"]),
+    ]
+    body = "".join(f'<h2>{E(h)}</h2>' + "".join(f'<p>{E(t)}</p>' for t in ps) for h, ps in secs)
+    kakao = f'<p><a class="btn btn-kakao" href="{E(C["kakao"])}" target="_blank" rel="noopener">{icon("kakao")} 카카오톡 채널 {E(C["name"])}</a></p>' if C.get("kakao") else ""
+    page = head(title, desc, "privacy.html", f"{C['name']} 개인정보처리방침", []) + header() + f"""
+<section class="hero sm"><div class="wrap hero-in">
+  <nav class="crumb"><a href="index.html">홈</a> › 개인정보처리방침</nav>
+  <h1>개인정보처리방침</h1>
+  <p class="lead">{E(C['name'])}은 손님의 개인정보를 상담에만 쓰고, 다른 곳에 주지 않습니다.</p>
+</div></section>
+<section class="sec"><div class="wrap narrow post"><div class="post-body">{body}{kakao}<p>시행일: 2026년 11월 27일</p></div></div></section>
+""" + footer()
+    write("privacy.html", page)
+
 def llms_txt():
     d = C["domain"]; years = datetime.date.today().year - 2016
     svc = "\n".join(f"- [{s['short']}]({d}/{s['slug']}.html): {s['summary']}" for s in SERVICES)
@@ -1121,7 +1152,7 @@ def llms_txt():
 
 # ───────────────── 부가 파일 ─────────────────
 def build_extras():
-    pages = [("", "1.0")] + [(f"{s['slug']}.html", "0.9") for s in SERVICES] + [(f"{r['slug']}.html", "0.8") for r in REGIONS] + [(f"{l['slug']}.html", "0.8") for l in LOCALS] + [("about.html","0.8"),("cases.html","0.8"),("guides.html","0.7")] + [(f"{g['slug']}.html","0.6") for g in GUIDES] + [(f"case-{x['slug']}.html","0.7") for x in POSTS] + SYMPTOM_PAGES
+    pages = [("", "1.0")] + [(f"{s['slug']}.html", "0.9") for s in SERVICES] + [(f"{r['slug']}.html", "0.8") for r in REGIONS] + [(f"{l['slug']}.html", "0.8") for l in LOCALS] + [("about.html","0.8"),("cases.html","0.8"),("guides.html","0.7"),("privacy.html","0.3")] + [(f"{g['slug']}.html","0.6") for g in GUIDES] + [(f"case-{x['slug']}.html","0.7") for x in POSTS] + SYMPTOM_PAGES
     SITEMAP_PAGES[:] = pages  # sitemap.xml은 하위 사이트까지 다 만든 뒤 build_sitemaps()에서 씀
     ai_bots = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in ["Yeti", "Googlebot", "Google-Extended", "GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "PerplexityBot", "Bingbot"])
     write("llms.txt", llms_txt())
@@ -1186,6 +1217,7 @@ if __name__ == "__main__":
     shutil.copytree(os.path.join(BASE,"static"), OUT)
     build_home()
     build_about()
+    build_privacy()
     for s in SERVICES: build_service(s)
     for r in REGIONS: build_region(r)
     for lp in LOCALS: build_local(lp)
